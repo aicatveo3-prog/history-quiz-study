@@ -2086,5 +2086,16 @@
   };
 
   window.QUIZ_CHAPTERS = window.QUIZ_CHAPTERS || {};
+  // ==== 한능검 77회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 6. 대외 관계·임진왜란·조선 전기 문화","q":[{"answer":"O","text":"임진왜란 때 훈련도감 설치를 건의한 유성룡은 전란의 경과와 교훈을 기록한 징비록을 저술하였다.","exp":"유성룡은 임진왜란 당시의 실정과 교훈을 정리해 징비록을 남겼으며, 포수·살수·사수의 삼수병으로 편성된 훈련도감 설치를 건의한 인물이다. 이순신이 진중에서 쓴 난중일기와 저자·성격을 혼동하지 않도록 한다.","src":"한능검 제77회"},{"answer":"X","text":"임진왜란 때 훈련도감 설치를 건의한 유성룡은 전란의 경과를 매일 기록한 난중일기를 남겼다.","exp":"난중일기는 유성룡이 아니라 이순신이 임진왜란 중 진중에서 쓴 일기이다. 유성룡이 전란의 경과와 교훈을 정리해 남긴 저술은 징비록으로, 두 기록의 저자를 뒤바꾼 함정이다."}],"tb":[],"wi":[]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"위화도에서 군대를 돌려 개경으로 회군한 뒤 최영을 제거하고","l":"한능검 제77회"},{"n":"사헌부·사간원·홍문관의 3사는 관리를 감찰하고 간쟁하는","l":"한능검 제77회"},{"n":"현직 관리에게만 수조지를 지급하는 직전법을 시행하고 간경도감을 두어","l":"한능검 제77회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   window.QUIZ_CHAPTERS["hk06"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();

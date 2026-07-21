@@ -2314,5 +2314,16 @@
   };
 
   window.QUIZ_CHAPTERS = window.QUIZ_CHAPTERS || {};
+  // ==== 한능검 77회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 4. 동학 농민 운동과 갑오·을미개혁","q":[{"answer":"O","text":"을미사변 이후 추진된 을미개혁에서는 군제를 개편하여 중앙에 친위대를, 지방에 진위대를 설치하였다.","exp":"을미개혁은 건양 연호 제정·태양력 도입·단발령과 함께 군제를 개편하여 중앙에 친위대, 지방에 진위대를 두었다. 문물·제도 개혁이 중심이던 앞선 갑오개혁과 달리 군제 개편이 을미개혁의 특징 가운데 하나임을 함께 기억한다.","src":"한능검 제77회"},{"answer":"X","text":"을미개혁 때에는 군제를 개편하여 중앙에는 진위대를, 지방에는 친위대를 설치하였다.","exp":"배치가 반대다. 을미개혁의 군제 개편은 중앙에 친위대를, 지방에 진위대를 둔 것이다. 중앙군과 지방군의 이름을 서로 뒤바꾼 함정이다."}],"tb":[],"wi":[]},{"p":"PART 7. 개항기 경제·근대 문물·교육·언론","q":[{"answer":"O","text":"육영 공원은 학생을 좌원과 우원으로 구분하여, 젊은 현직 관리는 좌원에, 아직 관직에 나아가지 않은 양반 자제는 우원에 배정하여 가르쳤다.","exp":"육영 공원은 헐버트 등 외국인 교사를 초빙한 관립 학교로, 학생을 좌원(현직 관리)과 우원(양반 자제)으로 나누어 선발하였다. 관립·상류층 대상이라는 점과 함께 좌원·우원 구분 선발을 기억한다.","src":"한능검 제77회"},{"answer":"X","text":"육영 공원은 학생을 좌원과 우원으로 나누어, 현직 관리는 우원에, 양반 자제는 좌원에 배정하여 가르쳤다.","exp":"배정이 반대다. 육영 공원은 젊은 현직 관리를 좌원에, 아직 관직에 나아가지 않은 양반 자제를 우원에 배정하였다. 좌원과 우원의 대상을 서로 뒤바꾼 함정이다."}],"tb":[],"wi":[]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"병인박해를 구실로 강화도를 침략한 병인양요 때, 양헌수 부대가 정족산성에서","l":"한능검 제77회"},{"n":"임오군란의 결과 조선은 일본과 제물포 조약을 체결하여 일본 공사관에","l":"한능검 제77회"},{"n":"1905년 강제로 체결된 을사늑약으로 대한제국은 외교권을 빼앗기고 통감부가 설치되어","l":"한능검 제77회"},{"n":"신민회는 대성 학교와 오산 학교를 세워 인재를 양성하고 태극 서관과 자기 회사를","l":"한능검 제77회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   window.QUIZ_CHAPTERS["hk08"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();

@@ -1577,5 +1577,14 @@
   };
 
   window.QUIZ_CHAPTERS = window.QUIZ_CHAPTERS || {};
+  // ==== 한능검 77회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 3. 청동기 시대","q":[{"answer":"O","text":"청동기 시대에는 많은 인력을 동원하여 지배층의 무덤인 고인돌을 축조하였다.","exp":"고인돌은 거대한 덮개돌을 옮기기 위해 많은 인력을 동원해야 했던 청동기 시대 지배층(군장)의 무덤으로, 계급 사회의 등장을 보여 준다. 탁자식(북방식)과 바둑판식(남방식)이 있으며, 계급이 없는 평등 사회였던 신석기 시대와 구별해야 한다.","src":"한능검 제77회"},{"answer":"X","text":"구석기 시대에는 많은 인력을 동원하여 지배층의 무덤인 고인돌을 축조하였다.","exp":"고인돌은 구석기가 아니라 청동기 시대의 무덤이다. 구석기 시대는 계급이 없는 평등한 무리 사회여서 대규모 노동력을 동원한 무덤을 만들 수 없었다. 많은 인력을 동원한 고인돌은 청동기 계급 사회를 보여 주는 상징이다."}],"tb":[],"wi":[]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+  })();
   window.QUIZ_CHAPTERS["hk01"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();

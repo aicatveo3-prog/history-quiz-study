@@ -1617,5 +1617,16 @@
   };
 
   window.QUIZ_CHAPTERS = window.QUIZ_CHAPTERS || {};
+  // ==== 한능검 77회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 1. 고구려","q":[{"answer":"O","text":"고구려에서는 집집마다 부경이라는 창고를 두어 곡식 등을 저장하였다.","exp":"부경은 고구려의 집집마다 있던 작은 창고로, 공납이나 약탈 등으로 얻은 곡식을 저장하던 시설이다. 국가가 봄에 곡식을 빌려주고 가을에 갚게 한 진대법과 달리 개인 가호의 저장 창고라는 점에서 구분한다.","src":"한능검 제77회"},{"answer":"X","text":"고구려에서는 나라에서 운영하는 부경이라는 큰 창고를 두어 봄에 백성에게 곡식을 빌려주고 가을에 갚게 하였다.","exp":"부경의 성격이 틀렸다. 부경은 집집마다 있던 개인 창고이지 국가가 곡식을 대여하던 기관이 아니다. 봄에 빌려주고 가을에 갚게 한 것은 고국천왕이 실시한 진대법이므로, 부경과 진대법을 뒤섞으면 오답이다."}],"tb":[],"wi":[]},{"p":"PART 5. 삼국 문화·대외 교류·종합","q":[{"answer":"O","text":"경주 천마총에서는 말다래(장니)에 하늘을 나는 말을 그린 천마도가 출토되어 신라 회화의 모습을 전한다.","exp":"천마도는 신라의 돌무지덧널무덤인 천마총의 말다래에 그려진 그림으로, 벽화가 없는 신라 무덤에서 나온 귀중한 회화 자료이다. 벽화가 남는 고구려 굴식 돌방무덤과 달리 신라 돌무지덧널무덤은 벽화 대신 이런 부장 유물로 회화를 전한다는 점을 함께 기억한다.","src":"한능검 제77회"},{"answer":"X","text":"말다래에 천마를 그린 천마도는 백제의 무령왕릉에서 출토된 대표적인 회화 유물이다.","exp":"출토지와 나라가 틀렸다. 천마도는 백제 무령왕릉이 아니라 신라 경주 천마총의 말다래에 그려진 그림이다. 무령왕릉은 남조 영향의 벽돌무덤으로 지석·석수 등이 나왔을 뿐 천마도와는 무관하다."}],"tb":[],"wi":[]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"왕족을 파견하여 지방에 대한 중앙의 통제력을 강화","l":"한능검 제77회"},{"n":"국호를 남부여로 고쳤으며, 중앙 관청을 22부로","l":"한능검 제77회"},{"n":"장수왕은 도읍을 평양으로 옮기고 남진 정책을 추진하여 백제의 수도 한성을 함락","l":"한능검 제77회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   window.QUIZ_CHAPTERS["hk03"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();

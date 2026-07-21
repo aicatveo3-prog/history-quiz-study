@@ -1522,5 +1522,16 @@
   };
 
   window.QUIZ_CHAPTERS = window.QUIZ_CHAPTERS || {};
+  // ==== 한능검 77회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 1. 고조선","q":[{"answer":"O","text":"고조선에서는 사회의 질서를 유지하기 위하여 범금 8조를 만들었으며, 그 가운데 살인·상해·절도에 관한 세 조항이 오늘날까지 전해진다.","exp":"옳다. 사회 질서 유지를 위한 8조법은 고조선의 대표적 사회상으로, 남아 전하는 세 조항으로 당시를 짐작한다. 우거왕 때 한 무제의 침입을 받아 멸망한 나라가 곧 고조선임을 함께 묶어 기억한다.","src":"한능검 제77회"},{"answer":"X","text":"고조선에서는 사회의 질서를 유지하기 위하여 1책 12법을 두어 도둑질한 자에게 훔친 것의 열두 배를 물게 하였다.","exp":"틀림. 도둑질에 12배를 배상하게 한 1책 12법은 부여·고구려의 법이다. 고조선의 사회 질서 규범은 범금 8조이며, 절도자는 노비로 삼되 50만 전으로 속죄하게 하였다."}],"tb":[],"wi":[]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"각 부족의 영역을 중시하여 다른 부족의 경계를 함부로 침범하면 노비나 소·말로 배상","l":"한능검 제77회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   window.QUIZ_CHAPTERS["hk02"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();
