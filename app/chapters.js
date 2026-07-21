@@ -5,5 +5,6 @@ window.CHAPTER_LIST = [
   { id: "hk02", num: 2, title: "한국사 제2편 (고조선·초기 국가)", file: "quizdata-hk02.js", count: 83 },
   { id: "hk03", num: 3, title: "한국사 제3편 (삼국·가야)", file: "quizdata-hk03.js", count: 89 },
   { id: "hk04", num: 4, title: "한국사 제4편 (남북국)", file: "quizdata-hk04.js", count: 51 },
+  { id: "hk05", num: 5, title: "한국사 제5편 (고려)", file: "quizdata-hk05.js", count: 157 },
   { id: "ch01", num: 1, title: "지방세기본법 제1장 (총칙)", file: "quizdata-ch01.js", count: 277 }
 ];
