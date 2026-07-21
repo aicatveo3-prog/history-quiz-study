@@ -8,5 +8,8 @@ window.CHAPTER_LIST = [
   { id: "hk05", num: 5, title: "한국사 제5편 (고려)", file: "quizdata-hk05.js", count: 157 },
   { id: "hk06", num: 6, title: "한국사 제6편 (조선 전기)", file: "quizdata-hk06.js", count: 109 },
   { id: "hk07", num: 7, title: "한국사 제7편 (조선 후기)", file: "quizdata-hk07.js", count: 108 },
+  { id: "hk08", num: 8, title: "한국사 제8편 (개항기·근대)", file: "quizdata-hk08.js", count: 121 },
+  { id: "hk09", num: 9, title: "한국사 제9편 (일제 강점기)", file: "quizdata-hk09.js", count: 89 },
+  { id: "hk10", num: 10, title: "한국사 제10편 (현대)", file: "quizdata-hk10.js", count: 71 },
   { id: "ch01", num: 1, title: "지방세기본법 제1장 (총칙)", file: "quizdata-ch01.js", count: 277 }
 ];
