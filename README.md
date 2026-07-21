@@ -1,25 +1,24 @@
-# CODING AGENTS: READ THIS FIRST
+# 한국사 OX 퀴즈 (history-quiz-study)
 
-This is a **handoff bundle** from Claude Design (claude.ai/design).
+한국사를 **시대별 OX 퀴즈**로 학습하는 정적 웹앱입니다. 답을 고르면 즉시 정답·해설이 뜨고, 파트별 **이론 정리**와 **최종 암기 체크리스트**를 함께 제공합니다.
 
-A user mocked up designs in HTML/CSS/JS using an AI design tool, then exported this bundle so a coding agent can implement the designs for real.
+**▶ 바로 풀기: https://aicatveo3-prog.github.io/history-quiz-study/**
 
-## What you should do — IMPORTANT
+## 구성
 
-**Read the chat transcripts first.** There are 2 chat transcript(s) in `chats/`. The transcripts show the full back-and-forth between the user and the design assistant — they tell you **what the user actually wants** and **where they landed** after iterating. Don't skip them. The final HTML files are the output, but the chat is where the intent lives.
+- 홈(챕터 목록) → 목차(파트) → 퀴즈 → 결과 흐름. 챕터 데이터는 카드 탭 시 지연 로딩.
+- 각 문항: 기출·핵심 개념을 옳게 서술한 ⭕ 문항 + 핵심어를 바꾼 ❌ 변형 문항을 짝으로 구성(파트별 O/X 비율 5:5 근접, 같은 정답 4연속 없음).
+- 파트별 **이론 정리** 패널(섹션·표·⚠️ 함정 체크 콜아웃) — ON/OFF 토글, 상태는 `localStorage` 저장.
+- 파트 목록 상단 ⭐ 카드에서 **최종 암기 체크리스트** — 항목 탭 시 암기 체크(localStorage), 진행률 표시.
 
-**Read `project/지방세기본법 제1장 (총칙).dc.html` in full.** The user had this file open when they triggered the handoff, so it's almost certainly the primary design they want built. Read it top to bottom — don't skim. Then **follow its imports**: open every file it pulls in (shared components, CSS, scripts) so you understand how the pieces fit together before you start implementing.
+## 시대 구성 (계획: 10개 시대)
 
-**If anything is ambiguous, ask the user to confirm before you start implementing.** It's much cheaper to clarify scope up front than to build the wrong thing.
+선사 · 고조선/초기국가 · 삼국/가야 · 남북국 · 고려 · 조선 전기 · 조선 후기 · 개항기 · 일제 강점기 · 현대
 
-## About the design files
+현재 수록: **한국사 제1편 (선사 시대) — 90문항**. (지방세기본법 제1장은 데이터 포맷 참고용 견본으로 함께 둠)
 
-The design medium is **HTML/CSS/JS** — these are prototypes, not production code. Your job is to **recreate them pixel-perfectly** in whatever technology makes sense for the target codebase (React, Vue, native, whatever fits). Match the visual output; don't copy the prototype's internal structure unless it happens to fit.
+## 개발
 
-**Don't render these files in a browser or take screenshots unless the user asks you to.** Everything you need — dimensions, colors, layout rules — is spelled out in the source. Read the HTML and CSS directly; a screenshot won't tell you anything they don't.
-
-## Bundle contents
-
-- `README.md` — this file
-- `chats/` — conversation transcripts (read these!)
-- `project/` — the `지방세법 퀴즈 사이트 (OX)` project files (HTML prototypes, assets, components)
+- 정적 사이트: `app/index.html`, `app.js`, `chapters.js`, `quizdata-<id>.js`.
+- 새 시대(장) 추가: `app/quizdata-<id>.js` 생성 → `app/chapters.js`의 `CHAPTER_LIST`에 `{ id, num, title, file, count }` 추가 → `app/index.html`의 `ASSET_VER` 갱신.
+- 배포: GitHub Pages가 `main` 브랜치를 자동 배포.

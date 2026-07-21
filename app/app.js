@@ -456,7 +456,7 @@
 
   function renderHome() {
     var chs = chapters();
-    var lawColor = { "지방세기본법": "#4F46E5", "지방세징수법": "#0D9488", "지방세법": "#7C3AED", "지방세특례제한법": "#DB2777" };
+    var lawColor = { "한국사": "#B45309", "지방세기본법": "#4F46E5", "지방세징수법": "#0D9488", "지방세법": "#7C3AED", "지방세특례제한법": "#DB2777" };
     var listHtml = "", lastLaw = null;
     chs.forEach(function (ch, ci) {
       var law = ch.title.split(" 제")[0];
