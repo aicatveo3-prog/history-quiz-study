@@ -985,5 +985,16 @@
     var TAGS = [{"n":"장보고는 완도에 청해진을 설치하고 해적을 소탕하여","l":"한능검 제76회"},{"n":"귀족의 경제 기반이던 녹읍을 폐지하였으며, 유학 교육 기관인 국학을 설립","l":"한능검 제76회"},{"n":"「화엄일승법계도」를 지어 화엄 사상을 정리하였고, 부석사를 세우고 관음 신앙을 이끌었다","l":"한능검 제76회"},{"n":"지방 제도를 5경 15부 62주로 정비하였으며, 이 무렵 발해는","l":"한능검 제76회"},{"n":"김헌창이 자신의 아버지 김주원이 왕위에 오르지 못한 것에 불만을 품고 웅천주를 근거로 반란을 일으켰다","l":"한능검 제76회"},{"n":"무왕은 장문휴로 하여금 수군을 이끌고 당의 등주(산둥반도)를 선제 공격","l":"한능검 제76회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 75회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"김헌창이 자신의 아버지 김주원이 왕위에 오르지 못한 것에 불만을 품고 웅천주를 근거로 반란을 일으켰다","l":"한능검 제75회"},{"n":"중앙 관제를 3성 6부로 정비하고, 최고 교육 기관으로 주자감을 두었다","l":"한능검 제75회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   window.QUIZ_CHAPTERS["hk04"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();

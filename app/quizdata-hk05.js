@@ -3048,5 +3048,16 @@
     var TAGS = [{"n":"장학재단인 양현고를 두고 국자감에 전문 강좌인 7재를 설치","l":"한능검 제76회"},{"n":"경원 이씨 이자겸은 인종 때 왕실과 거듭 혼인한 외척으로 권력을 장악하고 척준경과 함께","l":"한능검 제76회"},{"n":"충주성에서 노비 문서를 불태워 사기를 북돋우며","l":"한능검 제76회"},{"n":"결혼도감을 통해 공녀를 뽑아 원에 보냈고, 응방을 두어 매를 징발","l":"한능검 제76회"},{"n":"광종은 스스로 황제라 칭하고 광덕·준풍이라는 독자적인 연호를 사용","l":"한능검 제76회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 75회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 6. 대외 관계 (거란·여진·몽골)","q":[{"answer":"O","text":"고려는 몽골의 침입에 맞서 대장도감을 설치하여 팔만대장경을 간행하였다.","exp":"최우 집권기에 강화도에서 대장도감을 두어 부처의 힘으로 몽골을 물리치려는 염원을 담아 팔만대장경(재조대장경)을 새겼다. 거란 때 만든 초조대장경과 몽골 때 만든 팔만대장경의 조판 배경을 구분한다.","src":"한능검 제75회"},{"answer":"X","text":"고려는 몽골의 침입에 맞서 대장도감을 설치하여 초조대장경을 간행하였다.","exp":"간행한 대장경이 틀렸다. 몽골 침입 때 대장도감에서 새긴 것은 팔만대장경이며, 초조대장경은 거란의 침입을 부처의 힘으로 물리치려는 염원으로 앞서 조판한 것이다. 두 대장경의 조판 배경을 뒤바꾼 함정이다."}],"tb":[],"wi":["📝 \"몽골 침입 때 대장도감에서 초조대장경을 간행\" → ❌ 팔만대장경(초조대장경은 거란 침입 때)"]},{"p":"PART 9. 고려의 문화 (유학·불교·인쇄·예술)","q":[{"answer":"O","text":"논산 관촉사 석조 미륵보살 입상은 고려 초기에 조성된 거대한 불상으로 은진미륵이라고도 불린다.","exp":"관촉사 석조 미륵보살 입상은 고려 초기 지방 세력의 성장 속에 만들어진 대표적 거대 불상이다. 통일 신라 불상의 세련된 균형미와 달리 신체 비례가 과장되고 토속적인 점이 특징이다.","src":"한능검 제75회"}],"tb":[],"wi":[]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"신숭겸이 왕건을 대신하여 싸우다 전사하였다","l":"한능검 제75회"},{"n":"유교 정치 이념을 통치의 근본으로 삼고 2성 6부","l":"한능검 제75회"},{"n":"서경이 명당이라는 서경 길지설을 내세워 개경에서 서경으로","l":"한능검 제75회"},{"n":"예성강 하구에 자리한 국제 무역항으로, 송·일본은 물론","l":"한능검 제75회"},{"n":"청주 흥덕사에서 간행된 직지심체요절은 현존하는 세계에서 가장 오래된 금속 활자본","l":"한능검 제75회"},{"n":"9재 학당을 세워 유학 교육에 힘썼으며, 이를 계기로 사학 12도","l":"한능검 제75회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   window.QUIZ_CHAPTERS["hk05"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();

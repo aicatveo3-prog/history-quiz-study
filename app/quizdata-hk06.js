@@ -2108,5 +2108,16 @@
     var TAGS = [{"n":"김종직이 지은 조의제문을 그의 제자 김일손이 사초에 실은 것이 빌미가 되어","l":"한능검 제76회"},{"n":"홍문관은 궁중의 서적과 문서를 관리하고 경연을 주관하며","l":"한능검 제76회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 75회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 1. 건국과 태조·태종","q":[{"answer":"O","text":"태조가 신덕왕후 강씨 소생인 이방석을 세자로 삼자, 이에 불만을 품은 이방원 등이 제1차 왕자의 난을 일으켜 정도전 등을 제거하였다.","exp":"태조가 계비 신덕왕후 소생 이방석을 세자로 책봉하자, 이에 반발한 이방원이 제1차 왕자의 난을 일으켜 세자와 정도전 등을 제거하였다. 수양대군이 대신을 제거한 계유정난(단종 대)과 사건을 혼동하지 않도록 한다.","src":"한능검 제75회"},{"answer":"X","text":"태조가 신덕왕후 강씨 소생인 이방석을 세자로 삼자, 이에 불만을 품은 수양대군이 계유정난을 일으켜 김종서 등을 제거하였다.","exp":"이방석의 세자 책봉에 반발해 일어난 사건은 이방원 등이 주도한 제1차 왕자의 난이다. 계유정난은 단종 때 수양대군이 김종서·황보인 등 대신을 제거하고 정권을 잡은 별개의 사건이다."}],"tb":[],"wi":[]},{"p":"PART 4. 통치 조직 (중앙·지방·군사·교육)","q":[{"answer":"O","text":"사헌부는 백관을 규찰하고 관리의 비리를 탄핵하던 기구로 대사헌을 수장으로 집의·장령 등의 관직을 두었으며, 사간원·홍문관과 함께 3사를 이루었다.","exp":"사헌부는 백관을 규찰·탄핵하는 감찰 기구로 대사헌을 수장으로 두었고 사간원·홍문관과 더불어 3사를 구성하였다. 역사 편찬·실록 보관의 춘추관, 수도 행정·치안의 한성부와 기능을 구분해야 한다.","src":"한능검 제75회"},{"answer":"X","text":"백관을 규찰하고 관리의 비리를 탄핵하던 기구로 대사헌을 수장으로 집의·장령 등의 관직을 두었던 이 관청은 수도 한성의 행정과 치안을 담당하였다.","exp":"백관을 규찰·탄핵하며 대사헌을 수장으로 둔 기구는 사헌부이고, 수도 한성의 행정과 치안을 맡은 관청은 한성부이다. 서로 다른 기구의 기능을 하나로 섞어 서술한 문장이다."}],"tb":[],"wi":[]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"위화도에서 군대를 돌려 개경으로 회군한 뒤 최영을 제거하고","l":"한능검 제75회"},{"n":"압록강 유역에 4군, 두만강 유역에 6진을 개척하여 오늘날과 같은 국경선","l":"한능검 제75회"},{"n":"외척인 대윤(윤임)과 소윤(윤원형) 세력의 권력 다툼 과정에서 사림이 피해","l":"한능검 제75회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   window.QUIZ_CHAPTERS["hk06"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();

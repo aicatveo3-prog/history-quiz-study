@@ -2349,5 +2349,26 @@
     ];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 75회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [
+      {"p":"PART 3. 개화 정책과 임오군란·갑신정변","q":[{"answer":"O","text":"김옥균 등 급진 개화파가 일본 공사의 군사적 지원을 약속받고 갑신정변을 일으켰다가 청군의 개입으로 실패하였고, 이후 청과 일본은 톈진 조약을 체결하였다.","exp":"갑신정변(1884)이 청군 개입으로 3일 만에 실패한 뒤, 청과 일본은 톈진 조약을 맺어 양국 군대의 동시 철수와 파병 시 상호 통보를 약속하였다. 임오군란의 사후 조약인 제물포 조약(일본)·조청 상민 수륙 무역 장정(청)과 혼동하지 않는다.","src":"한능검 제75회"},{"answer":"X","text":"김옥균 등 급진 개화파가 일으킨 갑신정변이 청군의 개입으로 실패한 뒤, 그 결과 청과 일본은 일본 공사관 경비병 주둔을 규정한 제물포 조약을 체결하였다.","exp":"결과로 맺은 조약이 틀렸다. 갑신정변의 사후 청·일 조약은 톈진 조약이다. 제물포 조약은 임오군란의 결과로 조선과 일본이 맺어 일본 공사관 경비병 주둔을 허용한 조약이다."}],"tb":[],"wi":["📝 \"갑신정변의 결과 청·일이 제물포 조약을 체결\" → ❌ 톈진 조약(제물포 조약은 임오군란의 사후 조·일 조약)"]},
+      {"p":"PART 4. 동학 농민 운동과 갑오·을미개혁","q":[{"answer":"O","text":"동학은 제2대 교주 최시형 때 포와 접을 단위로 하는 포접제라는 조직망을 활용하여 교세를 크게 확장하였으며, 삼례와 보은 집회를 통해 교조 신원 운동을 전개하였다.","exp":"동학은 최시형 대에 포접제(포·접의 조직망)로 교세를 넓혔고, 삼례·보은 집회에서 교조 신원과 포교의 자유를 요구하였다. 신원의 대상인 교조는 처형된 초대 교주 최제우임을 함께 기억한다.","src":"한능검 제75회"},{"answer":"X","text":"박중빈이 개창한 원불교는 포와 접을 단위로 하는 포접제라는 조직망을 활용하여 교세를 확장하였으며, 삼례와 보은 집회를 통해 교조 신원 운동을 전개하였다.","exp":"주체인 종교가 틀렸다. 포접제와 삼례·보은 집회, 교조 신원 운동은 모두 동학(천도교)의 활동이다. 원불교는 박중빈이 개창한 종교로 포접제나 교조 신원 운동과는 관계가 없다."}],"tb":[],"wi":["📝 \"원불교가 포접제로 교세를 넓히고 교조 신원 운동을 전개\" → ❌ 포접제·삼례보은·교조 신원은 동학(최시형 대)의 활동"]},
+      {"p":"PART 5. 독립 협회·대한제국·국권 피탈","q":[{"answer":"O","text":"러일 전쟁이 진행되던 중 일본은 독도를 자국 영토라 주장하며 불법으로 시마네현에 편입하였으며, 전쟁은 포츠머스 조약으로 마무리되었다.","exp":"일본은 러일 전쟁 중인 1905년 독도를 시마네현에 불법 편입하였고, 전쟁은 포츠머스 조약으로 종결되어 일본이 한국에 대한 우월권을 인정받았다. 독도 편입 시점을 전쟁 전으로 옮기는 함정에 주의한다.","src":"한능검 제75회"},{"answer":"X","text":"일본이 독도를 자국 영토라 주장하며 불법으로 시마네현에 편입한 것은, 고종이 러시아 공사관으로 거처를 옮긴 아관 파천이 일어난 해의 일이었다.","exp":"시점이 틀렸다. 일본의 독도 불법 편입은 러일 전쟁 중인 1905년의 일이다. 아관 파천은 1896년에 일어났으므로, 편입 시점을 9년 앞으로 끌어당긴 함정이다."}],"tb":[],"wi":["📝 \"일본의 독도 불법 편입이 아관 파천이 일어난 해의 일\" → ❌ 러일 전쟁 중 1905년(아관 파천은 1896년)"]},
+      {"p":"PART 6. 항일 의병과 애국 계몽 운동","q":[{"answer":"O","text":"안중근은 만주 하얼빈 역에서 을사늑약 체결을 주도한 초대 통감 이토 히로부미를 사살하였으며, 체포된 뒤 뤼순 감옥에서 동양 평화론을 저술하였다.","exp":"안중근은 1909년 하얼빈 역에서 초대 통감 이토 히로부미를 처단하고, 뤼순 감옥에서 옥중 저술 동양 평화론을 남겼다. 스티븐스를 저격한 장인환·전명운, 이완용을 습격한 이재명과 인물·대상을 구분한다.","src":"한능검 제75회"},{"answer":"X","text":"장인환과 전명운은 만주 하얼빈 역에서 을사늑약 체결을 주도한 초대 통감 이토 히로부미를 사살하였으며, 체포된 뒤 뤼순 감옥에서 동양 평화론을 저술하였다.","exp":"인물이 틀렸다. 하얼빈에서 이토 히로부미를 처단하고 동양 평화론을 저술한 인물은 안중근이다. 장인환·전명운은 미국 샌프란시스코에서 외교 고문 스티븐스를 저격한 의사이다."}],"tb":[],"wi":["📝 \"장인환·전명운이 하얼빈에서 이토 히로부미를 사살\" → ❌ 안중근(장인환·전명운은 미국에서 스티븐스 저격)"]}
+    ];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [
+      {"n":"황무지 개간권에 반대하는 운동을 벌여 결국 이를 저지하는 데 성공","l":"한능검 제75회"},
+      {"n":"을사의병 때에는 최익현이 태인에서 의병을 일으켰고","l":"한능검 제75회"},
+      {"n":"전제 군주제를 명문화한 대한국 국제를 반포한 황제는 고종이며","l":"한능검 제75회"},
+      {"n":"관민 공동회를 열어 국권 수호와 민권 신장을 담은 헌의 6조를 결의하고","l":"한능검 제75회"}
+    ];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   window.QUIZ_CHAPTERS["hk08"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();
