@@ -2097,5 +2097,16 @@
     var TAGS = [{"n":"위화도에서 군대를 돌려 개경으로 회군한 뒤 최영을 제거하고","l":"한능검 제77회"},{"n":"사헌부·사간원·홍문관의 3사는 관리를 감찰하고 간쟁하는","l":"한능검 제77회"},{"n":"현직 관리에게만 수조지를 지급하는 직전법을 시행하고 간경도감을 두어","l":"한능검 제77회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 76회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 2. 세종·문종·단종·세조","q":[{"answer":"O","text":"세종은 박연에게 편경 등 악기를 정비하고 아악을 정리하게 하였으며, 유교 윤리를 널리 보급하기 위해 충신·효자·열녀의 행적을 그림과 함께 실은 삼강행실도를 편찬하였다.","exp":"세종은 박연에게 아악을 정비·정리하게 하고, 삼강행실도를 편찬해 유교 윤리를 백성에게 보급하였다. 음악 이론을 집대성한 악학궤범(성종)과 편찬 주체를 혼동하지 않도록 한다.","src":"한능검 제76회"},{"answer":"X","text":"세종은 박연에게 편경 등 악기를 정비하고 아악을 정리하게 하였으며, 음악의 이론과 제도를 집대성한 악학궤범을 편찬하여 아악 정비의 토대로 삼았다.","exp":"악학궤범은 세종이 아니라 성종 때 성현 등이 음악 이론과 제도를 집대성해 편찬한 책이다. 세종이 유교 윤리 보급을 위해 편찬한 것은 충신·효자·열녀의 행적을 그림과 함께 실은 삼강행실도이다."}],"tb":[],"wi":[]},{"p":"PART 6. 대외 관계·임진왜란·조선 전기 문화","q":[{"answer":"O","text":"임진왜란 때 정문부는 함경도에서 의병을 이끌고 왜군을 몰아내 북관대첩을 거두었다.","exp":"정문부는 임진왜란 때 함경도에서 의병을 일으켜 왜군을 몰아내고 북관대첩을 거두었다. 정묘호란의 정봉수(용골산성)·병자호란의 김준룡(광교산)과 활동한 전쟁을 구분해야 한다.","src":"한능검 제76회"},{"answer":"X","text":"임진왜란 때 정문부는 함경도에서 의병을 이끌고 왜군을 몰아냈으며, 광교산에서 청군을 크게 물리쳐 큰 전과를 올렸다.","exp":"광교산에서 청군을 물리친 인물은 병자호란 때의 김준룡이다. 정문부는 임진왜란 때 함경도에서 의병을 이끌고 왜군을 몰아내 북관대첩을 거둔 의병장이다."}],"tb":[],"wi":["📝 \"정문부가 광교산에서 청군을 물리쳤다\" → ❌ 정문부는 임진왜란 때 함경도에서 왜군을 몰아내 북관대첩을 거둔 의병장(광교산·청군은 병자호란 김준룡)"]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"김종직이 지은 조의제문을 그의 제자 김일손이 사초에 실은 것이 빌미가 되어","l":"한능검 제76회"},{"n":"홍문관은 궁중의 서적과 문서를 관리하고 경연을 주관하며","l":"한능검 제76회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   window.QUIZ_CHAPTERS["hk06"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();
