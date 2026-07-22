@@ -996,5 +996,32 @@
     var TAGS = [{"n":"김헌창이 자신의 아버지 김주원이 왕위에 오르지 못한 것에 불만을 품고 웅천주를 근거로 반란을 일으켰다","l":"한능검 제75회"},{"n":"중앙 관제를 3성 6부로 정비하고, 최고 교육 기관으로 주자감을 두었다","l":"한능검 제75회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 74회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [
+      {"p":"PART 1. 통일신라 정치","q":[
+        {"answer":"O","text":"문무왕은 삼국 통일을 완성한 뒤 지방관을 감찰하기 위하여 지방에 외사정을 파견하여 지방 세력에 대한 통제를 강화하였다.","exp":"문무왕은 삼국 통일을 완성하고 지방관 감찰을 위해 외사정을 파견하였다. 신문왕의 관료전 지급·녹읍 폐지와 혼동하지 않도록 주의한다.","src":"한능검 제74회"},
+        {"answer":"X","text":"문무왕은 지방관을 감찰하기 위하여 지방에 외사정을 파견하는 한편, 관리에게 관료전을 지급하고 귀족의 녹읍을 폐지하여 왕권을 강화하였다.","exp":"관료전 지급과 녹읍 폐지는 신문왕의 정책이다. 문무왕이 외사정을 파견해 지방관을 감찰한 것은 옳으나, 관료전·녹읍 조치는 신문왕 대의 일이다."}
+      ],"tb":[{"k":"p","t":"문무왕은 삼국 통일을 완성한 뒤 지방관을 감찰하기 위하여 지방에 외사정을 파견하였다. (관료전 지급·녹읍 폐지·국학 설립은 신문왕의 정책이다.)"}],"wi":["📝 \"신문왕이 지방관을 감찰하기 위하여 외사정을 파견하였다\" → ❌ 외사정 파견은 문무왕 대의 일"]},
+      {"p":"PART 1. 통일신라 정치","q":[
+        {"answer":"O","text":"독서삼품과는 원성왕 재위 시기에 시행되어 유교 경전의 이해 정도에 따라 관리를 선발하고자 한 제도였다.","exp":"독서삼품과는 원성왕이 국학 학생을 대상으로 시행한 관리 선발 제도이다. 국학을 설립한 신문왕과 시행 시기를 혼동하기 쉽다.","src":"한능검 제74회"},
+        {"answer":"X","text":"국학에서 학생들의 유교 경전 이해 수준을 시험하여 관리를 선발하고자 한 독서삼품과는 신문왕 재위 시기에 처음 시행되었다.","exp":"독서삼품과를 시행한 왕은 신문왕이 아니라 원성왕이다. 신문왕은 국학을 설립하였고, 독서삼품과 시행은 원성왕 대의 일이다."}
+      ],"tb":[{"k":"p","t":"독서삼품과는 원성왕 대에 시행된 관리 선발 제도로, 국학 학생의 유교 경전 이해 정도를 평가하여 관리 선발에 참고하였다."}],"wi":["독서삼품과 = 원성왕 (신문왕·경덕왕이면 ❌)"]},
+      {"p":"PART 3. 발해","q":[
+        {"answer":"O","text":"발해는 서적의 관리와 문서의 작성 등을 담당하는 기구로 문적원을 두어 유교 문화를 발전시켰다.","exp":"발해는 문적원을 두어 서적 관리와 문서 작성을 맡겼다. 통일신라의 문한서와 이름이 비슷하나 발해의 기구는 문적원이다.","src":"한능검 제74회"},
+        {"answer":"X","text":"발해는 서적의 관리와 문서의 작성 등을 담당하는 기구로 9서당과 10정을 두어 통치 체제를 정비하였다.","exp":"9서당 10정은 통일신라의 군사 조직이다. 발해에서 서적 관리와 문서 작성을 담당한 기구는 문적원이다."}
+      ],"tb":[{"k":"p","t":"발해는 서적 관리와 문서 작성을 담당하는 문적원을 두었다. (통일신라의 문한서, 군사 조직인 9서당 10정과 혼동하지 않도록 주의한다.)"}],"wi":["문적원 = 발해의 서적·문서 담당 기구 (9서당 10정·문한서면 ❌)"]}
+    ];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [
+      {"n":"참선과 실천 수행을 강조하는 선종이 유행하여 9산 선문이 형성","l":"한능검 제74회"},
+      {"n":"완도에 청해진을 설치하고 해적을 소탕하여","l":"한능검 제74회"}
+    ];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   window.QUIZ_CHAPTERS["hk04"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();

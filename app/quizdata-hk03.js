@@ -1650,5 +1650,16 @@
     var TAGS = [{"n":"대가야는 신라 진흥왕에게 562년에 정복되어 멸망","l":"한능검 제75회"},{"n":"집집마다 부경이라는 창고를 두어 곡식 등을 저장","l":"한능검 제75회"},{"n":"국호를 남부여로 고쳤으며, 중앙 관청을 22부로","l":"한능검 제75회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 74회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 2. 백제","q":[{"answer":"O","text":"백제는 왕족인 부여씨와 8성 귀족이 지배층을 이루었으며, 부여 능산리 고분군에는 사신도 벽화가 그려진 굴식 돌방무덤이 남아 있다.","exp":"백제의 지배층은 왕족인 부여씨와 8성 귀족으로 이루어졌으며, 부여 능산리 고분군에는 사신도가 그려진 굴식 돌방무덤이 있다. 관등에 따라 신분과 일상생활까지 규제한 골품제는 백제가 아니라 신라의 신분제라는 점을 함께 기억한다.","src":"한능검 제74회"},{"answer":"X","text":"백제는 왕족인 부여씨와 8성 귀족이 지배층을 이루었으며, 관등에 따라 집의 크기와 옷차림까지 규제하는 골품제를 운영하였다.","exp":"골품제가 틀렸다. 관등에 따라 신분과 일상생활을 규제한 골품제는 신라의 신분제이며, 백제는 왕족인 부여씨와 8성 귀족이 지배층을 이룬 구조였다. 백제에 골품제가 있었다고 서술하면 오답이다."}],"tb":[{"k":"p","t":"백제의 지배층은 왕족인 부여씨와 8성 귀족으로 이루어졌다. 부여 능산리 고분군에는 사신도 벽화가 그려진 굴식 돌방무덤이 남아 백제 문화의 수준을 보여 준다."}],"wi":[]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"지방에 경당을 두어 인재를 양성","l":"한능검 제74회"},{"n":"대가야는 신라 진흥왕에게 562년에 정복되어 멸망","l":"한능검 제74회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   window.QUIZ_CHAPTERS["hk03"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();

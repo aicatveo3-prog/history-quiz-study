@@ -1555,5 +1555,21 @@
     var TAGS = [{"n":"위만은 준왕을 몰아내고 왕위를 차지하였으며","l":"한능검 제75회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 74회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [
+      {"p":"PART 1. 고조선","q":[
+        {"answer":"O","text":"고조선은 왕 아래에 상·대부·장군 등의 관직을 두어 나라를 다스렸으며, 단군왕검이 세운 우리 역사상 최초의 국가이다.","exp":"고조선은 왕 밑에 상·대부·장군 등의 관직을 두었다. 이는 왕권 아래 관제가 정비되어 있었음을 보여 준다. 부여의 마가·우가 등 가(加)와 혼동하지 말 것.","src":"한능검 제74회"},
+        {"answer":"X","text":"고조선은 왕 아래에 마가·우가·저가·구가 등의 가(加)들을 두어 사출도를 각각 나누어 다스렸으며, 단군왕검이 세운 우리 역사상 최초의 국가이다.","exp":"마가·우가·저가·구가의 가(加)와 사출도는 부여의 통치 조직이다. 고조선은 왕 아래에 상·대부·장군 등의 관직을 두었다."}
+      ],"tb":[{"k":"p","t":"고조선은 왕 아래에 상·대부·장군 등의 관직을 두어 나라를 다스렸다."}],"wi":["📝 \"고조선에 마가·우가·저가·구가의 사출도가 있었다\" → ❌ 사출도·가(加)는 부여, 고조선은 상·대부·장군"]}
+    ];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   window.QUIZ_CHAPTERS["hk02"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();

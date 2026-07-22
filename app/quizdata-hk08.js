@@ -2370,5 +2370,26 @@
     ];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 74회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [
+      {"p":"PART 3. 개화 정책과 임오군란·갑신정변","q":[{"answer":"O","text":"김홍집은 제2차 수신사로 일본에 다녀오면서 청의 외교관 황준헌이 지은 조선책략을 들여와 미국과의 수교 여론과 개화 정책에 영향을 주었다.","exp":"김홍집이 제2차 수신사로 일본에 다녀오며 조선책략을 들여온 것이 맞다. 조미 수호 통상 조약 체결 뒤 미국에 다녀온 보빙사의 대표는 김홍집이 아니라 민영익 일행이므로 두 사절을 혼동하지 않는다.","src":"한능검 제74회"},{"answer":"X","text":"김홍집은 조미 수호 통상 조약 체결을 계기로 파견된 보빙사의 대표로 미국에 건너가 서양 문물을 시찰하고 근대 학문을 배우고 돌아왔다.","exp":"주체가 틀렸다. 보빙사의 대표(전권대신)로 미국에 건너간 인물은 민영익이다. 김홍집은 제2차 수신사로 일본에 다녀오며 황준헌의 조선책략을 들여온 온건 개화파 인물이다."}],"tb":[],"wi":["📝 \"김홍집이 보빙사 대표로 미국에 건너갔다\" → ❌ 김홍집은 제2차 수신사(일본·조선책략), 보빙사 대표는 민영익"]},
+      {"p":"PART 4. 동학 농민 운동과 갑오·을미개혁","q":[{"answer":"O","text":"선거조례는 갑오개혁 때 군국기무처의 주도로 제정되어, 유교 경전에 대한 실력보다 실무 능력을 갖춘 인재를 관리로 등용하고자 하였다.","exp":"선거조례는 1894년 제1차 갑오개혁 시기 군국기무처가 주도한 관리 등용 개혁으로, 대한 제국 수립(1897) 이전의 산물이다. 같은 시기에 과거제가 폐지되었다는 점과 함께 묶어 기억한다.","src":"한능검 제74회"},{"answer":"X","text":"선거조례는 대한 제국이 수립된 이후 처음으로 단행되어, 유교 경전에 대한 실력보다 실무 능력을 갖춘 인재를 관리로 등용하고자 하였다.","exp":"시기가 틀렸다. 선거조례는 1894년 갑오개혁 때 군국기무처가 제정한 것으로 대한 제국 수립(1897)보다 앞선 개혁이다. 대한 제국 수립 이후 처음 단행되었다는 서술은 성립하지 않는다."}],"tb":[],"wi":["📝 \"선거조례는 대한 제국 수립 이후 처음 단행되었다\" → ❌ 1894년 갑오개혁 군국기무처의 산물(대한 제국 수립 이전)"]},
+      {"p":"PART 5. 독립 협회·대한제국·국권 피탈","q":[{"answer":"O","text":"러시아가 압록강 하구의 용암포를 강제로 조차하려 한 용암포 사건은 아관 파천 이후에 일어나 러일 전쟁이 발발하는 배경이 되었다.","exp":"용암포 사건은 1903년으로 아관 파천(1896) 이후이자 러일 전쟁(1904) 발발 이전에 일어났다. 러시아의 남하와 만주·한반도를 둘러싼 러·일의 이권 다툼이 전쟁으로 이어졌다.","src":"한능검 제74회"},{"answer":"X","text":"러시아가 압록강 하구의 용암포를 강제로 조차하려 한 용암포 사건은 갑신정변이 일어나기도 전에 발생하여 청일 전쟁의 직접적인 배경이 되었다.","exp":"시점이 틀렸다. 용암포 사건은 1903년의 일로 갑신정변(1884)이나 청일 전쟁(1894)보다 훨씬 뒤에 일어났으며, 러일 전쟁의 배경이 되었지 청일 전쟁의 배경은 아니다."}],"tb":[],"wi":["📝 \"용암포 사건이 갑신정변 이전에 일어나 청일 전쟁의 배경이 되었다\" → ❌ 용암포 사건은 1903년(아관 파천 이후·러일 전쟁 이전)"]}
+    ];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [
+      {"n":"조선이 서양 국가와 맺은 최초의 조약으로 최혜국 대우와 거중조정","l":"한능검 제74회"},
+      {"n":"양전 사업을 실시하고 근대적 토지 소유권 문서인 지계","l":"한능검 제74회"},
+      {"n":"전주 화약을 맺고 자진 해산한 뒤 전라도 각지에 집강소","l":"한능검 제74회"},
+      {"n":"허위를 군사장으로 하는 13도 창의군이 결성되어 서울 진공","l":"한능검 제74회"},
+      {"n":"베델이 양기탁과 함께 발행한 대한매일신보는 국채 보상 운동","l":"한능검 제74회"}
+    ];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   window.QUIZ_CHAPTERS["hk08"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();

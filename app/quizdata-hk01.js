@@ -1608,5 +1608,21 @@
     var TAGS = [{"n":"청동기 시대에는 많은 인력을 동원하여 지배층의 무덤인 고인돌을 축조하였다","l":"한능검 제75회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 74회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [
+      {"p":"PART 2. 신석기 시대","q":[
+        {"answer":"O","text":"신석기 시대 사람들은 농경과 목축을 시작하여 식량을 생산하였으며, 서울 암사동 유적에서 이러한 신석기 문화의 자취를 확인할 수 있다.","exp":"신석기 시대에 농경과 목축이 시작되어 식량을 채집하던 단계에서 생산하는 단계로 나아갔으며, 서울 암사동은 대표적인 신석기 유적이다. 식량 채집에만 의존한 구석기와 대비된다.","src":"한능검 제74회"},
+        {"answer":"X","text":"구석기 시대 사람들은 농경과 목축을 시작하여 식량을 생산하였으며, 서울 암사동 유적에서 이러한 구석기 문화의 자취를 확인할 수 있다.","exp":"농경과 목축을 시작하여 식량을 생산한 것은 신석기 시대이며, 서울 암사동도 신석기 유적이다. 구석기 시대는 사냥·채집으로 식량을 마련한 채집 경제 단계였다."}
+      ],"tb":[],"wi":[]}
+    ];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   window.QUIZ_CHAPTERS["hk01"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();
