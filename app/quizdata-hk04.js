@@ -1041,6 +1041,37 @@
     ];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 72회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [
+      {"p":"PART 2. 통일신라 경제·사회·문화","q":[
+        {"answer":"O","text":"통일신라는 국제 무역항인 울산항을 통해 당·일본은 물론 멀리 아라비아 상인과도 교류하였으며, 수도 경주에는 서시와 남시가 새로 설치되어 상업이 번성하였다.","exp":"울산항은 통일신라의 대표적 국제 무역항으로 멀리 아라비아 상인까지 드나들었다. 고려의 국제 무역항인 벽란도와 혼동하지 않도록 한다.","src":"한능검 제72회"},
+        {"answer":"X","text":"통일신라는 국제 무역항인 벽란도를 통해 당·일본은 물론 멀리 아라비아 상인과도 교류하였으며, 수도 개경 부근에서 대외 무역이 크게 번성하였다.","exp":"벽란도는 고려의 국제 무역항이다. 아라비아 상인까지 드나든 통일신라의 국제 무역항은 벽란도가 아니라 울산항(울산만)이다."}
+      ],"tb":[{"k":"p","t":"통일신라의 국제 무역항인 울산항(울산만)에는 당·일본은 물론 멀리 아라비아 상인까지 드나들었으며, 수도 경주에는 서시와 남시가 설치되어 상업이 번성하였다."}],"wi":["📝 \"통일신라가 벽란도를 통해 아라비아 상인과 교류하였다\" → ❌ 아라비아 상인이 드나든 국제 무역항은 벽란도(고려)가 아니라 울산항"]},
+      {"p":"PART 3. 발해","q":[
+        {"answer":"O","text":"발해는 정당성의 장관인 대내상이 국정을 총괄하였으며, 그 아래 좌사정과 우사정이 6부를 나누어 관할하는 독자적인 운영 방식을 갖추었다.","exp":"발해는 3성 6부를 두되 정당성의 대내상이 국정을 총괄하는 독자적 체제로 운영되었다. 국정을 총괄한 통일신라 집사부의 시중과 구별해야 한다.","src":"한능검 제72회"},
+        {"answer":"X","text":"발해는 최고 관부인 집사부의 장관 시중이 국정을 총괄하였으며, 그 아래 좌사정과 우사정이 6부를 나누어 관할하는 독자적인 운영 방식을 갖추었다.","exp":"집사부와 시중은 통일신라의 관제이다. 발해에서 국정을 총괄한 것은 집사부의 시중이 아니라 정당성의 대내상이다."}
+      ],"tb":[{"k":"p","t":"발해의 최고 관부인 정당성의 장관 대내상이 국정을 총괄하였으며, 그 아래 좌사정·우사정이 6부를 나누어 관할하였다. (국정을 총괄한 신라 집사부의 시중과 구별한다.)"}],"wi":["📝 \"발해에서 집사부의 시중이 국정을 총괄하였다\" → ❌ 발해는 정당성의 대내상이 총괄(집사부·시중은 신라)"]},
+      {"p":"PART 1. 통일신라 정치","q":[
+        {"answer":"O","text":"신라 하대 진성여왕 재위 시기에 지방에 대한 통제력이 무너지면서 원종과 애노가 사벌주에서 봉기하여 나라의 혼란이 극심해졌다.","exp":"원종·애노의 난은 진성여왕 때 사벌주에서 일어난 대표적 농민 봉기이다. 신문왕 때의 김흠돌의 난(진골 귀족 반란)과 성격·시기가 다르다.","src":"한능검 제72회"},
+        {"answer":"X","text":"신문왕 재위 시기에 지방에 대한 통제력이 무너지면서 원종과 애노가 사벌주에서 봉기하였으나 곧 진압되어 전제 왕권 강화의 계기가 되었다.","exp":"원종·애노의 봉기는 신라 하대 진성여왕 때 일어났다. 신문왕 때 진압되어 왕권 강화의 계기가 된 반란은 원종·애노의 난이 아니라 장인 김흠돌의 반란이다."}
+      ],"tb":[{"k":"p","t":"신라 하대 진성여왕 때에는 지방에 대한 통제력이 무너져 원종과 애노가 사벌주에서 봉기하는 등 농민 봉기가 잇따랐다."}],"wi":["📝 \"신문왕 때 원종과 애노가 사벌주에서 봉기하였다\" → ❌ 원종·애노 봉기는 신라 하대 진성여왕 때(신문왕 때는 김흠돌의 난)"]},
+      {"p":"PART 2. 통일신라 경제·사회·문화","q":[
+        {"answer":"O","text":"화순 쌍봉사 철감선사탑은 신라 하대에 선종의 영향을 받아 만들어진 승탑으로, 팔각원당형의 형태를 갖추어 당시 승탑 양식을 잘 보여 준다.","exp":"쌍봉사 철감선사탑은 신라 하대 선종 유행 속에서 만들어진 대표적 승탑이다. 통일신라 중대에 세워진 불국사 3층 석탑(석가탑)과 성격이 다르다.","src":"한능검 제72회"},
+        {"answer":"X","text":"경주 불국사 3층 석탑은 신라 하대에 선종의 영향을 받아 만들어진 승탑으로, 팔각원당형의 형태를 갖추어 당시 승탑 양식을 잘 보여 준다.","exp":"불국사 3층 석탑(석가탑)은 승탑이 아니라 석탑이며 통일신라 중대의 작품이다. 선종의 영향을 받은 신라 하대의 대표적 승탑은 쌍봉사 철감선사탑이다."}
+      ],"tb":[{"k":"p","t":"화순 쌍봉사 철감선사탑은 신라 하대에 유행한 선종의 영향을 받아 만들어진 팔각원당형 승탑으로, 승려의 사리를 봉안한 탑이다."}],"wi":["📝 \"불국사 석가탑은 선종의 영향을 받아 세운 승탑이다\" → ❌ 석가탑은 승탑이 아닌 석탑, 선종 승탑은 쌍봉사 철감선사탑"]}
+    ];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [
+      {"n":"유학 교육 기관인 국학을 설립하여 인재를 양성","l":"한능검 제72회"},
+      {"n":"중앙군을 9서당, 지방군을 10정으로 편성","l":"한능검 제72회"}
+    ];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     function insAfterLead(pi, blocks) {

@@ -2141,6 +2141,17 @@
     var TAGS = [{"n":"조선경국전을 저술하여 새 왕조의 통치 규범과 재상 중심의 정치 이념을 제시하였다","l":"한능검 제73회"},{"n":"우리 실정에 맞는 역법서인 칠정산이 편찬되었다","l":"한능검 제73회"},{"n":"갑자사화(1504)는 연산군이 자신의 생모인 폐비 윤씨가 폐위되고 사사된 사건","l":"한능검 제73회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 72회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 1. 건국과 태조·태종","q":[{"answer":"O","text":"태종은 주자소를 설치하고 금속활자인 계미자를 주조하여 인쇄 문화 발전의 토대를 마련하였다.","exp":"주자소는 태종이 설치한 활자 주조 관청으로, 이곳에서 계미자를 만들었다. 세종 때 개량된 갑인자와 시기·주체를 구분한다.","src":"한능검 제72회"},{"answer":"X","text":"세종은 주자소를 설치하고 금속활자인 계미자를 주조하여 인쇄 문화 발전의 토대를 마련하였다.","exp":"주자소를 두어 계미자를 주조한 왕은 세종이 아니라 태종이다. 세종은 태종의 계미자를 개량한 갑인자를 주조하였으므로 주체가 뒤바뀐 문장이다."}],"tb":[],"wi":["📝 \"세종이 주자소를 두어 계미자를 주조하였다\" → ❌ 주자소·계미자는 태종, 세종은 갑인자(계미자 개량)"]},{"p":"PART 4. 통치 조직 (중앙·지방·군사·교육)","q":[{"answer":"O","text":"집현전은 세종이 학문 연구와 편찬 사업을 위해 설치한 기구로, 단종 복위 운동을 계기로 세조에 의해 폐지되었다.","exp":"집현전은 세종이 세운 학문·편찬 기구로, 세조가 단종 복위 운동을 빌미로 폐지하였다. 이후 성종이 그 기능을 이은 홍문관을 설치하였다.","src":"한능검 제72회"},{"answer":"X","text":"홍문관은 세종이 학문 연구와 편찬 사업을 위해 설치한 기구로, 단종 복위 운동을 계기로 세조에 의해 폐지되었다.","exp":"학문 연구·편찬을 맡다 세조 때 폐지된 기구는 홍문관이 아니라 집현전이다. 홍문관은 성종이 집현전을 계승해 설치한 기구이므로 시기·주체가 맞지 않는다."}],"tb":[{"k":"p","t":"집현전: 세종이 학문 연구·편찬을 위해 설치 → 세조가 단종 복위 운동을 빌미로 폐지. 성종이 그 기능을 이어 홍문관을 설치하였다."}],"wi":["📝 \"홍문관은 세조 때 폐지되었다\" → ❌ 세조가 폐지한 것은 집현전, 홍문관은 성종이 집현전 계승해 설치"]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"1391년 과전법을 시행하여 관리에게 경기 지역 토지의 수조권을 지급","l":"한능검 제72회"},{"n":"성종은 세조 때 편찬을 시작한 경국대전을 완성하여 1485년에 반포","l":"한능검 제72회"},{"n":"성종 때 성현 등은 음악의 이론과 제도를 집대성한 악학궤범을 편찬하였다","l":"한능검 제72회"},{"n":"을사사화(1545)는 명종이 어린 나이로 즉위한 뒤 외척인 대윤","l":"한능검 제72회"},{"n":"강희안은 선비가 물을 바라보는 고사관수도를 남겼다","l":"한능검 제72회"},{"n":"세조는 6조 직계제를 부활시키고 집현전과 경연을 폐지","l":"한능검 제72회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표/암기 박스/연표 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     // 각 파트 맨 앞의 lead(핵심 요약) 바로 뒤에 '한눈에 보기' 압축 블록을 끼워 넣는다.

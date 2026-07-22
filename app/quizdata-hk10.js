@@ -1393,6 +1393,17 @@
     var TAGS = [{"n":"여운형과 김규식 등 중도 세력은 좌우 합작 위원회를 구성하고","l":"한능검 제73회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 72회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 2. 6·25 전쟁과 이승만 정부·4·19 혁명","q":[{"answer":"O","text":"6·25 전쟁이 계속되던 이승만 정부 시기에 국민 방위군 사건이 일어나 소집된 장정들이 굶주림과 추위로 큰 피해를 입었다.","exp":"국민 방위군 사건은 6·25 전쟁 중 이승만 정부 시기, 방위군 운영 과정의 부정으로 소집된 장정들이 제대로 보급받지 못해 희생된 사건이다. 이승만 정부 시기의 대표적인 전시 인권 문제로 기억한다.","src":"한능검 제72회"},{"answer":"X","text":"박정희 정부 시기에 국민 방위군 사건이 일어나 소집된 장정들이 굶주림과 추위로 큰 피해를 입었다.","exp":"주체와 시기가 틀렸다. 국민 방위군 사건은 6·25 전쟁 중 이승만 정부 시기에 일어난 사건이며, 박정희 정부 시기의 일이 아니다."}],"tb":[{"k":"p","t":"6·25 전쟁이 계속되던 이승만 정부 시기에는 국민 방위군 사건이 일어났다. 국민 방위군 운영 과정의 부정으로 소집된 장정들이 제대로 보급받지 못해 굶주림과 추위로 희생된 사건으로, 이승만 정부 시기의 전시 인권 문제를 보여 준다."}],"wi":["📝 \"박정희 정부 때 국민 방위군 사건이 일어났다\" → ❌ 국민 방위군 사건은 6·25 전쟁 중 이승만 정부 시기"]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"이후 진상 규명과 희생자 명예 회복을 위한 특별법이 제정되었다","l":"한능검 제72회"},{"n":"1972년 제정된 유신 헌법은 통일 주체 국민 회의에서 대통령을 뽑는 간선제와 대통령의 긴급 조치권","l":"한능검 제72회"},{"n":"6월 민주 항쟁의 결과 여야 합의로 대통령을 국민이 직접 뽑고 임기를 5년 단임으로 하는 개헌이 이루어졌다","l":"한능검 제72회"},{"n":"전두환 정부는 언론사에 보도 지침을 내려보내 기사를 통제하였으며, 이 시기에 박종철","l":"한능검 제72회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     // 각 파트 맨 앞의 lead(핵심 요약) 바로 뒤에 '한눈에 보기' 압축 블록을 끼워 넣는다.

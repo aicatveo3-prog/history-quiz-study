@@ -1672,6 +1672,17 @@
     var TAGS = [{"n":"대가야는 신라 진흥왕에게 562년에 정복되어 멸망","l":"한능검 제73회"},{"n":"평양성을 공격하자 고구려 고국원왕이","l":"한능검 제73회"},{"n":"'영락'이라는 독자적인 연호를 사용하며 만주 일대로","l":"한능검 제73회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 72회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 2. 백제","q":[{"answer":"O","text":"백제는 도읍을 한성에서 웅진으로, 다시 사비로 옮겼으며, 익산에는 백제 무왕 때의 것으로 전하는 왕궁리 오층 석탑이 남아 있다.","exp":"백제는 한성→웅진(문주왕)→사비(성왕) 순으로 도읍을 옮겼고, 익산에 왕궁리 오층 석탑이 남아 있다. 왕궁리 석탑은 도성인 사비(부여)가 아니라 익산에 있다는 점을 기억한다.","src":"한능검 제72회"},{"answer":"X","text":"백제는 도읍을 한성에서 웅진으로, 다시 사비로 옮겼으며, 왕궁리 오층 석탑은 사비의 도성인 부여에 세워져 오늘날까지 전한다.","exp":"왕궁리 오층 석탑의 위치가 틀렸다. 이 석탑은 사비의 도성인 부여가 아니라 익산에 남아 있다. 도읍 이동 순서(한성→웅진→사비)는 옳다."}],"tb":[{"k":"p","t":"백제는 한성에서 웅진(문주왕), 다시 사비(성왕)로 도읍을 옮겼다. 익산에는 백제 무왕 때의 것으로 전하는 왕궁리 오층 석탑이 남아 있는데, 이는 사비(부여)가 아니라 익산에 위치한다."}],"wi":[]},{"p":"PART 4. 가야","q":[{"answer":"O","text":"창녕은 비화가야의 옛 땅으로, 이곳에는 교동·송현동 고분군과 신라 진흥왕이 세운 창녕 척경비가 남아 있다.","exp":"창녕은 비화가야의 옛 땅으로 교동·송현동 고분군과 진흥왕의 창녕 척경비가 남아 있다. 고령은 대가야, 김해는 금관가야의 중심지였다는 점과 구분한다.","src":"한능검 제72회"},{"answer":"X","text":"고령은 비화가야의 옛 땅으로, 이곳에는 교동·송현동 고분군과 신라 진흥왕이 세운 창녕 척경비가 남아 있다.","exp":"지역이 틀렸다. 교동·송현동 고분군과 진흥왕 창녕 척경비가 있는 비화가야의 옛 땅은 고령이 아니라 창녕이다. 고령은 대가야의 중심지이다."}],"tb":[{"k":"p","t":"창녕은 비화가야의 옛 땅으로, 교동·송현동 고분군과 신라 진흥왕이 세운 창녕 척경비가 남아 있다. 김해는 금관가야, 고령은 대가야의 중심지였다는 점과 구분한다."}],"wi":[]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"도읍을 평양으로 옮기고 남진 정책을 추진하여","l":"한능검 제72회"},{"n":"수도에 태학을, 지방에 경당을 두어 인재를 양성","l":"한능검 제72회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표·연표·핵심 암기 박스 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     function insAfterLead(pi, blocks) {

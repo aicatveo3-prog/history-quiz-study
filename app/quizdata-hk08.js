@@ -2410,6 +2410,26 @@
     ];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 72회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [
+      {"p":"PART 7. 개항기 경제·근대 문물·교육·언론","q":[{"answer":"O","text":"한성순보는 박문국에서 발행한 우리나라 최초의 근대 신문으로 순 한문으로 간행되었으며, 독립신문은 서재필이 정부의 지원을 받아 창간한 우리나라 최초의 순 한글 신문이었다.","exp":"한성순보는 박문국이 펴낸 최초의 근대 신문(순 한문), 독립신문은 서재필이 만든 최초의 순 한글 신문이다. 한성순보를 순 한글 신문이라 하거나 독립신문을 박문국 발행이라 하면 틀린다.","src":"한능검 제72회"},{"answer":"X","text":"한성순보는 박문국에서 발행한 정부의 순 한문 신문이었으며, 장지연의 논설 시일야방성대곡을 실어 을사늑약의 부당함을 규탄하였다.","exp":"앞부분은 옳으나 끝이 틀렸다. 시일야방성대곡을 실어 을사늑약을 규탄한 신문은 한성순보가 아니라 황성신문이며, 한성순보는 을사늑약보다 20여 년 앞서 폐간되었다."}],"tb":[],"wi":[]},
+      {"p":"PART 4. 동학 농민 운동과 갑오·을미개혁","q":[{"answer":"O","text":"제2차 갑오개혁 시기에는 근대적 교육 제도의 이념을 담은 교육 입국 조서가 반포되어 한성 사범 학교 등 관립 학교 설립의 바탕이 되었다.","exp":"교육 입국 조서는 홍범 14조 반포·8아문의 7부 개편과 함께 제2차 갑오개혁의 성과이다. 과거제 폐지·공사 노비 혁파를 단행한 제1차 갑오개혁과 시기를 혼동하지 않는다.","src":"한능검 제72회"},{"answer":"X","text":"교육 입국 조서는 초정부적 개혁 기구인 군국기무처가 주도한 제1차 갑오개혁 때 반포되어 과거제를 폐지하는 근거가 되었다.","exp":"시기와 사실이 뒤섞여 틀렸다. 교육 입국 조서는 군국기무처가 폐지된 뒤의 제2차 갑오개혁 때 반포되었고, 과거제 폐지는 교육 입국 조서와 무관한 제1차 갑오개혁의 조치이다."}],"tb":[],"wi":[]}
+    ];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [
+      {"n":"조선이 서양 국가와 맺은 최초의 조약으로 최혜국 대우와 거중조정","l":"한능검 제72회"},
+      {"n":"제너럴셔먼호 사건을 구실로 1871년 강화도를 침략","l":"한능검 제72회"},
+      {"n":"황토현과 황룡촌에서 관군을 격파하고 전주성을 점령","l":"한능검 제72회"},
+      {"n":"이인영을 총대장, 허위를 군사장으로 하는 13도 창의군이 결성되어 서울 진공","l":"한능검 제72회"},
+      {"n":"광무개혁의 일환으로 양전 사업을 실시하고 근대적 토지 소유권 문서인 지계","l":"한능검 제72회"}
+    ];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표·연표·암기 박스 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     function insAfterLead(pi, blocks) {
