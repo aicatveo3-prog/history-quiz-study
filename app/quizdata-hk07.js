@@ -2174,5 +2174,16 @@
     var TAGS = [{"n":"젊은 문신을 재교육하기 위한 초계문신제를 시행하였다","l":"한능검 제74회"},{"n":"신유박해로 이승훈·정약종 등 많은 천주교도가 처형되었다","l":"한능검 제74회"},{"n":"조선 후기에는 판소리와 탈춤(산대놀이) 등이 성행하여","l":"한능검 제74회"},{"n":"변박의 왜관도에 그려진 부산 초량 왜관","l":"한능검 제74회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 73회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 3. 수취 체제 개편·경제 변화","q":[{"answer":"O","text":"균역법 실시로 줄어든 재정을 보충하기 위하여 일부 부유한 상민에게 선무군관이라는 칭호를 주고 선무군관포를 거두었으며 지주에게는 결작을 부과하였다.","exp":"균역법으로 군포가 1필로 줄자 부족한 재정을 메우기 위해 일부 부유한 상민에게 선무군관 칭호를 주어 선무군관포(1년 1필)를 걷고, 지주에게 결작(1결당 2두), 어염선세 등을 국가 재정으로 돌렸다. 균역법의 보충 재원으로 결작·선무군관포·어염선세를 함께 기억한다.","src":"한능검 제73회"},{"answer":"X","text":"대동법 실시로 줄어든 재정을 보충하기 위하여 일부 부유한 상민에게 선무군관이라는 칭호를 주고 선무군관포를 거두었으며 지주에게는 결작을 부과하였다.","exp":"제도가 틀렸다. 선무군관포와 결작으로 부족분을 메운 것은 영조 때 균역법의 보충책이며, 대동법은 공납을 토지 결수 기준으로 쌀·베·동전으로 걷어 공인이 등장한 제도로 서로 다르다."}],"tb":[],"wi":[]},{"p":"PART 4. 사회 변동·신분제 동요·농민 항쟁","q":[{"answer":"X","text":"시사를 조직해 시를 짓는 중인과 상평통보로 물건값을 치르는 상인이 오가던 조선 후기의 저잣거리에서는 빈민을 구휼하는 제위보의 관리도 볼 수 있었다.","exp":"기관이 틀렸다. 빈민을 구휼하던 제위보는 고려 시대의 구휼 기관이므로 조선 후기의 모습으로 볼 수 없으며, 시사를 여는 중인과 상평통보를 쓰는 상인은 조선 후기의 모습이 맞다."}],"tb":[],"wi":["📝 \"조선 후기 저잣거리에서 빈민을 구휼하는 제위보의 관리를 볼 수 있었다\" → ❌ 제위보는 고려의 빈민 구휼 기관이다"]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"인조는 남한산성으로 들어가 항전하다가 삼전도","l":"한능검 제73회"},{"n":"정선은 우리 산천을 직접 답사하여 사실적으로 그리는 진경 산수화를 개척","l":"한능검 제73회"},{"n":"경상 우병사 백낙신의 탐학에 맞서 유계춘 등이 진주에서 봉기","l":"한능검 제73회"},{"n":"납속책의 시행, 공명첩의 발급, 족보의 매매·위조","l":"한능검 제73회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   window.QUIZ_CHAPTERS["hk07"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();

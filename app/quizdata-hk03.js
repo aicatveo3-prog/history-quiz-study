@@ -1661,5 +1661,16 @@
     var TAGS = [{"n":"지방에 경당을 두어 인재를 양성","l":"한능검 제74회"},{"n":"대가야는 신라 진흥왕에게 562년에 정복되어 멸망","l":"한능검 제74회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 73회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 3. 신라","q":[{"answer":"O","text":"신라는 화랑도를 국가적인 인재 양성 조직으로 두었으며, 골품에 따라 관등의 승진은 물론 집과 수레의 크기 등 일상생활까지 엄격히 규제하였다.","exp":"신라는 화랑도로 인재를 기르고 골품제로 관등 승진과 일상생활을 제한하였다. 유학 교육 기관인 태학·경당은 고구려, 귀족들이 모이던 정사암 회의는 백제의 제도라는 점과 구분해 기억한다.","src":"한능검 제73회"},{"answer":"X","text":"신라는 화랑도를 국가적인 인재 양성 조직으로 두었으며, 나라의 중대사는 귀족들이 정사암에 모여 회의를 열어 만장일치로 결정하였다.","exp":"귀족 회의가 틀렸다. 정사암 회의는 백제의 귀족 회의이며, 신라의 귀족 회의는 만장일치제로 운영된 화백 회의이다. 화랑도는 신라의 제도가 맞지만 정사암 회의는 신라의 것이 아니다."}],"tb":[{"k":"p","t":"신라는 화랑도를 국가적인 인재 양성 조직으로 운영하였고, 골품제에 따라 관등 승진은 물론 가옥·수레의 크기 등 일상생활까지 엄격히 규제하였다. 신라의 귀족 회의인 화백 회의는 만장일치로 국가 중대사를 결정하였다."}],"wi":[]},{"p":"PART 5. 삼국 문화·대외 교류·종합","q":[{"answer":"O","text":"김춘추는 당으로 건너가 군사 동맹을 맺어 나당 연합을 성사시켰으며, 이는 연개소문의 정변 이후 신라가 삼국 통일로 나아가는 발판이 되었다.","exp":"김춘추는 고구려에 청병하였다가 실패한 뒤 당으로 건너가 나당 동맹을 이끌어 냈다. 이후 나당 연합군이 백제와 고구려를 차례로 무너뜨렸으니, 대야성 패전 직후의 고구려 청병과는 시점이 다르다는 점을 함께 기억한다.","src":"한능검 제73회"},{"answer":"X","text":"김춘추는 당으로 건너가 군사 동맹을 맺어 나당 연합을 성사시켰으며, 이는 을지문덕이 살수에서 수의 대군을 물리친 직후에 이루어진 일이었다.","exp":"시기가 틀렸다. 김춘추의 나당 동맹은 연개소문 정변 이후인 7세기 중엽의 일로, 을지문덕이 살수 대첩으로 수군을 물리친 612년 직후가 아니다. 두 사건은 30여 년의 시차가 있다."}],"tb":[{"k":"p","t":"김춘추는 고구려에 청병하였다가 실패한 뒤 당으로 건너가 군사 동맹(나당 동맹)을 성사시켰다. 이후 나당 연합군이 백제와 고구려를 차례로 멸망시키며 신라의 삼국 통일로 이어졌다."}],"wi":[]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"대가야는 신라 진흥왕에게 562년에 정복되어 멸망","l":"한능검 제73회"},{"n":"평양성을 공격하자 고구려 고국원왕이","l":"한능검 제73회"},{"n":"'영락'이라는 독자적인 연호를 사용하며 만주 일대로","l":"한능검 제73회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   window.QUIZ_CHAPTERS["hk03"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();

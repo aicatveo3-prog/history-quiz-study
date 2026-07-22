@@ -2391,5 +2391,24 @@
     ];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 73회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [
+      {"p":"PART 7. 개항기 경제·근대 문물·교육·언론","q":[{"answer":"O","text":"1899년 한성 전기 회사가 운영하는 전차가 개통된 이후, 1905년에는 서울과 부산을 잇는 경부선 철도가 개통되었다.","exp":"한성 전기 회사의 전차 개통(1899)이 경부선 철도 개통(1905)보다 앞선다. 같은 1899년에 개통된 경인선이 우리나라 최초의 철도였다는 점과 함께 개통 순서를 정리한다.","src":"한능검 제73회"},{"answer":"X","text":"1905년 경부선 철도가 개통된 것은, 흥선 대원군이 통상 수교 거부의 의지로 종로와 전국 각지에 척화비를 세우던 시기와 같은 해에 일어난 일이었다.","exp":"시기가 틀렸다. 척화비는 신미양요 직후인 1871년에 세워졌고 경부선 철도 개통은 1905년으로 30여 년의 차이가 난다. 두 사건은 결코 같은 해의 일이 아니다."}],"tb":[],"wi":["📝 \"경부선 개통(1905)이 척화비를 세우던 시기와 같은 해\" → ❌ 척화비 1871·경부선 1905, 30여 년 차이"]}
+    ];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [
+      {"n":"일본 공사의 군사적 지원을 약속받고 갑신정변을 일으켰다가 청군의 개입으로 실패","l":"한능검 제73회"},
+      {"n":"황토현과 황룡촌에서 관군을 격파하고 전주성을 점령","l":"한능검 제73회"},
+      {"n":"청 상인이 양화진과 한성에 점포를 열 수 있게 하는 등 내지 통상","l":"한능검 제73회"},
+      {"n":"대한매일신보는 국채 보상 운동의 확산에 크게 기여","l":"한능검 제73회"},
+      {"n":"을사늑약으로 대한제국은 외교권을 빼앗기고 통감부가 설치되어 이토 히로부미가 초대 통감","l":"한능검 제73회"}
+    ];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   window.QUIZ_CHAPTERS["hk08"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();

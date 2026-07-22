@@ -1023,5 +1023,23 @@
     ];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 73회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [
+      {"p":"PART 3. 발해","q":[
+        {"answer":"O","text":"발해는 최고 교육 기관으로 주자감을 두고 관리를 감찰하는 기구로 중정대를 설치하였으며, 인안·대흥 등 독자적인 연호를 사용하여 황제국의 위상을 드러내었다.","exp":"발해는 교육 기관 주자감, 감찰 기구 중정대를 두고 인안·대흥 등 독자 연호를 사용하였다. 감찰 기구를 통일신라의 사정부와, 교육 기관을 신라 국학과 혼동하지 않도록 주의한다.","src":"한능검 제73회"},
+        {"answer":"X","text":"발해는 최고 교육 기관으로 주자감을 두고 관리를 감찰하는 기구로 중정대를 설치하였으며, 내신좌평을 비롯한 6좌평을 두어 중앙 행정 실무를 나누어 맡게 하였다.","exp":"내신좌평 등 6좌평은 백제의 관제이다. 발해의 주자감·중정대 설치는 옳으나, 중앙 관제는 6좌평이 아니라 3성 6부로 편성되었다."}
+      ],"tb":[{"k":"p","t":"발해는 관리를 감찰하는 기구로 중정대를 두었다. (통일신라의 사정부에 해당하는 감찰 기구이며, 6좌평은 백제의 관제이다.)"}],"wi":["📝 \"발해가 내신좌평 등 6좌평을 두어 중앙 행정을 맡게 하였다\" → ❌ 6좌평은 백제 관제, 발해는 3성 6부","중정대 = 발해의 감찰 기구 (백제 6좌평·신라 사정부와 구별)"]}
+    ];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [
+      {"n":"김헌창이 자신의 아버지 김주원이 왕위에 오르지 못한 것에 불만을 품고 웅천주를 근거로 반란","l":"한능검 제73회"}
+    ];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   window.QUIZ_CHAPTERS["hk04"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();
