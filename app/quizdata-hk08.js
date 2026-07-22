@@ -2430,6 +2430,17 @@
     ];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 71회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 2. 개항과 불평등 조약","q":[{"answer":"O","text":"임오군란을 계기로 조선은 청과 조청 상민 수륙 무역 장정을 체결하여 청 상인의 내지 통상을 허용하였다.","exp":"임오군란 이후 청의 내정 간섭이 심해지는 가운데 1882년 조청 상민 수륙 무역 장정이 맺어져 청 상인의 내지 통상권이 인정되었다. 개항장 무역만 허용한 강화도 조약과 달리 내륙까지 상권 침탈이 확대된 점이 특징이다.","src":"한능검 제71회"},{"answer":"X","text":"임오군란을 계기로 조선은 청과 조청 상민 수륙 무역 장정을 체결하였는데, 이 장정은 청 상인의 내지 통상을 금지하여 조선의 상권을 보호하였다.","exp":"결과가 반대다. 조청 상민 수륙 무역 장정(1882)은 청 상인의 내지 통상을 금지한 것이 아니라 오히려 허용하여 청의 경제적 침투를 확대시켰다. 체결 배경(임오군란)과 상대국(청)은 옳다."}],"tb":[],"wi":[]},{"p":"PART 5. 독립 협회·대한제국·국권 피탈","q":[{"answer":"O","text":"독립 협회는 중추원을 개편하여 의회를 설립하려는 운동을 전개하였다.","exp":"독립 협회는 관민 공동회에서 채택한 헌의 6조를 바탕으로 중추원 관제를 개편해 의회를 세우려 하였다. 다만 보수 세력의 반발과 황국 협회의 방해로 좌절되었다는 점을 함께 기억한다.","src":"한능검 제71회"},{"answer":"X","text":"독립 협회는 중추원을 개편하여 의회를 설립하는 운동을 전개한 결과, 우리나라 최초의 의회인 중추원을 정식으로 개원하는 데 성공하였다.","exp":"결말이 틀렸다. 독립 협회의 의회 설립 운동은 중추원 관제 반포까지 나아갔으나 정부의 탄압과 황국 협회의 방해로 실제 의회 개원에는 이르지 못하고 좌절되었다. 추진한 것은 맞지만 개원 성공은 사실이 아니다."}],"tb":[],"wi":[]},{"p":"PART 6. 항일 의병과 애국 계몽 운동","q":[{"answer":"O","text":"안중근은 만주 하얼빈에서 초대 통감을 지낸 이토 히로부미를 사살하고, 뤼순 감옥에서 동양 평화론을 집필하였다.","exp":"안중근은 1909년 하얼빈 역에서 이토 히로부미를 처단한 뒤 뤼순 감옥에 갇혀 동양 평화론을 집필하다 순국하였다. 이완용을 습격한 이재명, 스티븐스를 처단한 장인환·전명운과 인물을 구분한다.","src":"한능검 제71회"},{"answer":"X","text":"안중근은 만주 하얼빈에서 초대 통감을 지낸 이토 히로부미를 사살한 뒤, 뤼순 감옥에서 조선 혁명 선언을 집필하였다.","exp":"저술이 틀렸다. 안중근이 뤼순 감옥에서 쓴 글은 동양 평화론이다. 조선 혁명 선언은 신채호가 의열단의 활동 지침으로 작성한 것으로 인물과 시기가 다르다. 하얼빈 의거 부분은 옳다."}],"tb":[{"k":"p","t":"안중근은 1909년 만주 하얼빈에서 초대 통감 이토 히로부미를 사살하고, 이듬해 뤼순 감옥에서 동양 평화론을 집필하다 순국하였다."}],"wi":["안중근 = 하얼빈에서 이토 히로부미 사살·동양 평화론 저술 ⭕ → 이완용 습격(이재명)·스티븐스 처단(장인환·전명운)·조선 혁명 선언(신채호)과 혼동 ❌"]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"군제를 개편하여 중앙에 친위대를, 지방에 진위대를 설치","l":"한능검 제71회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표·연표·암기 박스 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     function insAfterLead(pi, blocks) {

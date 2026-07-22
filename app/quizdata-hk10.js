@@ -1404,6 +1404,17 @@
     var TAGS = [{"n":"이후 진상 규명과 희생자 명예 회복을 위한 특별법이 제정되었다","l":"한능검 제72회"},{"n":"1972년 제정된 유신 헌법은 통일 주체 국민 회의에서 대통령을 뽑는 간선제와 대통령의 긴급 조치권","l":"한능검 제72회"},{"n":"6월 민주 항쟁의 결과 여야 합의로 대통령을 국민이 직접 뽑고 임기를 5년 단임으로 하는 개헌이 이루어졌다","l":"한능검 제72회"},{"n":"전두환 정부는 언론사에 보도 지침을 내려보내 기사를 통제하였으며, 이 시기에 박종철","l":"한능검 제72회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 71회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 2. 6·25 전쟁과 이승만 정부·4·19 혁명","q":[{"answer":"O","text":"6·25 전쟁 중이던 1952년 부산에서 비상계엄이 선포된 가운데 대통령 직선제를 골자로 한 발췌 개헌안이 통과되었다.","exp":"발췌 개헌은 6·25 전쟁 중 임시 수도 부산에서 비상계엄이 선포된 상황에서 강행된 개헌으로, 대통령 선출을 국회 간선제에서 직선제로 바꾼 것이 핵심이다. 국회에서의 재선이 어려워진 이승만이 직선제로 전환해 재집권을 노린 것이다.","src":"한능검 제71회"},{"answer":"X","text":"6·25 전쟁 중이던 1952년 부산에서 비상계엄이 선포된 가운데 발췌 개헌안이 통과되어 초대 대통령의 중임 제한이 철폐되었다.","exp":"개헌 내용이 뒤바뀌었다. 발췌 개헌의 핵심은 대통령 직선제 도입이며, 초대 대통령의 중임 제한 철폐는 1954년 사사오입 개헌의 내용이다. 두 개헌의 내용을 뒤섞은 함정이다."}],"tb":[],"wi":[]},{"p":"PART 4. 민주주의 발전·경제 성장·통일 정책","q":[{"answer":"O","text":"노태우 정부 시기 노태우의 여당과 두 야당이 합쳐지는 3당 합당이 이루어져 거대 여당인 민주 자유당이 창당되었다.","exp":"3당 합당(1990)은 민주 정의당·통일 민주당·신민주 공화당이 합쳐 민주 자유당을 만든 사건으로 노태우 정부 때의 일이다. 서울 올림픽·북방 외교와 함께 노태우 정부의 대표적 정치 사건으로 묶어 기억한다.","src":"한능검 제71회"},{"answer":"X","text":"노태우 정부 시기 노태우의 여당과 두 야당이 합쳐지는 3당 합당이 이루어져 거대 여당인 통일 민주당이 창당되었다.","exp":"합당으로 만들어진 정당이 틀렸다. 3당 합당으로 창당된 것은 민주 자유당이며, 통일 민주당은 합당 이전 김영삼이 이끌던 야당이다."}],"tb":[{"k":"p","t":"노태우 정부 시기인 1990년에는 여당인 민주 정의당과 김영삼의 통일 민주당, 김종필의 신민주 공화당이 합치는 3당 합당이 이루어져 거대 여당인 민주 자유당이 창당되었다."}],"wi":["3당 합당 = 노태우 정부(1990) 민주 자유당 창당 ⭕ (통일 민주당 창당·김영삼 정부면 ❌)"]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"우리나라 최초의 보통 선거인 5·10 총선거가 실시되었으며","l":"한능검 제71회"},{"n":"유신 체제 말기에 YH 무역 사건과 부마 민주 항쟁이 이어졌고","l":"한능검 제71회"},{"n":"김대중 정부는 대북 화해 협력 정책을 바탕으로 평양에서 남북 정상 회담을 열고","l":"한능검 제71회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     // 각 파트 맨 앞의 lead(핵심 요약) 바로 뒤에 '한눈에 보기' 압축 블록을 끼워 넣는다.

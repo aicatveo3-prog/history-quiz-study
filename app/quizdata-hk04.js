@@ -1072,6 +1072,17 @@
     ];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 71회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 1. 통일신라 정치","q":[{"answer":"O","text":"고구려가 멸망한 뒤 신라는 고구려 왕족인 안승을 금마저(익산)에 머물게 하고 보덕국의 왕으로 삼아 당의 세력에 맞서게 하였다.","exp":"고구려 멸망 후 신라는 고구려 왕족 안승을 금마저에 안치하고 보덕국왕으로 삼아 고구려 부흥 세력을 끌어안았다. 안승을 추대한 검모잠·고연무와 왕이 된 안승의 역할을 구분해 둔다.","src":"한능검 제71회"},{"answer":"X","text":"고구려가 멸망한 뒤 신라는 고구려 부흥 운동을 이끈 검모잠을 금마저에 머물게 하고 보덕국의 왕으로 삼아 당의 세력에 맞서게 하였다.","exp":"보덕국왕이 된 인물이 틀렸다. 신라가 금마저에 안치해 보덕국왕으로 삼은 사람은 검모잠이 아니라 안승이다. 검모잠은 안승을 왕으로 추대한 고구려 부흥 운동의 지도자이다."}],"tb":[{"k":"p","t":"고구려가 멸망한 뒤 신라는 고구려 왕족인 안승을 금마저(익산)에 머물게 하고 보덕국의 왕으로 삼아, 당의 세력에 맞서는 고구려 부흥 세력을 포섭하였다."}],"wi":["안승 = 보덕국왕(신라가 금마저에 안치) ⭕ → 검모잠은 안승을 추대한 부흥 운동 지도자 ⭕ (검모잠을 보덕국왕이라 하면 ❌)"]},{"p":"PART 2. 통일신라 경제·사회·문화","q":[{"answer":"O","text":"궁중 무용 가운데 유일하게 사람 형상의 가면을 쓰고 추는 처용무는 통일신라 헌강왕 때의 처용 설화를 바탕으로 한 것으로, 2009년 유네스코 인류 무형 문화유산으로 등재되었다.","exp":"처용무는 처용 설화(통일신라 헌강왕)에서 유래한 궁중 무용으로, 5명이 오방색 옷을 입고 사람 형상 가면을 쓰는 것이 특징이다. 판소리·탈춤 등 다른 무형 문화유산과 기원을 구별해 둔다.","src":"한능검 제71회"},{"answer":"X","text":"궁중 무용 가운데 유일하게 사람 형상의 가면을 쓰고 추는 처용무는 고구려 건국 설화를 바탕으로 만들어진 것으로, 5명의 무용수가 오방색 옷을 입고 팥죽색으로 벽사의 의미를 담아 춤춘다.","exp":"처용무의 바탕이 된 설화가 틀렸다. 처용무는 고구려 건국 설화가 아니라 통일신라 헌강왕 때의 처용 설화를 바탕으로 한다. 5명이 오방색 옷을 입고 추는 궁중 무용이라는 설명은 옳다."}],"tb":[{"k":"p","t":"처용무는 궁중 무용 가운데 유일하게 사람 형상의 가면을 쓰고 추는 춤으로, 통일신라 헌강왕 때의 처용 설화를 바탕으로 한다. 5명의 무용수가 중앙과 동서남북에서 오방색 옷을 입고 추며, 2009년 유네스코 인류 무형 문화유산으로 등재되었다."}],"wi":["처용무 = 통일신라 헌강왕 처용 설화 기원·사람 형상 가면 (고구려·조선 기원이라 하면 ❌)"]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"현존하는 세계에서 가장 오래된 목판 인쇄물로 평가되는 「무구정광대다라니경」이 발견","l":"한능검 제71회"},{"n":"무왕은 장문휴로 하여금 수군을 이끌고 당의 등주(산둥반도)를 선제 공격","l":"한능검 제71회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     function insAfterLead(pi, blocks) {

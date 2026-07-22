@@ -2152,6 +2152,17 @@
     var TAGS = [{"n":"1391년 과전법을 시행하여 관리에게 경기 지역 토지의 수조권을 지급","l":"한능검 제72회"},{"n":"성종은 세조 때 편찬을 시작한 경국대전을 완성하여 1485년에 반포","l":"한능검 제72회"},{"n":"성종 때 성현 등은 음악의 이론과 제도를 집대성한 악학궤범을 편찬하였다","l":"한능검 제72회"},{"n":"을사사화(1545)는 명종이 어린 나이로 즉위한 뒤 외척인 대윤","l":"한능검 제72회"},{"n":"강희안은 선비가 물을 바라보는 고사관수도를 남겼다","l":"한능검 제72회"},{"n":"세조는 6조 직계제를 부활시키고 집현전과 경연을 폐지","l":"한능검 제72회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 71회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 4. 통치 조직 (중앙·지방·군사·교육)","q":[{"answer":"O","text":"변방의 국방 문제를 논의하기 위한 임시 기구로 설치된 비변사는 을묘왜변을 계기로 상설 기구가 되었으며, 흥선 대원군이 집권한 시기에 혁파되었다.","exp":"비변사는 삼포왜란 때 임시 기구로 설치되었다가 을묘왜변을 계기로 상설화되고 임진왜란을 거치며 국정을 총괄하는 최고 기구가 되었으며, 흥선 대원군 집권기에 혁파되었다. 상설화 이후 의정부·6조의 기능이 유명무실해진 점과 함께 기억한다.","src":"한능검 제71회"},{"answer":"X","text":"변방의 국방 문제를 논의하기 위한 임시 기구로 설치된 비변사는 을묘왜변을 계기로 상설 기구가 되었으며, 갑오개혁 때 군국기무처로 개편되면서 혁파되었다.","exp":"비변사를 혁파한 것은 갑오개혁이 아니라 흥선 대원군이다(집권기에 혁파하며 의정부·삼군부 기능 부활). 삼포왜란 임시 설치→을묘왜변 상설화→임진왜란 후 최고 기구가 된 앞부분은 옳으나 혁파 주체와 시기가 틀리다."}],"tb":[{"k":"p","t":"비변사는 삼포왜란을 계기로 변방의 국방 문제를 논의하기 위한 임시 기구로 설치되었다가, 을묘왜변을 계기로 상설 기구가 되었고 임진왜란을 거치며 국정 전반을 총괄하는 최고 기구가 되었다. 그 결과 의정부와 6조의 기능이 유명무실해졌으며, 흥선 대원군 집권기에 혁파되면서 의정부와 삼군부의 기능이 부활하였다."}],"wi":["📝 \"비변사가 갑오개혁 때 혁파되었다\" → ❌ 비변사는 흥선 대원군 집권기에 혁파(의정부·삼군부 부활), 삼포왜란 임시 설치→을묘왜변 상설→임진왜란 후 최고 기구"]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"불만을 품은 이방원 등이 제1차 왕자의 난을 일으켜","l":"한능검 제71회"},{"n":"명종이 어린 나이로 즉위한 뒤 외척인 대윤(윤임)과 소윤(윤원형)","l":"한능검 제71회"},{"n":"부산포·제포·염포의 3포를 개항하고 1443년 계해약조","l":"한능검 제71회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표/암기 박스/연표 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     // 각 파트 맨 앞의 lead(핵심 요약) 바로 뒤에 '한눈에 보기' 압축 블록을 끼워 넣는다.

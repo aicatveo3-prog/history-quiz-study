@@ -1650,6 +1650,17 @@
     ];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 71회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 1. 구석기 시대","q":[{"answer":"O","text":"충북 단양 수양개 유적에서는 구석기 시대 사람들이 여러 가지 기법으로 다양한 뗀석기를 만들어 사용하였다.","exp":"수양개는 후기 구석기의 대표 유적으로, 구석기인들이 여러 기법으로 다양한 뗀석기를 제작하였다. 슴베찌르개가 많이 출토된 곳이기도 하다. 돌을 갈아 만든 간석기(신석기)와 혼동하지 않도록 한다.","src":"한능검 제71회"},{"answer":"X","text":"충북 단양 수양개 유적에서는 신석기 시대 사람들이 여러 가지 기법으로 다양한 간석기를 만들어 사용하였다.","exp":"수양개는 구석기 유적이므로 '신석기 시대 사람들이 간석기를 제작'했다는 서술이 틀렸다. 구석기인들이 다양한 뗀석기를 만든 유적이며, 돌을 갈아 만든 간석기는 신석기 시대의 도구다."}],"tb":[],"wi":[]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"먹을거리를 찾아 이동생활을 하면서 동굴이나 바위 그늘","l":"한능검 제71회"},{"n":"경기 연천 전곡리에서 이러한 주먹도끼가 출토","l":"한능검 제71회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     // 각 파트 맨 앞의 lead(핵심 요약) 바로 뒤에 '한눈에 보기' 압축 블록을 끼워 넣는다.

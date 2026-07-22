@@ -2196,6 +2196,17 @@
     var TAGS = [{"n":"김준룡은 광교산에서 청군과 맞서 싸워 이를 크게 물리치는","l":"한능검 제72회"},{"n":"국가에서 필요한 물품을 조달하는 공인이 등장하여 활동하였다","l":"한능검 제72회"},{"n":"서얼 출신의 유득공·박제가·이덕무 등을 규장각 검서관으로 등용하여 능력에 따라","l":"한능검 제72회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 71회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 1. 통치 체제 개편·붕당 정치의 전개","q":[{"answer":"O","text":"병자호란이 일어나자 김상헌 등이 남한산성에서 청과의 화의에 반대하며 끝까지 싸울 것을 주장하였다.","exp":"김상헌·윤집 등 척화파는 청과 화친할 수 없다며 남한산성에서 결사 항전을 주장하였다. 실리를 위해 화의를 주장한 주화파의 대표 인물이 최명길이므로 인물별 입장을 뒤바꾸지 않도록 구분한다.","src":"한능검 제71회"},{"answer":"X","text":"병자호란이 일어나자 김상헌 등이 남한산성에서 청과의 화의를 받아들여 서둘러 항복할 것을 주장하였다.","exp":"끝부분이 틀렸다. 김상헌은 화의를 받아들이자고 한 것이 아니라 청과의 화의에 반대하며 끝까지 싸울 것을 주장한 척화파의 대표 인물이다. 화의(주화)를 주장한 이는 최명길이다."}],"tb":[{"k":"p","t":"병자호란 당시 조정은 청과 끝까지 싸우자는 척화파와 실리를 위해 화친하자는 주화파로 갈렸다. 척화파는 김상헌·윤집 등이, 주화파는 최명길 등이 대표하였으며, 남한산성 농성 끝에 결국 주화론이 받아들여져 인조가 삼전도에서 항복하였다."}],"wi":["척화(항전) = 김상헌·윤집 / 주화(화의) = 최명길 (인물별 입장을 바꾸면 ❌)","📝 \"최명길이 화의에 반대하며 항전을 주장\" → ❌ 최명길은 주화파, 화의에 반대한 척화파는 김상헌·윤집"]},{"p":"PART 1. 통치 체제 개편·붕당 정치의 전개","q":[{"answer":"O","text":"숙종 때 청과 국경을 확정하고자 백두산 일대에 정계비를 세워 서쪽으로는 압록강, 동쪽으로는 토문강을 경계로 삼았다.","exp":"백두산정계비는 숙종 때(1712) 청의 오라총관 목극등과 함께 세운 것으로, 훗날 동쪽 경계인 토문강의 해석을 둘러싼 간도 귀속 분쟁의 근거가 되었다. 정계비를 세운 왕을 정조로 바꾸면 오답이다.","src":"한능검 제71회"},{"answer":"X","text":"숙종 때 청과 국경을 확정하고자 백두산 일대에 정계비를 세워 서쪽으로는 압록강, 동쪽으로는 두만강을 경계로 삼았다.","exp":"끝부분이 틀렸다. 백두산정계비에 새겨진 동쪽 경계는 두만강이 아니라 토문강이다. 이 토문강을 어떻게 해석하느냐를 두고 뒷날 간도 귀속 문제가 불거졌다."}],"tb":[],"wi":[]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"육의전을 제외한 시전 상인의 금난전권을 폐지하고 자유로운","l":"한능검 제71회"},{"n":"금석과안록을 저술하여 북한산비가 신라 진흥왕","l":"한능검 제71회"},{"n":"중앙 관서에 소속되어 있던 공노비 6만여 명을 해방하여","l":"한능검 제71회"},{"n":"삼정의 폐단을 바로잡고자 삼정이정청을 설치","l":"한능검 제71회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표·연표·핵심 암기 박스 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     function insAfterLead(pi, blocks) {
