@@ -301,7 +301,7 @@
 
   // ---- theory block renderer (port of processBlocks) -----------------------
   var NOTE_MAP = {
-    ex:   { bg: "#F4F5F8", bd: "#E4E7EE", tc: "#454B59", ttc: "#454B59" },
+    ex:   { bg: "#F4F5F8", bd: "#E4E7EE", tc: "#33383F", ttc: "#33383F" },
     box:  { bg: "#F1EFFE", bd: "#D9D2F7", tc: "#3A3170", ttc: "#4F46E5" },
     warn: { bg: "#FEF3F0", bd: "#F6D6C9", tc: "#9A3412", ttc: "#9A3412" },
     tip:  { bg: "#FFF7EA", bd: "#F4E2C2", tc: "#7A4E08", ttc: "#92500A" }
@@ -320,7 +320,7 @@
     }
     if (b.k === "tree") {
       return '<div style="background:#F3F2FA;border:1px solid #E3E0F2;border-radius:10px;padding:11px 12px;overflow-x:auto;">' +
-        '<pre style="margin:0;font-family:\'D2Coding\',\'Menlo\',\'Consolas\',monospace;font-size:11.5px;line-height:1.75;color:#2C3140;white-space:pre;">' + esc(b.t) + '</pre></div>';
+        '<pre style="margin:0;font-family:\'D2Coding\',\'Menlo\',\'Consolas\',monospace;font-size:11.5px;line-height:1.75;color:#20242C;white-space:pre;">' + esc(b.t) + '</pre></div>';
     }
     if (b.k === "note") {
       var m = NOTE_MAP[b.v] || NOTE_MAP.ex;
@@ -395,8 +395,8 @@
           var isSym = SYMS.indexOf(c) !== -1;
           var s = cellBase;
           if (r.head) s += " background:#EEEAFB;font-weight:800;color:#312A6B;";
-          else if (ci === 0) s += " background:#FAF9FE;font-weight:700;color:#1F2430;";
-          else s += " color:#3A4150;";
+          else if (ci === 0) s += " background:#FAF9FE;font-weight:700;color:#171A22;";
+          else s += " color:#242932;";
           if (!isLastCol) s += " border-right:1px solid #EFECF8;";
           // 가로 스크롤 표에서는 첫 열(행 라벨)을 고정해, 오른쪽으로 밀어도 어느 행인지 보이게 한다.
           if (ci === 0 && totalMinPx > 0) s += " position:sticky;left:0;z-index:1;box-shadow:1px 0 0 #EFECF8;";
@@ -415,7 +415,7 @@
       return out;
     }
     // default: paragraph
-    return '<div style="font-size:13px;color:#353B47;line-height:1.68;word-break:keep-all;text-wrap:pretty;white-space:pre-line;">' + esc(fmtTrap(brkPara(b.t))) + '</div>';
+    return '<div style="font-size:13px;color:#1E222B;line-height:1.68;word-break:keep-all;text-wrap:pretty;white-space:pre-line;">' + esc(fmtTrap(brkPara(b.t))) + '</div>';
   }
 
   function renderTheoryBody(theory) {
