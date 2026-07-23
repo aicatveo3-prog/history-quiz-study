@@ -2163,6 +2163,17 @@
     var TAGS = [{"n":"불만을 품은 이방원 등이 제1차 왕자의 난을 일으켜","l":"한능검 제71회"},{"n":"명종이 어린 나이로 즉위한 뒤 외척인 대윤(윤임)과 소윤(윤원형)","l":"한능검 제71회"},{"n":"부산포·제포·염포의 3포를 개항하고 1443년 계해약조","l":"한능검 제71회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 70회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 1. 건국과 태조·태종","q":[{"answer":"O","text":"태종은 문하부를 혁파하고 그 낭사를 사간원으로 독립시켜 대신을 견제하는 언론 기능을 강화하였다.","exp":"옳다. 태종은 문하부를 없애면서 그 낭사를 사간원으로 독립시켜 대신을 비판·견제하는 언론 기구로 삼았다. 홍문관 설치(성종), 집현전 확대(세종)와 달리 사간원 독립은 태종의 업적임을 구분한다.","src":"한능검 제70회"},{"answer":"X","text":"태종은 문하부를 혁파하고 그 낭사를 사헌부로 독립시켜 대신을 견제하는 언론 기능을 강화하였다.","exp":"틀림. 문하부 낭사가 독립하여 만들어진 기구는 사헌부가 아니라 사간원이다. 사헌부는 관리 감찰을 맡은 별개의 기구로, 낭사에서 독립한 언론 기구는 사간원이다."}],"tb":[],"wi":[]},{"p":"PART 5. 사림의 성장·사화·붕당의 형성","q":[{"answer":"O","text":"조광조는 도교 행사를 주관하던 소격서의 폐지를 주장하고, 천거로 인재를 뽑는 현량과의 실시를 건의하며 중종 때 급진적인 개혁을 이끌었다.","exp":"옳다. 조광조는 소격서 폐지와 현량과 실시를 대표로 하는 개혁을 중종 대에 추진하였다. 소격서를 '설치'하거나 현량과를 '폐지'했다고 방향을 뒤집는 서술과 반드시 구분한다.","src":"한능검 제70회"},{"answer":"X","text":"조광조는 도교 행사를 주관하던 소격서의 폐지를 주장하고, 천거로 인재를 뽑는 현량과의 실시를 건의하며 명종 때 급진적인 개혁을 이끌었다.","exp":"틀림. 조광조의 소격서 폐지·현량과 실시 개혁은 명종이 아니라 중종 때의 일이다. 명종 대에는 을사사화와 백운동 서원의 소수 서원 사액이 있었으므로 왕대를 뒤바꾸면 안 된다."}],"tb":[],"wi":[]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"4군, 두만강 유역에 6진을 개척","l":"한능검 제70회"},{"n":"다섯 가지 의례를 유교식으로 정리한 국조오례의가 완성","l":"한능검 제70회"},{"n":"삼수병으로 편성된 훈련도감이 설치","l":"한능검 제70회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표/암기 박스/연표 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     // 각 파트 맨 앞의 lead(핵심 요약) 바로 뒤에 '한눈에 보기' 압축 블록을 끼워 넣는다.
