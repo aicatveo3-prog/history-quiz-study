@@ -5,6 +5,7 @@
   "use strict";
 
   var STORAGE_KEY = "jibangse_theoryOn";      // 이론 토글 (전역 공통)
+  var EXAM_KEY = "jibangse_examOnly";         // 한능검 기출만 보기 토글 (전역 공통)
   var LAST_CH_KEY = "jibangse_last_chapter";  // 마지막으로 학습한 챕터 id
   var WRONG_KEY = "jibangse_wrong_v1";        // 오답노트 (전 챕터 공통, 스냅샷 저장)
   var SAVED_KEY = "jibangse_saved_v1";        // 저장함/북마크 (전 챕터 공통, 스냅샷 저장)
@@ -23,6 +24,10 @@
         if (v != null) return v === "1";
       } catch (e) {}
       return true;
+    })(),
+    examOnly: (function () {
+      try { return localStorage.getItem(EXAM_KEY) === "1"; } catch (e) {}
+      return false;
     })()
   };
 
@@ -149,6 +154,22 @@
       g.items.push(item);
     });
     return groups;
+  }
+
+  // 한능검 기출만 보기: 켜져 있으면 src(회차 뱃지)가 있는 기출 원문 문항만 남긴다.
+  function isExamItem(it) { return !!it.src; }
+  function visItemsOf(p) { return state.examOnly ? p.items.filter(isExamItem) : p.items; }
+  // 기출만 모드에서의 전체 진도(보이는 문항 기준) — 진도바·요약에 사용.
+  function visibleTotals() {
+    var t = 0, a = 0;
+    parts().forEach(function (p) {
+      visItemsOf(p).forEach(function (it) { t++; if (state.answers[it.gi] != null) a++; });
+    });
+    return { total: t, answered: a };
+  }
+  // 챕터 전체 기출 문항 수(모드와 무관) — 목차 안내·뱃지에 사용.
+  function examCount() {
+    var n = 0; data().forEach(function (q) { if (q.src) n++; }); return n;
   }
 
   function freshAnswers() {
@@ -555,15 +576,43 @@
 
   function renderToc() {
     var ps = parts();
-    var total = data().length;
-    var totalAnswered = state.answers.filter(function (a) { return a != null; }).length;
+    var vtot = state.examOnly ? visibleTotals() : { total: data().length, answered: state.answers.filter(function (a) { return a != null; }).length };
+    var total = vtot.total;
+    var totalAnswered = vtot.answered;
+    var chExam = examCount();
+
+    // 한능검 기출만 보기 — 목차 상단 전역 토글
+    var examSwitch = state.examOnly
+      ? '<div style="display:flex;align-items:center;gap:6px;flex-shrink:0;"><span style="font-size:11px;font-weight:800;color:#C0392B;letter-spacing:.04em;">ON</span><div style="width:38px;height:22px;border-radius:99px;background:#C0392B;position:relative;"><div style="position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:#fff;"></div></div></div>'
+      : '<div style="display:flex;align-items:center;gap:6px;flex-shrink:0;"><span style="font-size:11px;font-weight:800;color:#A4ABBA;letter-spacing:.04em;">OFF</span><div style="width:38px;height:22px;border-radius:99px;background:#D6DAE2;position:relative;"><div style="position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;"></div></div></div>';
+    var examBar =
+      '<button data-action="toggleExam" class="a-scale99" style="width:100%;border:1.5px solid ' + (state.examOnly ? '#EDC7C2' : '#E4E8F0') + ';background:' + (state.examOnly ? '#FDF3F2' : '#fff') + ';border-radius:13px;padding:11px 14px;margin-bottom:12px;display:flex;align-items:center;gap:9px;cursor:pointer;font-family:inherit;box-shadow:0 2px 8px rgba(30,40,70,.04);">' +
+        '<span style="font-size:16px;flex-shrink:0;">🏅</span>' +
+        '<div style="flex:1;min-width:0;text-align:left;">' +
+          '<div style="font-size:13px;font-weight:800;color:' + (state.examOnly ? '#B4232A' : '#1A1D24') + ';">한능검 기출만 보기</div>' +
+          '<div style="font-size:10.5px;color:#8A92A2;margin-top:1px;">' + (state.examOnly ? '기출 원문(회차 뱃지)만 표시 중' : '켜면 실제 시험에 나온 ' + chExam + '개 문항만 골라 봐요') + '</div>' +
+        '</div>' +
+        examSwitch +
+      '</button>';
 
     var items = ps.map(function (p, i) {
-      var count = p.items.length;
-      var done = p.items.filter(function (it) { return state.answers[it.gi] != null; }).length;
+      var visP = visItemsOf(p);
+      var count = visP.length;
+      var done = visP.filter(function (it) { return state.answers[it.gi] != null; }).length;
+      var exN = p.items.filter(isExamItem).length;
       var split = splitPartName(p.name);
       var pct = count ? Math.round((done / count) * 100) : 0;
-      var status = done >= count ? "done" : (done > 0 ? "active" : "todo");
+      var status = count === 0 ? "empty" : (done >= count ? "done" : (done > 0 ? "active" : "todo"));
+      // 기출만 모드 + 기출 0개 파트: 흐리게 표시하고 클릭 시 안내(전체 보기 유도)
+      if (status === "empty") {
+        return '<div style="width:100%;display:flex;align-items:center;gap:12px;background:#fff;border-radius:14px;padding:13px 14px;margin-bottom:8px;box-shadow:0 2px 8px rgba(30,40,70,.04);opacity:.55;">' +
+          '<div style="width:30px;height:30px;border-radius:9px;background:#F1F3F7;color:#AEB5C4;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">' + (i + 1) + '</div>' +
+          '<div style="flex:1;min-width:0;">' +
+            '<div style="font-size:13.5px;font-weight:700;color:#6E7585;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + esc(split.title) + '</div>' +
+            '<div style="font-size:10.5px;color:#AEB5C4;margin-top:4px;">한능검 기출 없음</div>' +
+          '</div>' +
+        '</div>';
+      }
 
       var chip;
       if (status === "done") chip = '<div style="width:30px;height:30px;border-radius:9px;background:#E8F8EF;color:#15803D;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">' + (i + 1) + '</div>';
@@ -581,6 +630,7 @@
           '<div style="font-size:13.5px;font-weight:700;color:#1A1D24;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + esc(split.title) + '</div>' +
           '<div style="display:flex;align-items:center;gap:8px;margin-top:6px;">' +
             '<div style="flex:1;height:4px;background:#ECEFF4;border-radius:99px;overflow:hidden;"><div style="height:100%;background:#4F46E5;border-radius:99px;width:' + pct + '%;"></div></div>' +
+            (!state.examOnly && exN > 0 ? '<span style="font-size:10px;font-weight:800;color:#B4232A;background:#FDECEC;border:1px solid #F7C9CB;border-radius:6px;padding:1px 6px;flex-shrink:0;">🏅 ' + exN + '</span>' : '') +
             '<div style="font-size:10.5px;font-weight:700;color:#AEB5C4;flex-shrink:0;">' + done + ' / ' + count + '</div>' +
           '</div>' +
         '</div>' +
@@ -593,9 +643,9 @@
       '<div style="padding:20px 20px 14px;flex-shrink:0;position:sticky;top:0;background:#F7F8FB;z-index:5;">' +
         '<button data-action="goHome" style="border:none;background:transparent;padding:0;display:flex;align-items:center;gap:6px;color:#5C6473;font-size:12.5px;cursor:pointer;font-family:inherit;">‹ 목록</button>' +
         '<div style="font-size:18px;font-weight:800;margin-top:12px;color:#1A1D24;">' + esc(chapterTitle()) + '</div>' +
-        '<div style="font-size:12.5px;color:#5C6473;margin-top:4px;">총 ' + ps.length + '개 파트 · ' + total + '문제 · ' + totalAnswered + '문제 완료</div>' +
+        '<div style="font-size:12.5px;color:#5C6473;margin-top:4px;">총 ' + ps.length + '개 파트 · ' + (state.examOnly ? '기출 ' : '') + total + '문제 · ' + totalAnswered + '문제 완료</div>' +
       '</div>' +
-      '<div style="flex:1;padding:2px 14px 14px;">' + renderChecklistCard() + items + '</div>' +
+      '<div style="flex:1;padding:2px 14px 14px;">' + renderChecklistCard() + examBar + items + '</div>' +
       '<div style="padding:12px 18px 22px;position:sticky;bottom:0;z-index:10;background:#F7F8FB;box-shadow:0 -10px 16px -8px rgba(30,40,70,.12);">' +
         '<button data-action="showResult" class="a-scale99" style="width:100%;border:1.5px solid #DDE3EF;background:#fff;color:#5A6172;font-size:14.5px;font-weight:700;padding:14px;border-radius:12px;cursor:pointer;font-family:inherit;">전체 결과 보기</button>' +
       '</div>' +
@@ -787,9 +837,12 @@
     var split = splitPartName(curPart.name);
     var theory = theoryList()[pIdx] || { blocks: null, summary: "", points: [] };
 
-    var totalAnswered = state.answers.filter(function (a) { return a != null; }).length;
-    var progressPercent = total ? Math.round((totalAnswered / total) * 100) : 0;
-    var partAnswered = curPart.items.filter(function (it) { return state.answers[it.gi] != null; }).length;
+    var visItems = visItemsOf(curPart);
+    var vt = state.examOnly
+      ? visibleTotals()
+      : { total: total, answered: state.answers.filter(function (a) { return a != null; }).length };
+    var progressPercent = vt.total ? Math.round((vt.answered / vt.total) * 100) : 0;
+    var partAnswered = visItems.filter(function (it) { return state.answers[it.gi] != null; }).length;
     var isLastPart = pIdx >= ps.length - 1;
 
     // theory toggle
@@ -807,11 +860,40 @@
       ? '<div style="padding:12px 14px 14px;">' + renderTheoryBody(theory) + '</div>'
       : '';
 
-    var questions = curPart.items.map(questionRowHTML).join("");
+    var questions = visItems.length
+      ? visItems.map(questionRowHTML).join("")
+      : '<div style="margin:18px 0 8px;background:#FFF4F3;border:1px solid #F6D6D0;border-radius:14px;padding:20px 18px;text-align:center;">' +
+          '<div style="font-size:30px;margin-bottom:8px;">🏅</div>' +
+          '<div style="font-size:13.5px;font-weight:800;color:#B4232A;margin-bottom:5px;">이 파트에는 한능검 기출 문항이 없어요</div>' +
+          '<div style="font-size:12.5px;color:#8A5A56;line-height:1.6;">선사 시대처럼 기출이 드문 파트예요.<br>아래에서 <b>전체 보기</b>로 바꾸면 모든 문항이 나옵니다.</div>' +
+          '<button data-action="toggleExam" class="a-scale98" style="margin-top:13px;border:1.5px solid #E4A9A3;background:#fff;color:#B4232A;font-size:12.5px;font-weight:800;padding:9px 16px;border-radius:10px;cursor:pointer;font-family:inherit;">전체 보기로 전환</button>' +
+        '</div>';
 
     var prevBtn = pIdx > 0
       ? '<button data-action="prevPart" class="a-scale98" style="flex:1 1 0;max-width:150px;border:1.5px solid #DDE3EF;background:#fff;color:#5A6172;font-size:12.5px;font-weight:700;padding:8px;border-radius:10px;cursor:pointer;font-family:inherit;">← 이전</button>'
       : '<span style="flex:1 1 0;max-width:150px;"></span>';
+
+    // 한능검 기출만 보기 — 전역 토글 (크림슨 계열로 이론 토글(인디고)과 구분)
+    var examSwitch = state.examOnly
+      ? '<div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">' +
+          '<span style="font-size:11px;font-weight:800;color:#C0392B;letter-spacing:.04em;">ON</span>' +
+          '<div style="width:38px;height:22px;border-radius:99px;background:#C0392B;position:relative;"><div style="position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:#fff;"></div></div>' +
+        '</div>'
+      : '<div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">' +
+          '<span style="font-size:11px;font-weight:800;color:#A4ABBA;letter-spacing:.04em;">OFF</span>' +
+          '<div style="width:38px;height:22px;border-radius:99px;background:#D6DAE2;position:relative;"><div style="position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;"></div></div>' +
+        '</div>';
+    var examBar =
+      '<div style="padding:10px 18px 0;">' +
+        '<button data-action="toggleExam" class="a-scale99" style="width:100%;border:1.5px solid ' + (state.examOnly ? '#EDC7C2' : '#E4E8F0') + ';background:' + (state.examOnly ? '#FDF3F2' : '#fff') + ';border-radius:12px;padding:10px 13px;display:flex;align-items:center;gap:9px;cursor:pointer;font-family:inherit;">' +
+          '<span style="font-size:15px;flex-shrink:0;">🏅</span>' +
+          '<div style="flex:1;min-width:0;text-align:left;">' +
+            '<div style="font-size:12.5px;font-weight:800;color:' + (state.examOnly ? '#B4232A' : '#3A4150') + ';">한능검 기출만 보기</div>' +
+            '<div style="font-size:10.5px;color:#8A92A2;margin-top:1px;">' + (state.examOnly ? '기출 원문(회차 뱃지)만 표시 중 · 이 편 기출 ' + examCount() + '개' : '켜면 실제 시험에 나온 문항만 골라 봐요') + '</div>' +
+          '</div>' +
+          examSwitch +
+        '</button>' +
+      '</div>';
 
     return '' +
     '<div style="display:flex;flex-direction:column;min-height:100vh;">' +
@@ -821,7 +903,7 @@
           '<div style="font-size:12.5px;font-weight:700;color:#1A1D24;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + esc(chapterTitle()) + '</div>' +
           '<div style="font-size:10.5px;color:#6E7585;margin-top:1px;">PART ' + (pIdx + 1) + ' / ' + ps.length + '</div>' +
         '</div>' +
-        '<div id="quiz-anstext" style="font-size:11px;font-weight:700;color:#5C6473;flex-shrink:0;">' + partAnswered + ' / ' + curPart.items.length + '</div>' +
+        '<div id="quiz-anstext" style="font-size:11px;font-weight:700;color:#5C6473;flex-shrink:0;">' + partAnswered + ' / ' + visItems.length + '</div>' +
       '</div>' +
       '<div style="height:4px;background:#E4E8F0;flex-shrink:0;">' +
         '<div id="quiz-pbar" style="height:100%;background:#4F46E5;width:' + progressPercent + '%;transition:width .35s cubic-bezier(.4,0,.2,1);"></div>' +
@@ -840,6 +922,7 @@
           theoryBody +
         '</div>' +
       '</div>' +
+      examBar +
       '<div style="padding:4px 18px 12px;flex:1;">' + questions + '</div>' +
       '<div style="padding:12px 18px 22px;position:sticky;bottom:0;z-index:10;background:#F7F8FB;box-shadow:0 -10px 16px -8px rgba(30,40,70,.12);display:flex;gap:12px;align-items:center;">' +
         prevBtn +
@@ -850,8 +933,11 @@
 
   function renderResult() {
     var d = data();
-    var total = d.length;
-    var score = state.answers.reduce(function (acc, a, i) { return acc + (a === d[i].answer ? 1 : 0); }, 0);
+    // 기출만 모드에서는 보이는(기출) 문항만으로 점수·목록을 낸다.
+    var vis = d.map(function (q, i) { return { q: q, i: i }; });
+    if (state.examOnly) vis = vis.filter(function (x) { return x.q.src; });
+    var total = vis.length;
+    var score = vis.reduce(function (acc, x) { return acc + (state.answers[x.i] === x.q.answer ? 1 : 0); }, 0);
     var pct = total ? Math.round((score / total) * 100) : 0;
     var resultTitle;
     if (pct >= 90) resultTitle = "완벽해요!";
@@ -859,11 +945,12 @@
     else if (pct >= 50) resultTitle = "조금만 더!";
     else resultTitle = "다시 복습해요";
 
-    var reviews = d.map(function (q, i) {
-      var a = state.answers[i];
+    var reviews = vis.map(function (x, vi) {
+      var q = x.q;
+      var a = state.answers[x.i];
       var ok = a === q.answer;
       var mark = ok ? "✅" : "❌";
-      var number = String(i + 1).padStart(2, "0");
+      var number = String(vi + 1).padStart(2, "0");
       return '<div style="display:flex;align-items:center;gap:12px;background:#fff;border-radius:14px;padding:13px 15px;box-shadow:0 2px 8px rgba(30,40,70,.04);">' +
         '<span style="font-size:18px;flex-shrink:0;">' + mark + '</span>' +
         '<div style="flex:1;min-width:0;">' +
@@ -876,7 +963,7 @@
     return '' +
     '<div style="display:flex;flex-direction:column;min-height:100vh;">' +
       '<div style="padding:48px 24px 20px;">' +
-        '<div style="font-size:13px;font-weight:600;color:#5C6473;">학습 완료</div>' +
+        '<div style="font-size:13px;font-weight:600;color:#5C6473;">학습 완료' + (state.examOnly ? ' <span style="display:inline-block;font-size:10.5px;font-weight:800;color:#B4232A;background:#FDECEC;border:1px solid #F7C9CB;border-radius:6px;padding:1px 7px;margin-left:4px;vertical-align:middle;">🏅 한능검 기출만</span>' : '') + '</div>' +
         '<div style="font-size:24px;font-weight:800;margin-top:8px;">' + resultTitle + '</div>' +
         '<div style="font-size:14px;color:#5C6473;margin-top:6px;">' + esc(chapterTitle()) + '</div>' +
         '<div style="display:flex;align-items:baseline;gap:6px;margin-top:22px;">' +
@@ -1192,6 +1279,12 @@
     render();
   }
 
+  function toggleExam() {
+    state.examOnly = !state.examOnly;
+    try { localStorage.setItem(EXAM_KEY, state.examOnly ? "1" : "0"); } catch (e) {}
+    render();
+  }
+
   // ---- 로그인/동기화 액션 (sync.js 미설정 시 조용히 무시) -----------------
   function openLogin() { review._loginError = null; state.screen = "login"; render(); }
   function openAccount() { state.screen = "account"; render(); }
@@ -1334,16 +1427,18 @@
   // 상단 진행바 + "n / m" 카운터만 갱신 (현재 파트 기준)
   function updateQuizProgress() {
     var ps = parts();
-    var total = data().length;
     var pIdx = Math.min(state.partIndex, ps.length - 1);
     var curPart = ps[pIdx] || ps[0];
-    var totalAnswered = state.answers.filter(function (a) { return a != null; }).length;
-    var partAnswered = curPart.items.filter(function (it) { return state.answers[it.gi] != null; }).length;
+    var visItems = visItemsOf(curPart);
+    var vt = state.examOnly
+      ? visibleTotals()
+      : { total: data().length, answered: state.answers.filter(function (a) { return a != null; }).length };
+    var partAnswered = visItems.filter(function (it) { return state.answers[it.gi] != null; }).length;
 
     var bar = document.getElementById("quiz-pbar");
-    if (bar) bar.style.width = (total ? Math.round((totalAnswered / total) * 100) : 0) + "%";
+    if (bar) bar.style.width = (vt.total ? Math.round((vt.answered / vt.total) * 100) : 0) + "%";
     var ans = document.getElementById("quiz-anstext");
-    if (ans) ans.textContent = partAnswered + " / " + curPart.items.length;
+    if (ans) ans.textContent = partAnswered + " / " + visItems.length;
   }
 
   function prevPart() {
@@ -1371,6 +1466,7 @@
       case "showResult": showResult(); break;
       case "retry": retry(); break;
       case "toggleTheory": toggleTheory(); break;
+      case "toggleExam": toggleExam(); break;
       case "prevPart": prevPart(); break;
       case "nextPart": nextPart(); break;
       case "toggleSave": toggleSave(parseInt(arg, 10)); break;
