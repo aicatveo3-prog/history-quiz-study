@@ -1619,6 +1619,17 @@
     var TAGS = [{"n":"무천이라는 제천행사를 열어 하늘에 제사를 지내고 밤낮으로 술을 마시며","l":"한능검 제70회"},{"n":"키가 작은 말인 과하마, 바다표범 가죽인 반어피가 유명","l":"한능검 제70회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 69회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 4. 옥저·동예","q":[{"answer":"O","text":"동예에서는 호랑이를 산신으로 여겨 제사를 지내는 풍습이 있었으며, 이는 자연물을 신성하게 여긴 이 나라의 신앙을 보여 준다.","exp":"옳다. 동예는 호랑이를 산신으로 여겨 제사한 호신(虎神) 신앙이 있었다. 10월 무천·책화·족외혼과 함께 동예의 특징으로 묶어 기억한다.","src":"한능검 제69회"},{"answer":"X","text":"동예에서는 호랑이를 산신으로 여겨 제사를 지내는 풍습이 있었으며, 흉년이 들면 그 책임을 왕에게 물어 죽이거나 바꾸기도 하였다.","exp":"틀림. 호랑이를 신으로 여긴 것은 동예가 맞지만, 흉년의 책임을 왕에게 물어 바꾼 것은 부여의 풍습이다. 동예는 왕 없이 읍군·삼로가 다스렸다."}],"tb":[{"k":"p","t":"동예에서는 호랑이를 산신으로 여겨 제사를 지내는 호신(虎神) 신앙이 있었다. 무천(10월)·책화·족외혼과 더불어 동예 사회의 특징으로 함께 묶인다."}],"wi":["호랑이를 신으로 여겨 제사 = 동예 ⭕ → 부여·삼한 것으로 서술하면 ❌"]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"각 부족의 영역을 중시하여 다른 부족의 경계를 함부로 침범하면","l":"한능검 제69회"},{"n":"여러 소국에는 신지·읍차라 불린 정치적 지배자","l":"한능검 제69회"},{"n":"매년 10월에 무천이라는 제천행사를 열어 하늘에 제사를 지내고 밤낮으로 술을 마시며 노래하고 춤추었다","l":"한능검 제69회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표·암기 박스·연표 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     // 각 파트 맨 앞의 lead(핵심 요약) 바로 뒤에 '한눈에 보기' 압축 블록을 끼워 넣는다.

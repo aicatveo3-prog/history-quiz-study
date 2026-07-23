@@ -2452,6 +2452,17 @@
     var TAGS = [{"n":"서양 국가와 맺은 최초의 조약으로 최혜국 대우와 거중조정 조항을 담고","l":"한능검 제70회"},{"n":"우정총국 개국 축하연을 이용하여 정변을 일으켰으며, 이는 한성 조약이 체결되는 계기","l":"한능검 제70회"},{"n":"이인영을 총대장, 허위를 군사장으로 하는 13도 창의군이 결성되어 서울 진공 작전","l":"한능검 제70회"},{"n":"1907년 대구에서 김광제·서상돈 등의 발의로 일본에 진 나랏빚을 갚기 위한 국채 보상 운동","l":"한능검 제70회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 69회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 5. 독립 협회·대한제국·국권 피탈","q":[{"answer":"O","text":"헤이그 특사 파견을 구실로 고종이 강제 퇴위된 뒤인 1909년에 기유각서가 체결되어 대한제국의 사법권과 감옥 사무가 일본에 넘어갔다.","exp":"고종 강제 퇴위(1907) 이후 정미 7조약에 이어 1909년 기유각서로 사법권과 감옥 사무가 박탈되었다. 외교권 박탈(을사늑약)·군대 해산(정미 7조약)과 시기·내용을 구분해 기억한다.","src":"한능검 제69회"},{"answer":"X","text":"헤이그 특사 파견을 구실로 고종이 강제 퇴위된 뒤인 1909년에 기유각서가 체결되어 대한제국의 외교권이 박탈되고 통감부가 설치되었다.","exp":"틀렸다. 기유각서(1909)로 넘어간 것은 사법권과 감옥 사무이다. 외교권 박탈과 통감부 설치는 앞선 을사늑약(1905)의 내용이므로, 조약의 내용을 뒤바꾼 함정이다."}],"tb":[],"wi":[]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"외규장각에 보관되어 있던 의궤 등 각종 도서와 문화재를 약탈해 갔다","l":"한능검 제69회"},{"n":"임오군란의 결과 조선은 일본과 제물포 조약을 체결하여 일본 공사관에 경비병 주둔을 허용","l":"한능검 제69회"},{"n":"군국기무처를 중심으로 추진되어 공사 노비 제도를 혁파하고 과거제를 폐지","l":"한능검 제69회"},{"n":"1907년 대구에서 김광제·서상돈 등의 발의로 일본에 진 나랏빚을 갚기 위한 국채 보상 운동","l":"한능검 제69회"},{"n":"중추원을 개편하여 의회를 설립하려는 운동을 전개하였다","l":"한능검 제69회"},{"n":"대한매일신보는 국채 보상 운동의 확산에 크게 기여","l":"한능검 제69회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표·연표·암기 박스 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     function insAfterLead(pi, blocks) {

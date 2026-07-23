@@ -2218,6 +2218,17 @@
     var TAGS = [{"n":"이원익의 건의로 경기도에서 대동법을 처음 시행","l":"한능검 제70회"},{"n":"국가에서 필요한 물품을 조달하는 공인이 등장하여 활동하였다","l":"한능검 제70회"},{"n":"개성의 송상과 의주의 만상이 대청 무역에 종사","l":"한능검 제70회"},{"n":"서얼 출신의 유득공·박제가·이덕무 등을 규장각 검서관으로 등용","l":"한능검 제70회"},{"n":"거중기를 제작하여 정조 때 수원 화성을 축조","l":"한능검 제70회"},{"n":"양반전·허생전 등에서 양반의 무능과 허위를 풍자","l":"한능검 제70회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 69회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 4. 사회 변동·신분제 동요·농민 항쟁","q":[{"answer":"O","text":"세도 정치기에는 안동 김씨 등 몇몇 외척 가문이 비변사를 비롯한 주요 관직을 독점하면서 관직을 사고파는 매관매직이 널리 성행하였다.","exp":"세도 정치기에는 순조·헌종·철종 3대에 걸쳐 안동 김씨·풍양 조씨 등 외척이 비변사를 장악하고 매관매직과 수탈을 일삼았다. 이러한 정치 문란은 삼정의 문란과 임술 농민 봉기의 배경이 되었다.","src":"한능검 제69회"},{"answer":"X","text":"세도 정치기에는 안동 김씨 등 몇몇 외척 가문이 비변사를 비롯한 주요 관직을 독점하였으나, 관직을 사고파는 매관매직만은 법으로 엄격히 금지하였다.","exp":"뒷부분이 틀렸다. 세도 정치기에는 매관매직이 금지되기는커녕 오히려 성행하였다. 외척 가문이 비변사를 장악하고 관직을 사고팔며 백성을 수탈한 것이 세도 정치의 대표적 폐단이다."}],"tb":[],"wi":[]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"균역법 실시로 줄어든 재정을 보충하기 위하여 일부 부유한 상민에게 선무군관","l":"한능검 제69회"},{"n":"경기도에 한하여 대동법이 처음 실시되었고, 허준이 동의보감을 완성","l":"한능검 제69회"},{"n":"효종은 송시열·이완 등과 함께 청에 당한 치욕을 씻고자 군대를 양성하며","l":"한능검 제69회"},{"n":"숙종 때 기사환국이 일어나 인현왕후가 폐위되고 서인이 대거 쫓겨난","l":"한능검 제69회"},{"n":"북학의를 지은 박제가는 규장각 검서관으로 있으면서","l":"한능검 제69회"},{"n":"경상 우병사 백낙신의 탐학에 맞서 유계춘 등이 진주에서 봉기","l":"한능검 제69회"},{"n":"숙종은 국왕 호위와 수도 방어를 강화하기 위해 금위영을 창설","l":"한능검 제69회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표·연표·핵심 암기 박스 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     function insAfterLead(pi, blocks) {

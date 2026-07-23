@@ -1094,6 +1094,17 @@
     var TAGS = [{"n":"지방 제도를 5경 15부 62주로 정비하였으며","l":"한능검 제70회"},{"n":"목판 인쇄물로 평가되는 「무구정광대다라니경」이 발견되었다","l":"한능검 제70회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 69회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 1. 통일신라 정치","q":[{"answer":"O","text":"나당 전쟁의 마지막 전투에서 사찬 시득이 기벌포에서 설인귀가 이끄는 당의 수군을 크게 무찔러 676년 삼국 통일을 완성하였다.","exp":"기벌포 싸움은 나당 전쟁의 마지막 전투로, 사찬 시득이 설인귀의 당 수군을 격파해 676년 삼국 통일을 완성하였다. 매소성 승리 뒤에 벌어진 전투라는 점과 함께 기억한다.","src":"한능검 제69회"},{"answer":"X","text":"나당 전쟁의 마지막 전투에서 사찬 시득이 기벌포에서 설인귀가 이끄는 당의 수군을 크게 무찔러 668년 삼국 통일을 완성하였다.","exp":"삼국 통일을 완성한 해가 틀렸다. 기벌포 전투로 통일이 완성된 것은 668년이 아니라 676년이다. 668년은 고구려가 멸망한 해이므로 연도를 뒤바꾼 함정이다."}],"tb":[{"k":"p","t":"나당 전쟁의 마지막 전투인 기벌포 싸움(676)에서는 사찬 시득이 설인귀가 이끄는 당의 수군을 격파하여 삼국 통일을 완성하였다. 매소성 싸움 뒤에 벌어진 전투이다."}],"wi":["기벌포 전투(676) = 나당 전쟁 마지막 전투·사찬 시득이 설인귀 수군 격파 → 668년이라 하면 ❌ (668은 고구려 멸망)"]},{"p":"PART 1. 통일신라 정치","q":[{"answer":"O","text":"신문왕은 즉위 6년에 보덕국 사람들을 모아 적금서당과 청금서당을 편성하는 등 중앙군인 9서당을 갖추어 통치 체제를 정비하였다.","exp":"적금서당·청금서당은 신문왕이 보덕국 사람들을 모아 편성한 부대로, 중앙군인 9서당을 이룬다. 9서당에는 고구려·백제·말갈인까지 편성해 민족 융합을 꾀하였다.","src":"한능검 제69회"},{"answer":"X","text":"신문왕은 즉위 6년에 보덕국 사람들을 모아 적금서당과 청금서당을 편성하는 등 지방군인 10정을 9주에 나누어 배치하였다.","exp":"군사 조직이 틀렸다. 적금서당·청금서당은 중앙군인 9서당에 속하며, 10정은 9주에 배치된 별개의 지방군이다. 서당을 지방군 10정이라 서술한 것이 오답이다."}],"tb":[],"wi":["적금서당·청금서당 = 신문왕이 보덕국 사람들로 편성한 9서당(중앙군) → 지방군 10정이라 하면 ❌"]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"장인 김흠돌이 일으킨 반란을 진압","l":"한능검 제69회"},{"n":"수도 경주에는 서시와 남시가 새로 설치되어","l":"한능검 제69회"},{"n":"담당하는 기구로 문적원을 두어","l":"한능검 제69회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     function insAfterLead(pi, blocks) {

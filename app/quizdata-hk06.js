@@ -2174,6 +2174,17 @@
     var TAGS = [{"n":"4군, 두만강 유역에 6진을 개척","l":"한능검 제70회"},{"n":"다섯 가지 의례를 유교식으로 정리한 국조오례의가 완성","l":"한능검 제70회"},{"n":"삼수병으로 편성된 훈련도감이 설치","l":"한능검 제70회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 69회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 4. 통치 조직 (중앙·지방·군사·교육)","q":[{"answer":"O","text":"사헌부는 사간원과 함께 5품 이하 관리의 임명 과정에서 그 가부를 심사하는 서경권을 행사하여 인사의 부정을 견제하였다.","exp":"서경권은 5품 이하 관리 임명이나 법령 제정 때 양사(사헌부·사간원)가 동의 여부를 심사하던 권한으로 권력 독점을 견제하였다. 관리를 감찰한 사헌부와 왕명 출납의 승정원을 혼동하지 않도록 한다.","src":"한능검 제69회"},{"answer":"X","text":"사헌부는 사간원과 함께 5품 이하 관리의 임명 과정에서 서경권을 행사하였으며, 왕명의 출납을 담당하는 국왕의 비서 기관이기도 하였다.","exp":"앞부분(서경권 행사)은 사헌부에 대한 옳은 설명이지만 끝이 틀렸다. 왕명의 출납을 맡은 국왕의 비서 기관은 승정원이며, 사헌부는 감찰과 서경을 담당한 언론 기구이다."}],"tb":[{"k":"p","t":"사헌부는 사간원과 함께 양사(대간)로 불렸으며, 5품 이하 관리를 임명하거나 새 법령을 제정할 때 그 가부를 심사·동의하는 서경권을 행사하여 인사와 입법의 부정을 견제하였다."}],"wi":["📝 \"승정원이 5품 이하 관리 임명 때 서경권을 행사\" → ❌ 서경권은 양사(사헌부·사간원)의 권한이고 승정원은 왕명 출납 기관"]},{"p":"PART 5. 사림의 성장·사화·붕당의 형성","q":[{"answer":"O","text":"조광조는 소학의 보급과 현량과 실시를 주장하며 성리학적 이상 정치를 실현하고자 하였다.","exp":"조광조는 소학 보급으로 유교 윤리를 확산하고 천거제인 현량과로 사림을 등용하려 하였으며, 소격서 폐지·위훈 삭제도 함께 추진하였다. 이러한 급진 개혁이 기묘사화의 배경이 되었다.","src":"한능검 제69회"},{"answer":"X","text":"조광조는 소학의 보급과 현량과 실시를 주장하였으며, 군주가 갖춰야 할 학문을 도식으로 설명한 성학십도를 지어 왕에게 올렸다.","exp":"앞부분(소학 보급·현량과 실시 주장)은 조광조에 대한 옳은 설명이지만 끝이 틀렸다. 성학십도를 지어 왕에게 올린 인물은 조광조가 아니라 이황이다."}],"tb":[{"k":"p","t":"조광조는 소학을 널리 보급하여 성리학적 유교 윤리를 향촌에 확산하고자 하였으며, 이는 현량과 실시·소격서 폐지·위훈 삭제와 함께 그의 급진 개혁 정치의 한 축이었다."}],"wi":["📝 \"조광조가 소학 보급·현량과와 함께 성학십도를 지어 왕에게 올렸다\" → ❌ 성학십도를 지은 인물은 조광조가 아니라 이황"]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"6조 직계제를 부활시키고 집현전과 경연을 폐지하여 왕권을 강화하였으며","l":"한능검 제69회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표/암기 박스/연표 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     // 각 파트 맨 앞의 lead(핵심 요약) 바로 뒤에 '한눈에 보기' 압축 블록을 끼워 넣는다.

@@ -1896,6 +1896,17 @@
     var TAGS = [{"n":"경학사를 조직하고 신흥 강습소를 세웠는데","l":"한능검 제70회"},{"n":"보통 경찰제로 바꾸는 이른바 문화 통치를 표방","l":"한능검 제70회"},{"n":"조선인에게만 태형을 적용하는 조선 태형령을 시행","l":"한능검 제70회"},{"n":"대종교는 중광단을 결성하여 무장 독립 투쟁","l":"한능검 제70회"},{"n":"신간회가 진상 조사단을 파견하는 등 3·1 운동 이후 최대 규모","l":"한능검 제70회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 69회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 3. 국내 민족 운동 (실력 양성·사회·학생·신간회)","q":[{"answer":"O","text":"물산 장려 운동은 회사령이 폐지되어 일본 자본이 조선에 밀려들자 이에 맞서 민족 자본과 산업을 지키려는 배경에서 전개되었다.","exp":"회사령 폐지(1920)로 일본 대자본의 조선 진출이 쉬워지자, 국산품 애용으로 민족 산업을 지키려 한 것이 물산 장려 운동의 배경이다. 회사령을 새로 강화했다는 서술과 방향을 혼동하지 않는다.","src":"한능검 제69회"},{"answer":"X","text":"물산 장려 운동은 회사령이 새로 제정되어 조선인의 회사 설립이 총독의 허가를 받는 허가제로 강화되자 이에 맞서 전개되었다.","exp":"방향이 반대다. 회사령은 1920년 폐지되어 신고제로 바뀌면서 일본 자본이 밀려든 것이 배경이며, 허가제로 새로 강화된 것이 아니다. 허가제 회사령은 1910년 무단 통치기의 정책이다."},{"answer":"O","text":"신간회는 창립 대회에서 정치적·경제적 각성을 촉진하고 단결을 공고히 하며 기회주의를 일체 부인한다는 세 가지 강령을 내세웠다.","exp":"신간회 3대 강령의 핵심은 자치론 같은 타협적 노선(기회주의)을 배격한 점이다. 비타협적 민족주의와 사회주의가 손잡은 민족 유일당의 성격을 강령이 보여 준다.","src":"한능검 제69회"},{"answer":"X","text":"신간회는 창립 대회에서 정치적·경제적 각성을 촉진하고 단결을 공고히 하되, 자치 운동 세력과 협력한다는 강령을 내세웠다.","exp":"마지막이 틀렸다. 신간회는 자치론 등 타협적 노선을 '기회주의'로 규정해 일체 부인하였다. 자치 운동 세력과 협력한다는 서술은 강령의 취지와 정반대다."}],"tb":[],"wi":[]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"평양에서 조만식 등을 중심으로 조선 물산 장려회가 조직되면서 시작되어","l":"한능검 제69회"},{"n":"순종의 인산일을 기회로 학생과 사회주의 계열이 함께 준비하여","l":"한능검 제69회"},{"n":"정우회 선언을 계기로 비타협적 민족주의 세력과 사회주의 세력이 연합하여 창립한","l":"한능검 제69회"},{"n":"1929년 한일 학생 간의 충돌을 계기로 일어나 전국으로 확산되었으며","l":"한능검 제69회"},{"n":"학생들에게 황국 신민 서사를 암송하도록 강요하였다","l":"한능검 제69회"},{"n":"사회 경제 사학의 입장에서 조선 사회 경제사를 저술하여 식민 사관의 정체성론을 비판","l":"한능검 제69회"},{"n":"1940년 충칭에서 한국 광복군을 창설하였고, 태평양 전쟁이 일어나자 일본에 선전 포고","l":"한능검 제69회"},{"n":"의열단은 신채호가 지은 조선 혁명 선언을 활동 지침으로 삼아","l":"한능검 제69회"},{"n":"미군과 연계하여 국내 정진군을 편성하고 국내 진공 작전을 준비","l":"한능검 제69회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     // 각 파트 맨 앞의 lead(핵심 요약) 바로 뒤에 '한눈에 보기' 압축 블록을 끼워 넣는다.
