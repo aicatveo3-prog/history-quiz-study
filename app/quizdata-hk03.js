@@ -1716,6 +1716,17 @@
     var TAGS = [{"n":"22담로에 왕족을 파견하여 지방에 대한 중앙의 통제력을 강화","l":"한능검 제69회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 68회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 1. 고구려","q":[{"answer":"O","text":"안시성의 군사와 백성들이 힘을 모아 성을 굳게 지켜 당 태종이 이끄는 군대를 끝내 물리쳤다.","exp":"645년 당 태종의 침입을 안시성에서 군민이 힘을 합쳐 격퇴한 안시성 싸움이다. 을지문덕의 살수대첩(612)과 함께 고구려의 7세기 대외 항쟁으로 묶어 기억한다.","src":"한능검 제68회"},{"answer":"X","text":"안시성의 군사와 백성들이 힘을 모아 성을 굳게 지켜 수 양제가 이끄는 군대를 끝내 물리쳤다.","exp":"물리친 상대가 틀렸다. 안시성에서 격퇴한 것은 수 양제가 아니라 당 태종의 군대(645)이다. 수 양제의 대군을 무너뜨린 것은 을지문덕의 살수대첩(612)이므로 두 전쟁의 상대를 뒤바꾼 함정이다."}],"tb":[],"wi":["📝 \"안시성에서 수 양제의 군대를 물리쳤다\" → ❌ 안시성 싸움 상대는 당 태종(645), 수 양제는 살수대첩(612)"]},{"p":"PART 5. 삼국 문화·대외 교류·종합","q":[{"answer":"O","text":"고구려 고분인 무용총의 천장에는 별자리를 그린 벽화가 남아 있고, 삼국사기에는 일식과 월식 등 천문 현상을 관측한 기록이 많이 실려 있다.","exp":"삼국은 천문을 중시하여 고구려 고분에 별자리 벽화를 남기고 삼국사기에 일식·월식 관측 기록을 전한다. 농경 사회의 필요와 왕의 권위를 뒷받침한 천문 문화로 이해한다.","src":"한능검 제68회"},{"answer":"X","text":"고구려 고분인 무용총의 천장에는 별자리를 그린 벽화가 남아 있고, 조선 선조 때 만든 비격진천뢰에도 천문 현상을 관측한 기록이 자세히 새겨져 있다.","exp":"뒷부분이 틀렸다. 비격진천뢰는 천문 관측과 무관한 조선 선조 때의 폭발 무기이다. 삼국의 천문 문화를 보여 주는 것은 무용총 별자리 벽화와 삼국사기의 일식·월식 관측 기록이다."}],"tb":[{"k":"p","t":"삼국은 천문을 중시하여 고구려 무용총 천장에 별자리 벽화를 남기고, 삼국사기에는 일식·월식 등 천문 현상의 관측 기록이 많이 실려 있다. 천문 관측은 농경 사회의 필요와 왕의 권위를 뒷받침하였다."}],"wi":["비격진천뢰 = 조선 선조 때 무기 ❌ → 삼국 천문 문화는 무용총 별자리 벽화·삼국사기 일식 관측 ⭕"]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"신라의 배신으로 관산성 전투에서 전사하였다","l":"한능검 제68회"},{"n":"낙랑과 왜 사이에서 중계 무역을 전개하였다","l":"한능검 제68회"},{"n":"소수림왕은 유학 교육 기관인 태학을 설립하고 율령을 반포","l":"한능검 제68회"},{"n":"수도에 태학을, 지방에 경당을 두어 인재를 양성","l":"한능검 제68회"},{"n":"능산리 고분군에는 사신도 벽화가 그려진 굴식 돌방무덤이 남아 있다","l":"한능검 제68회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표·연표·핵심 암기 박스 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     function insAfterLead(pi, blocks) {

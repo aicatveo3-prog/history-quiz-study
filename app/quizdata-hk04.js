@@ -1105,6 +1105,17 @@
     var TAGS = [{"n":"장인 김흠돌이 일으킨 반란을 진압","l":"한능검 제69회"},{"n":"수도 경주에는 서시와 남시가 새로 설치되어","l":"한능검 제69회"},{"n":"담당하는 기구로 문적원을 두어","l":"한능검 제69회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 68회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 3. 발해","q":[{"answer":"O","text":"발해를 대표하는 불상인 이불병좌상은 고구려 양식을 계승한 것으로, 두 부처가 나란히 앉아 있는 모습으로 조각되어 있다.","exp":"이불병좌상은 두 부처가 나란히 앉은 발해의 대표 불상으로, 고구려 문화 계승을 보여 준다. 벽돌 누각식 전탑인 영광탑과 함께 발해 불교문화의 대표 유산으로 꼽힌다.","src":"한능검 제68회"},{"answer":"X","text":"발해를 대표하는 불상인 이불병좌상은 고구려 양식을 계승한 것으로, 하나의 부처가 홀로 앉아 있는 모습으로 조각되어 있다.","exp":"이불병좌상의 모습이 틀렸다. 이불병좌상은 하나가 아니라 두 부처가 나란히 앉은 모습으로 만들어진 발해의 대표 불상이다. '이불(二佛)'이라는 이름 자체가 두 부처를 뜻한다."},{"answer":"O","text":"중국 지린성 창바이 조선족 자치현에 남아 있는 영광탑은 벽돌을 쌓아 만든 누각식 전탑으로, 발해의 문화유산으로 평가된다.","exp":"영광탑은 지린성 창바이현에 있는 발해의 벽돌 전탑으로, 지하에 무덤 공간을 둔 독특한 구조다. 벽돌로 쌓은 전탑이라는 점에서 발해가 당의 문화 요소도 받아들였음을 보여 준다.","src":"한능검 제68회"},{"answer":"X","text":"중국 지린성 창바이 조선족 자치현에 남아 있는 영광탑은 벽돌을 쌓아 만든 누각식 전탑으로, 고구려의 문화유산으로 평가된다.","exp":"국가가 틀렸다. 영광탑은 고구려가 아니라 발해의 벽돌 전탑이다. 지린성 창바이현에 위치하며 지하에 무덤 공간을 둔 발해의 대표적 전탑 유산이다."}],"tb":[{"k":"p","t":"영광탑은 중국 지린성 창바이 조선족 자치현에 남아 있는 발해의 벽돌 전탑으로, 여러 층을 쌓아 올린 누각식 구조에 지하 무덤 공간을 둔 것이 특징이다. 두 부처가 나란히 앉은 이불병좌상과 함께 발해 불교문화를 대표하는 유산으로 꼽힌다."}],"wi":["영광탑 = 발해의 벽돌 누각식 전탑(지린성 창바이현) → 고구려·통일신라 유산이라 하면 ❌","이불병좌상 = 두 부처가 나란히 앉은 발해 대표 불상(고구려 계승) → 한 부처·백제 계승이라 하면 ❌"]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"원종과 애노가 사벌주에서 봉기하여 나라의 혼란","l":"한능검 제68회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     function insAfterLead(pi, blocks) {

@@ -2229,6 +2229,17 @@
     var TAGS = [{"n":"균역법 실시로 줄어든 재정을 보충하기 위하여 일부 부유한 상민에게 선무군관","l":"한능검 제69회"},{"n":"경기도에 한하여 대동법이 처음 실시되었고, 허준이 동의보감을 완성","l":"한능검 제69회"},{"n":"효종은 송시열·이완 등과 함께 청에 당한 치욕을 씻고자 군대를 양성하며","l":"한능검 제69회"},{"n":"숙종 때 기사환국이 일어나 인현왕후가 폐위되고 서인이 대거 쫓겨난","l":"한능검 제69회"},{"n":"북학의를 지은 박제가는 규장각 검서관으로 있으면서","l":"한능검 제69회"},{"n":"경상 우병사 백낙신의 탐학에 맞서 유계춘 등이 진주에서 봉기","l":"한능검 제69회"},{"n":"숙종은 국왕 호위와 수도 방어를 강화하기 위해 금위영을 창설","l":"한능검 제69회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 68회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 3. 수취 체제 개편·경제 변화","q":[{"answer":"O","text":"조선 후기에는 송파장 등 장시에서 산대놀이가 공연되고 상평통보가 유통되었으며, 쌀·고추·담배 등이 상품 작물로 재배되었다.","exp":"장시의 성장, 상평통보 유통, 상품 작물 재배는 모두 조선 후기 경제·사회의 모습이다. 송의 상인이 드나든 벽란도의 번영은 조선 후기가 아니라 고려 시대의 일이므로 시대를 혼동하지 말아야 한다.","src":"한능검 제68회"}],"tb":[],"wi":[]},{"p":"PART 4. 사회 변동·신분제 동요·농민 항쟁","q":[{"answer":"O","text":"조선 후기의 역관은 사역원에서 노걸대·박통사 같은 교재로 외국어를 익히고 사신단을 따라 연행사를 수행하였으며, 변승업처럼 대외 무역으로 부를 축적하기도 하였다.","exp":"역관은 사역원에서 노걸대·박통사 등으로 외국어를 배운 중인 신분의 기술관으로, 통역과 연행사 수행을 맡고 무역으로 부를 쌓기도 하였다. 향촌의 행정 실무를 맡은 향리와 역할을 구분해야 한다.","src":"한능검 제68회"},{"answer":"X","text":"조선 후기의 역관은 사역원에서 노걸대·박통사 같은 교재로 외국어를 익히고 사신단을 따라 통역을 맡았으며, 수령을 보좌하여 향촌의 행정 실무를 도맡아 처리하였다.","exp":"마지막이 다른 신분의 역할이다. 역관이 사역원에서 외국어를 배워 통역을 맡은 것은 맞지만, 수령을 보좌해 향촌 실무를 담당한 것은 향리이다. 역관과 향리의 직임을 뒤바꾼 함정이다."}],"tb":[],"wi":["역관 = 사역원에서 노걸대·박통사로 외국어 학습 (수령 보좌 향촌 실무는 향리 ❌)"]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"2필씩 내던 군포를 1필로 줄이는","l":"한능검 제68회"},{"n":"기해예송에서는 서인의 주장이 받아들여지고","l":"한능검 제68회"},{"n":"지구가 스스로 돈다는 지전설과 우주가 무한하다는","l":"한능검 제68회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표·연표·핵심 암기 박스 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     function insAfterLead(pi, blocks) {

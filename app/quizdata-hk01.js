@@ -1683,6 +1683,17 @@
     var TAGS = [{"n":"가락바퀴와 뼈바늘을 이용해 실을 뽑고 옷을 지어 입었다","l":"한능검 제69회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 68회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 3. 청동기 시대","q":[{"answer":"O","text":"고창 고인돌 유적은 계급이 발생한 청동기 시대 지배층의 무덤으로, 그 가치를 인정받아 유네스코 세계유산으로 등재되었다.","exp":"고인돌은 청동기 시대 군장(지배층)의 무덤으로 계급 사회의 발생을 보여 주며, 고창·화순·강화 고인돌 유적이 유네스코 세계유산으로 등재되어 있다. 계급이 없던 신석기 시대의 공동 무덤으로 오해하지 않도록 한다.","src":"한능검 제68회"},{"answer":"X","text":"고창 고인돌 유적은 계급이 발생한 청동기 시대 지배층의 무덤이지만, 그 가치를 인정받지 못해 유네스코 세계유산에서 제외되었다.","exp":"고창·화순·강화의 고인돌 유적은 유네스코 세계유산으로 등재되어 있으므로 '제외되었다'는 서술이 틀렸다. 고인돌은 청동기 시대 지배층(군장)의 무덤으로 계급 발생을 보여 준다."}],"tb":[],"wi":[]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"반달 돌칼을 사용하여 곡식의 이삭을 거두어들였다","l":"한능검 제68회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     // 각 파트 맨 앞의 lead(핵심 요약) 바로 뒤에 '한눈에 보기' 압축 블록을 끼워 넣는다.
