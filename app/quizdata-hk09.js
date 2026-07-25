@@ -1940,6 +1940,17 @@
     var TAGS = [{"n":"아(我)와 비아(非我)의 투쟁으로 보고","l":"한능검 제66회"},{"n":"쌍성보와 대전자령 전투에서 일본군을 물리쳤다","l":"한능검 제66회"},{"n":"임시 토지 조사국을 설치하고 기한부 신고제","l":"한능검 제66회"},{"n":"신간회가 진상 조사단을 파견하는 등 3·1 운동 이후 최대 규모","l":"한능검 제66회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 65회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 2. 3·1 운동과 대한민국 임시 정부·국외 독립운동 기지","q":[{"answer":"O","text":"대한민국 임시 정부는 외교 활동을 위해 미국 워싱턴에 구미 위원부를 설치하였다.","exp":"구미 위원부는 이승만을 중심으로 워싱턴에 세워진 임시 정부의 외교 기관이다. 프랑스 파리에 둔 파리 위원부(김규식)와 설치 지역·인물을 짝지어 구분한다.","src":"한능검 제65회"},{"answer":"X","text":"대한민국 임시 정부는 외교 활동을 위해 김규식을 중심으로 프랑스 파리에 구미 위원부를 설치하였다.","exp":"외교를 위해 위원부를 둔 것은 맞으나 지역·명칭이 틀렸다. 파리에는 김규식 중심의 파리 위원부를 두었고, 구미 위원부는 이승만 중심으로 워싱턴에 설치되었다."}],"tb":[],"wi":[]},{"p":"PART 5. 민족 문화 수호 운동과 사회·문화","q":[{"answer":"O","text":"최현배는 주시경의 영향을 받아 국어 운동에 힘쓰다가 조선어 학회 사건으로 옥고를 치렀으며, 광복 이후 국어 교과서 편찬에 앞장섰다.","exp":"최현배는 조선어 학회에서 한글 맞춤법 통일안·큰사전 편찬에 참여하다 1942년 조선어 학회 사건으로 투옥된 국어학자다. 한국통사를 쓴 박은식, 낭가 사상의 신채호 등 사학자와 활동 분야가 다르다.","src":"한능검 제65회"},{"answer":"X","text":"최현배는 주시경의 영향을 받아 국어 운동에 힘쓰다가, 파리 강화 회의에 민족 대표로 파견되어 독립 청원서를 제출하였다.","exp":"국어 운동에 힘쓴 것은 맞으나 뒷부분이 틀렸다. 파리 강화 회의에 파견되어 독립 청원서를 낸 인물은 김규식이며, 최현배는 조선어 학회 사건으로 옥고를 치렀다."}],"tb":[],"wi":[]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"헌병이 일반 경찰 업무까지 담당하는 헌병 경찰제가 실시되어","l":"한능검 제65회"},{"n":"조선 민립 대학 기성회를 조직하고 모금 운동을 벌였으나","l":"한능검 제65회"},{"n":"국가 총동원법을 제정하여 조선의 인력과 물자를 전쟁에 강제로 동원","l":"한능검 제65회"},{"n":"중국 우한에서 조선 의용대가 창설되었으며, 대원 가운데 일부는 뒷날 한국 광복군에 합류","l":"한능검 제65회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     // 각 파트 맨 앞의 lead(핵심 요약) 바로 뒤에 '한눈에 보기' 압축 블록을 끼워 넣는다.

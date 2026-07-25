@@ -2218,6 +2218,17 @@
     var TAGS = [{"n":"거느리던 사병을 혁파하여 군사 지휘권을 국왕에게 집중","l":"한능검 제66회"},{"n":"갑자사화(1504)는 연산군이 자신의 생모인 폐비 윤씨가 폐위되고 사사된 사건","l":"한능검 제66회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 65회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 6. 대외 관계·임진왜란·조선 전기 문화","q":[{"answer":"O","text":"병자호란 때 김준룡이 광교산 전투에서 청군을 상대로 승리를 거두었다.","exp":"병자호란 당시 김준룡은 광교산에서 청군을 물리치는 전과를 올렸다. 정묘호란 때 정봉수의 용골산성 항전과 전쟁·장소를 혼동하지 않도록 구분한다.","src":"한능검 제65회"},{"answer":"X","text":"병자호란 때 김준룡이 광교산 전투에서 청군을 크게 무찌른 뒤 곧바로 남한산성의 포위를 풀었다.","exp":"김준룡이 광교산에서 청군을 물리친 것은 사실이나 이 승리로 남한산성의 포위가 풀린 것은 아니다. 인조는 남한산성에서 항전하다 결국 삼전도에서 항복하였다."},{"answer":"O","text":"임진왜란 때 진주 목사 김시민이 진주성에서 왜군의 대규모 공격을 여러 차례 물리치고 진주 대첩을 이끌었다.","exp":"진주 대첩은 김시민이 진주성을 지켜 낸 승리로 임진왜란 3대 대첩의 하나이다. 권율의 행주 대첩, 이순신의 한산도 대첩과 함께 묶어 기억한다.","src":"한능검 제65회"},{"answer":"X","text":"임진왜란 때 진주 목사 김시민이 진주성에서 왜군의 대규모 공격을 여러 차례 물리치고 행주 대첩을 이끌었다.","exp":"김시민이 이끈 승리는 진주성에서의 진주 대첩이다. 행주 대첩은 권율이 행주산성에서 거둔 승리로, 대첩의 이름과 장소가 뒤바뀌었다."}],"tb":[],"wi":[]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"위화도에서 군대를 돌려 개경으로 회군한 뒤 최영을 제거하고","l":"한능검 제65회"},{"n":"성종은 집현전을 계승한 홍문관을 설치하고 경연을 활성화","l":"한능검 제65회"},{"n":"을사사화(1545)는 명종이 어린 나이로 즉위한 뒤 외척인 대윤(윤임)","l":"한능검 제65회"},{"n":"1453년 수양대군은 계유정난을 일으켜 김종서와 황보인 등 대신들을","l":"한능검 제65회"},{"n":"안견은 안평대군의 꿈을 그린 몽유도원도를, 강희안","l":"한능검 제65회"},{"n":"세종 때 이종무는 왜구의 근거지인 쓰시마섬(대마도)을 정벌","l":"한능검 제65회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표/암기 박스/연표 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     // 각 파트 맨 앞의 lead(핵심 요약) 바로 뒤에 '한눈에 보기' 압축 블록을 끼워 넣는다.

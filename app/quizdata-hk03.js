@@ -1749,6 +1749,17 @@
     var TAGS = [{"n":"도굴이 어려워 금관 등 많은 껴묻거리가 온전히 보존","l":"한능검 제66회"},{"n":"영락'이라는 독자적인 연호를 사용하며 만주 일대로","l":"한능검 제66회"},{"n":"신라 내물왕의 요청을 받아 군대를 보내 신라에 침입한 왜를 격퇴","l":"한능검 제66회"},{"n":"익산 지역에 미륵사를 창건","l":"한능검 제66회"},{"n":"살수에서 수 양제가 보낸 대군을 크게 무찔러","l":"한능검 제66회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 65회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 3. 신라","q":[{"answer":"O","text":"경주 호우총에서 출토된 호우명 그릇에는 광개토대왕을 가리키는 명문이 새겨져 있어 신라와 고구려의 정치적 관계를 짐작하게 한다.","exp":"호우명 그릇은 경주 호우총에서 나온 유물로, 바닥에 새겨진 광개토대왕 명문을 통해 5세기 신라가 고구려의 정치적 영향 아래 있었음을 보여 준다. 광개토대왕이 신라에 쳐들어온 왜를 물리쳐 준 일(400)의 결과와 연결해 기억한다.","src":"한능검 제65회"},{"answer":"X","text":"경주 호우총에서 출토된 호우명 그릇에는 광개토대왕을 가리키는 명문이 새겨져 있어 신라와 백제의 정치적 관계를 짐작하게 한다.","exp":"관계를 맺은 상대가 틀렸다. 호우명 그릇의 광개토대왕 명문이 보여 주는 것은 신라와 백제가 아니라 신라와 고구려의 정치적 관계이다. 광개토대왕의 신라 구원(400) 이후 고구려의 영향력이 신라에까지 미쳤음을 뒷받침한다."}],"tb":[{"k":"p","t":"경주 호우총에서 출토된 호우명 그릇에는 '광개토지호태왕(광개토대왕)'을 가리키는 명문이 새겨져 있어, 5세기 신라가 고구려의 정치적 영향 아래 있었음을 보여 준다. 이는 광개토대왕이 신라에 침입한 왜를 물리쳐 준 일(400)의 결과이기도 하다."}],"wi":["호우명 그릇 = 경주 호우총 출토·광개토대왕 명문 → 신라와 고구려의 관계 ⭕ (신라와 백제의 관계라 하면 ❌)"]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"평양성을 공격하자 고구려 고국원왕이","l":"한능검 제65회"},{"n":"보장왕의 외손 안승을 왕으로 받들어","l":"한능검 제65회"},{"n":"무령왕릉을 통해 무령왕이 중국 남조, 왜 등과 활발히 교류","l":"한능검 제65회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표·연표·핵심 암기 박스 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     function insAfterLead(pi, blocks) {

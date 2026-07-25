@@ -2262,6 +2262,17 @@
     var TAGS = [{"n":"강홍립을 파견하되 정세를 살펴 대처하게 하였다","l":"한능검 제66회"},{"n":"속대전을 편찬하고 문물제도를 정리한 동국문헌비고를 간행","l":"한능검 제66회"},{"n":"지구가 스스로 돈다는 지전설과 우주가 무한하다는 무한우주론을 주장","l":"한능검 제66회"},{"n":"청에 당한 치욕을 씻고자 군대를 양성하며 북벌 운동을 추진","l":"한능검 제66회"},{"n":"신라와 발해가 병존한 시기를 남북국 시대라 부를 것을 처음으로 제안","l":"한능검 제66회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 65회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 5. 성리학의 변화와 실학","q":[{"answer":"O","text":"이익은 성호사설에서 나라를 좀먹는 여섯 가지 폐단을 지적하였고, 곽우록에서 토지 매매를 제한하는 한전론을 제시하였다.","exp":"이익은 성호사설에서 과거·문벌·노비 등을 여섯 좀으로 비판하고, 곽우록에서 영업전의 매매를 금지하는 한전론을 폈다. 신분에 따라 토지를 차등 분배하는 유형원의 균전론과 개념을 구별해야 한다.","src":"한능검 제65회"},{"answer":"X","text":"이익은 성호사설에서 나라를 좀먹는 여섯 가지 폐단을 지적하였고, 곽우록에서 신분에 따라 토지를 차등 분배하는 균전론을 제시하였다.","exp":"뒷부분이 틀렸다. 곽우록에서 이익이 제시한 것은 균전론이 아니라 토지 매매를 제한하는 한전론이다. 신분에 따라 토지를 차등 분배하는 균전론은 유형원이 반계수록에서 주장하였다."}],"tb":[],"wi":[]},{"p":"PART 6. 조선 후기 문화·예술과 종교","q":[{"answer":"O","text":"조선 후기에는 신재효가 판소리를 체계적으로 정리하였으며, 한글 소설이 널리 읽히고 사설시조가 유행하는 등 서민 문화가 발달하였다.","exp":"신재효는 판소리 여섯 마당을 정리하여 판소리 발전에 기여하였고, 한글 소설·사설시조와 함께 서민 문화가 꽃피었다. 판소리 유행은 조선 후기의 특징으로, 조선 전기 사실과 섞이지 않도록 주의한다.","src":"한능검 제65회"},{"answer":"X","text":"조선 후기에는 한글 소설이 널리 읽히고 사설시조가 유행하였으며, 판소리는 김홍도에 의해 여섯 마당으로 체계적으로 정리되었다.","exp":"판소리를 여섯 마당으로 정리한 인물이 틀렸다. 판소리를 체계적으로 정리한 인물은 김홍도가 아니라 신재효이다. 김홍도는 서민의 일상을 그린 풍속화의 대표 화가로, 인물을 뒤바꾼 함정이다."}],"tb":[],"wi":["📝 \"판소리를 김홍도가 여섯 마당으로 정리\" → ❌ 판소리를 정리한 인물은 신재효 (김홍도 = 풍속화가)"]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"육의전을 제외한 시전 상인의 금난전권을 폐지하고 자유로운","l":"한능검 제65회"},{"n":"국가에서 필요한 물품을 조달하는 공인이 등장하여 활동하였다","l":"한능검 제65회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표·연표·핵심 암기 박스 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     function insAfterLead(pi, blocks) {

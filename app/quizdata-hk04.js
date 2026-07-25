@@ -1138,6 +1138,17 @@
     var TAGS = [{"n":"토지의 종류와 면적, 인구, 소와 말의 수 등을 조사하여 3년마다","l":"한능검 제66회"},{"n":"완도에 청해진을 설치하고 해적을 소탕하여","l":"한능검 제66회"},{"n":"자신의 아버지 김주원이 왕위에 오르지 못한 것에 불만을 품고 웅천주","l":"한능검 제66회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 65회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 2. 통일신라 경제·사회·문화","q":[{"answer":"O","text":"원효의 아들인 설총은 한자의 음과 훈을 빌려 우리말을 표기하는 이두를 체계적으로 정리하였으며, 국왕에게 조언하는 내용을 담은 「화왕계」를 지어 올렸다.","exp":"설총은 이두를 정리하고 꽃(화왕)을 임금에 빗대어 바른 정치를 권한 「화왕계」를 지은 6두품 유학자로, 원효의 아들이다. 향가 모음집 「삼대목」을 편찬한 위홍·대구화상과 활동을 구분해 두어야 한다.","src":"한능검 제65회"},{"answer":"X","text":"원효의 아들인 설총은 한자의 음과 훈을 빌려 우리말을 표기하는 이두를 체계적으로 정리하였으며, 진성여왕의 명을 받아 향가 모음집인 「삼대목」을 편찬하였다.","exp":"마지막 서술이 틀렸다. 「삼대목」은 설총이 아니라 진성여왕 때 각간 위홍과 대구화상이 편찬한 향가집이다. 설총이 국왕에게 지어 올린 대표 저술은 「화왕계」이다."}],"tb":[{"k":"p","t":"설총은 원효의 아들로, 한자의 음과 훈을 빌려 우리말을 적는 이두를 체계적으로 정리하였다. 또 꽃을 임금에 빗대어 바른 정치를 권하는 「화왕계」를 지어 국왕에게 조언하였으며, 경주 서악 서원에서 제사를 받든 유학자이다."}],"wi":["화왕계 = 설총(원효의 아들·이두 정리) ⭕ / 삼대목 = 위홍·대구화상(진성여왕) ❌"]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"발해는 대흥·건흥 등 독자적 연호를 사용하고","l":"한능검 제65회"},{"n":"완도에 청해진을 설치하고 해적을 소탕하여","l":"한능검 제65회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     function insAfterLead(pi, blocks) {
