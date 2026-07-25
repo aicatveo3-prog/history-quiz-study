@@ -1727,6 +1727,17 @@
     var TAGS = [{"n":"신라의 배신으로 관산성 전투에서 전사하였다","l":"한능검 제68회"},{"n":"낙랑과 왜 사이에서 중계 무역을 전개하였다","l":"한능검 제68회"},{"n":"소수림왕은 유학 교육 기관인 태학을 설립하고 율령을 반포","l":"한능검 제68회"},{"n":"수도에 태학을, 지방에 경당을 두어 인재를 양성","l":"한능검 제68회"},{"n":"능산리 고분군에는 사신도 벽화가 그려진 굴식 돌방무덤이 남아 있다","l":"한능검 제68회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 67회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 5. 삼국 문화·대외 교류·종합","q":[{"answer":"O","text":"분황사 모전석탑은 돌을 벽돌 모양으로 다듬어 쌓은 것으로, 현존하는 신라 석탑 가운데 가장 오래된 것이다.","exp":"분황사 모전석탑은 선덕여왕 때 세워진 것으로 추정되며, 돌을 벽돌 모양으로 다듬어 쌓은 모전석탑이다. 목탑 양식을 본뜬 익산 미륵사지 석탑(백제)과 나라를 구분해 기억한다.","src":"한능검 제67회"},{"answer":"X","text":"분황사 모전석탑은 돌을 벽돌 모양으로 다듬어 쌓은 것으로, 현존하는 백제 석탑 가운데 가장 오래된 것이다.","exp":"석탑의 소속 나라가 틀렸다. 분황사 모전석탑은 백제가 아니라 신라의 석탑으로, 현존하는 신라 탑 가운데 가장 오래되었다. 돌을 벽돌 모양으로 다듬은 모전 양식과 신라라는 소속을 함께 외운다."}],"tb":[{"k":"p","t":"분황사 모전석탑은 선덕여왕 때 세워진 것으로 추정되며, 돌을 벽돌 모양으로 다듬어 쌓은 모전석탑으로 현존하는 신라 석탑 가운데 가장 오래되었다."}],"wi":["분황사 모전석탑 = 현존 최고(最古) 신라 석탑·모전 양식 (백제 석탑이라 하면 ❌)"]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"국호를 남부여로 고쳤으며, 중앙 관청을 22부로","l":"한능검 제67회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표·연표·핵심 암기 박스 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     function insAfterLead(pi, blocks) {

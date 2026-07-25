@@ -1641,6 +1641,17 @@
     var TAGS = [{"n":"가(加)들이 있어 각기 사출도를 다스렸다","l":"한능검 제68회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 67회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 1. 고조선","q":[{"answer":"O","text":"명도전은 철기 시대에 중국 연과의 활발한 교류 관계를 보여 주는 화폐로, 한반도와 만주 일대에서 출토된다.","exp":"옳다. 명도전은 중국 연·제에서 만든 청동 화폐로, 철기 시대 중국과의 교역을 보여 준다. 진·한의 반량전·오수전과 함께 중국 화폐 교류 유물로 묶어 기억한다.","src":"한능검 제67회"},{"answer":"X","text":"명도전은 철기 시대의 유물로 중국과의 교류를 보여 주는데, 이는 고조선이 독자적으로 만들어 사용한 우리나라 최초의 금속 화폐이다.","exp":"틀림. 명도전은 고조선이 만든 것이 아니라 중국 연·제에서 만들어져 들어온 화폐로, 당시 중국과의 교역을 보여 준다. 우리나라가 자체 제작한 화폐라는 서술이 잘못이다."}],"tb":[{"k":"p","t":"철기 시대에는 중국과의 교류를 보여 주는 화폐 유물이 출토된다. 명도전은 중국 연·제의 청동 화폐로 연과의 교류를 보여 주며, 반량전·오수전은 진·한의 화폐로 함께 중국과의 교역을 알려 준다."}],"wi":["명도전 = 중국 연의 화폐로 철기 시대 교류를 보여 줌 ⭕ / 고조선이 만든 우리나라 최초 화폐 ❌"]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"해마다 10월에 동맹이라는 제천 행사를 열어 하늘에 제사를 지냈다","l":"한능검 제67회"},{"n":"5월과 10월에 계절제를 열어 하늘에 제사를 지냈다","l":"한능검 제67회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표·암기 박스·연표 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     // 각 파트 맨 앞의 lead(핵심 요약) 바로 뒤에 '한눈에 보기' 압축 블록을 끼워 넣는다.

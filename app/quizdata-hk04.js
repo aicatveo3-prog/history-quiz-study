@@ -1116,6 +1116,17 @@
     var TAGS = [{"n":"원종과 애노가 사벌주에서 봉기하여 나라의 혼란","l":"한능검 제68회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 67회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 1. 통일신라 정치","q":[{"answer":"O","text":"신문왕은 아버지 문무왕을 기리기 위해 감은사를 완성하였으며, 용에게서 만파식적과 검은 옥대를 얻었다는 설화를 남겼다.","exp":"감은사 완공과 만파식적 설화는 아버지 문무왕을 이어 왕권을 다진 신문왕과 관련된 이야기다. 신문왕의 김흠돌의 난 진압·관료전 지급과 함께 중대 왕권 강화의 상징으로 묶어 기억한다.","src":"한능검 제67회"},{"answer":"X","text":"신문왕은 아버지를 기리기 위해 감은사를 완성하고 만파식적 설화를 남겼는데, 그가 기린 아버지는 나당 전쟁을 승리로 이끈 무열왕이었다.","exp":"기린 대상이 틀렸다. 감은사는 무열왕이 아니라 나당 전쟁을 승리로 이끈 아버지 문무왕을 기려 신문왕이 완성한 절이다. 무열왕은 통일 전에 죽었고 나당 전쟁을 이끈 왕은 문무왕이다."},{"answer":"O","text":"혜공왕 피살 이후 왕위 다툼이 이어지던 신라 하대에 청해진을 근거로 성장한 장보고가 진골 귀족의 왕위 쟁탈전에 가담하였다.","exp":"장보고는 청해진의 군사력·경제력을 바탕으로 하대의 왕위 계승 다툼에까지 개입하였다. 지방에서 성장한 세력이 중앙 정치를 흔든 사례로, 뒤의 호족 대두와 이어진다.","src":"한능검 제67회"},{"answer":"X","text":"혜공왕 피살 이후 왕위 다툼이 이어지던 신라 하대에 청해진을 근거로 성장한 장보고가 웅천주를 거점으로 반란을 일으켰다.","exp":"반란의 주체와 지역이 틀렸다. 웅천주를 근거로 반란을 일으킨 것은 장보고가 아니라 김헌창이다. 장보고는 완도의 청해진을 근거로 왕위 쟁탈전에 가담하였다."}],"tb":[{"k":"p","t":"신문왕은 아버지 문무왕의 명복을 빌기 위해 감은사를 완성하였고, 용에게서 만파식적과 검은 옥대를 얻었다는 설화가 전한다. 만파식적은 나라의 평안을 상징하는 신문왕 대의 신물로 이야기된다."}],"wi":["감은사·만파식적 = 신문왕이 아버지 문무왕을 기림 ⭕ → 무열왕을 기렸다 하면 ❌"]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"현세의 고난에서 구제받고자 하는 관음 신앙을 이끌어","l":"한능검 제67회"},{"n":"귀족의 경제 기반이던 녹읍을 폐지하였으며","l":"한능검 제67회"},{"n":"최고 교육 기관으로 주자감을 두었다","l":"한능검 제67회"},{"n":"안승을 금마저(익산)에 머물게 하고 보덕국의 왕으로 삼아 당의 세력에 맞서게 하였다","l":"한능검 제67회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     function insAfterLead(pi, blocks) {

@@ -2196,6 +2196,17 @@
     var TAGS = [{"n":"정도전은 조선경국전을 저술하여 새 왕조의","l":"한능검 제68회"},{"n":"직전법을 시행하고 간경도감을 두어 불경을","l":"한능검 제68회"},{"n":"전분 6등법, 그해의 풍흉에 따라 연분 9등법으로 나누어","l":"한능검 제68회"},{"n":"승정원은 왕명의 출납을 맡은 국왕의 비서 기관으로 도승지","l":"한능검 제68회"},{"n":"회백색 흙을 입힌 분청사기가 유행하다가","l":"한능검 제68회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 67회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 6. 대외 관계·임진왜란·조선 전기 문화","q":[{"answer":"O","text":"고려사는 조선 건국을 정당화하는 입장에서 고려의 역사를 정리한 기전체 사서로, 본기 대신 세가를 두고 우왕과 창왕을 신씨로 보아 열전에 실었다.","exp":"고려사는 조선 초 정인지·김종서 등이 완성한 기전체 사서로, 새 왕조의 정당성을 강조하는 관점에서 편찬되었다. 우왕·창왕을 정통 국왕(세가)이 아닌 신씨(열전)로 처리한 점이 특징이다.","src":"한능검 제67회"},{"answer":"X","text":"고려사는 조선 건국을 정당화하는 입장에서 편찬한 기전체 사서로, 우왕과 창왕을 정통 국왕으로 보아 세가에 수록하여 그 정통성을 인정하였다.","exp":"앞부분은 옳지만 끝이 틀렸다. 고려사는 우왕·창왕을 정통 국왕으로 보지 않고 신씨로 규정하여 세가가 아닌 열전에 실었다. 세가에 넣어 정통성을 인정했다는 서술이 잘못이다."}],"tb":[],"wi":[]},{"p":"PART 4. 통치 조직 (중앙·지방·군사·교육)","q":[{"answer":"O","text":"유향소는 향촌의 덕망 있는 양반들로 구성되어 좌수와 별감을 중심으로 운영되면서 수령을 보좌하고 향리의 비리를 규찰하였다.","exp":"유향소는 향촌 자치 기구로 좌수·별감을 두어 수령을 돕고 향리를 감시하였다. 이시애의 난으로 한때 혁파되었다가 성종 때 다시 설치되었으며, 이를 중앙에서 통제한 기구가 경재소이다.","src":"한능검 제67회"},{"answer":"X","text":"유향소는 향촌 양반들로 구성되어 좌수와 별감을 중심으로 운영되었으며, 국왕이 지방에 직접 파견하여 수령을 대신해 고을 행정을 총괄한 지방관이었다.","exp":"끝이 틀렸다. 유향소는 국왕이 파견한 지방관이 아니라 향촌 양반들의 자치 기구로, 수령을 보좌하고 향리를 규찰하였다. 고을 행정을 총괄한 지방관은 수령이다."}],"tb":[],"wi":[]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"6진을 개척하여 오늘날과 같은 국경선을 확정하였다","l":"한능검 제67회"},{"n":"권율이 행주산성에서 왜군을 크게 물리쳤다","l":"한능검 제67회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표/암기 박스/연표 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     // 각 파트 맨 앞의 lead(핵심 요약) 바로 뒤에 '한눈에 보기' 압축 블록을 끼워 넣는다.
