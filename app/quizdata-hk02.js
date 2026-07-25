@@ -1652,6 +1652,17 @@
     var TAGS = [{"n":"해마다 10월에 동맹이라는 제천 행사를 열어 하늘에 제사를 지냈다","l":"한능검 제67회"},{"n":"5월과 10월에 계절제를 열어 하늘에 제사를 지냈다","l":"한능검 제67회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 66회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"예물을 치르고 혼인하는 민며느리제라는 혼인 풍습이 있었다","l":"한능검 제66회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표·암기 박스·연표 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     // 각 파트 맨 앞의 lead(핵심 요약) 바로 뒤에 '한눈에 보기' 압축 블록을 끼워 넣는다.

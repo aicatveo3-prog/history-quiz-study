@@ -3,12 +3,12 @@
 window.CHAPTER_LIST = [
   { id: "hk01", num: 1, title: "한국사 제1편 (선사 시대)", file: "quizdata-hk01.js", count: 100 },
   { id: "hk02", num: 2, title: "한국사 제2편 (고조선·초기 국가)", file: "quizdata-hk02.js", count: 93 },
-  { id: "hk03", num: 3, title: "한국사 제3편 (삼국·가야)", file: "quizdata-hk03.js", count: 149 },
-  { id: "hk04", num: 4, title: "한국사 제4편 (남북국)", file: "quizdata-hk04.js", count: 91 },
-  { id: "hk05", num: 5, title: "한국사 제5편 (고려)", file: "quizdata-hk05.js", count: 263 },
-  { id: "hk06", num: 6, title: "한국사 제6편 (조선 전기)", file: "quizdata-hk06.js", count: 165 },
-  { id: "hk07", num: 7, title: "한국사 제7편 (조선 후기)", file: "quizdata-hk07.js", count: 168 },
-  { id: "hk08", num: 8, title: "한국사 제8편 (개항기·근대)", file: "quizdata-hk08.js", count: 194 },
-  { id: "hk09", num: 9, title: "한국사 제9편 (일제 강점기)", file: "quizdata-hk09.js", count: 180 },
-  { id: "hk10", num: 10, title: "한국사 제10편 (현대)", file: "quizdata-hk10.js", count: 141 }
+  { id: "hk03", num: 3, title: "한국사 제3편 (삼국·가야)", file: "quizdata-hk03.js", count: 151 },
+  { id: "hk04", num: 4, title: "한국사 제4편 (남북국)", file: "quizdata-hk04.js", count: 93 },
+  { id: "hk05", num: 5, title: "한국사 제5편 (고려)", file: "quizdata-hk05.js", count: 268 },
+  { id: "hk06", num: 6, title: "한국사 제6편 (조선 전기)", file: "quizdata-hk06.js", count: 173 },
+  { id: "hk07", num: 7, title: "한국사 제7편 (조선 후기)", file: "quizdata-hk07.js", count: 172 },
+  { id: "hk08", num: 8, title: "한국사 제8편 (개항기·근대)", file: "quizdata-hk08.js", count: 196 },
+  { id: "hk09", num: 9, title: "한국사 제9편 (일제 강점기)", file: "quizdata-hk09.js", count: 192 },
+  { id: "hk10", num: 10, title: "한국사 제10편 (현대)", file: "quizdata-hk10.js", count: 145 }
 ];

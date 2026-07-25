@@ -2485,6 +2485,17 @@
     var TAGS = [{"n":"제너럴셔먼호 사건을 구실로 1871년 강화도를 침략하였으며","l":"한능검 제67회"},{"n":"남접과 북접이 논산에 집결하여 서울로 북상하고자","l":"한능검 제67회"},{"n":"헐버트 등 외국인 교사를 초빙하여 상류층 자제","l":"한능검 제67회"},{"n":"고종이 강제 퇴위된 뒤 체결된 정미 7조약에 따라 차관 정치가","l":"한능검 제67회"},{"n":"공사 노비 제도를 혁파하고 과거제를 폐지","l":"한능검 제67회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 66회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 4. 동학 농민 운동과 갑오·을미개혁","q":[{"answer":"O","text":"동학은 교조 최제우가 지은 동경대전을 경전으로 삼아 교리를 정리하고 교세를 넓혀 나갔다.","exp":"동학의 경전은 한문체 동경대전과 한글 가사체 용담유사이다. 삼일신고를 경전으로 삼고 만주에서 중광단을 조직한 대종교와 혼동하지 않도록 종교별 창시자·경전을 짝지어 기억한다.","src":"한능검 제66회"},{"answer":"X","text":"동학은 교조 최제우가 창시하였으며, 만주에서 중광단을 조직하여 무장 항일 투쟁의 기반을 마련하였다.","exp":"앞부분은 옳으나 결말이 다른 종교의 활동이다. 만주에서 중광단을 조직해 무장 투쟁을 준비한 것은 나철이 세운 대종교이다. 동학은 동경대전·용담유사를 경전으로 삼은 종교이다."}],"tb":[{"k":"p","t":"동학은 1860년 최제우가 창시한 종교로, 사람이 곧 하늘이라는 인내천을 내세웠다. 경전으로 한문체 동경대전과 한글 가사체 용담유사를 남겼으며, 교조 최제우가 처형된 뒤 2대 교주 최시형이 이를 간행하고 교세를 넓혔다. 이후 손병희가 3대 교주로 도통을 이어받았다."}],"wi":["동학 경전 = 동경대전·용담유사 (중광단·삼일신고 나오면 대종교 ❌)"]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"제너럴셔먼호 사건을 구실로 1871년 강화도를 침략하였으며","l":"한능검 제66회"},{"n":"우정총국 개국 축하연을 이용하여 정변을 일으켰으며","l":"한능검 제66회"},{"n":"황무지 개간권에 반대하는 운동을 벌여 결국 이를 저지하는 데 성공","l":"한능검 제66회"},{"n":"명성 황후 시해 사건과 단발령 시행에 반발하여 유인석, 이소응","l":"한능검 제66회"},{"n":"양전 사업을 실시하고 근대적 토지 소유권 문서인 지계를 발급","l":"한능검 제66회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표·연표·암기 박스 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     function insAfterLead(pi, blocks) {

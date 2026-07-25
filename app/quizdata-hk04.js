@@ -1127,6 +1127,17 @@
     var TAGS = [{"n":"현세의 고난에서 구제받고자 하는 관음 신앙을 이끌어","l":"한능검 제67회"},{"n":"귀족의 경제 기반이던 녹읍을 폐지하였으며","l":"한능검 제67회"},{"n":"최고 교육 기관으로 주자감을 두었다","l":"한능검 제67회"},{"n":"안승을 금마저(익산)에 머물게 하고 보덕국의 왕으로 삼아 당의 세력에 맞서게 하였다","l":"한능검 제67회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 66회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 3. 발해","q":[{"answer":"O","text":"연해주의 크라스키노 성터에서 나온 연꽃무늬 수막새와 평지성의 온돌 시설은 발해가 고구려의 문화를 계승하였음을 잘 보여 준다.","exp":"연꽃무늬 수막새와 온돌은 고구려 문화를 이은 발해의 대표적 계승 근거다. 벽돌무덤인 정효공주 묘가 당의 영향을 받은 것과 짝지어, 무덤·기와·난방 시설 모두에서 고구려 계승 요소를 확인해 둔다.","src":"한능검 제66회"},{"answer":"X","text":"연해주의 크라스키노 성터에서 나온 연꽃무늬 수막새와 평지성의 온돌 시설은 발해가 고구려와 무관하게 당의 문화만을 받아들였음을 잘 보여 준다.","exp":"결론이 반대로 틀렸다. 연꽃무늬 수막새와 온돌은 오히려 발해가 고구려 문화를 계승하였음을 보여 주는 근거로, '당의 문화만 받아들였다'는 서술이 사실과 어긋난다."}],"tb":[],"wi":[]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"토지의 종류와 면적, 인구, 소와 말의 수 등을 조사하여 3년마다","l":"한능검 제66회"},{"n":"완도에 청해진을 설치하고 해적을 소탕하여","l":"한능검 제66회"},{"n":"자신의 아버지 김주원이 왕위에 오르지 못한 것에 불만을 품고 웅천주","l":"한능검 제66회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     function insAfterLead(pi, blocks) {

@@ -2251,6 +2251,17 @@
     var TAGS = [{"n":"정조는 아버지 사도세자의 묘소를 수원부로 옮겨 현륭원을 조성하고","l":"한능검 제67회"},{"n":"한 마을을 단위로 토지를 공동 소유·공동 경작하고 노동량에 따라 수확을 분배하자는 여전론","l":"한능검 제67회"},{"n":"개성의 송상과 의주의 만상이 대청 무역에 종사","l":"한능검 제67회"},{"n":"순조 즉위 초인 1801년에는 중앙 관서에 소속되어 있던 공노비 6만여 명을 해방","l":"한능검 제67회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 66회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 3. 수취 체제 개편·경제 변화","q":[{"answer":"O","text":"조선 후기의 농촌에서는 앞 밭에 담배를 파종하고 모내기(이앙법)를 하며 목화밭을 가꾸는 모습을 흔히 볼 수 있었다.","exp":"맞다. 담배·목화 등 상품 작물 재배와 이앙법 보급은 조선 후기 농촌의 대표적 모습이다. 반면 시장을 감독하던 동시전은 신라 지증왕 때의 기구이므로 조선 후기와 시대가 전혀 다름에 유의한다.","src":"한능검 제66회"},{"answer":"X","text":"조선 후기에는 시장을 관리·감독하는 관청인 동시전을 수도에 설치하여 상행위를 통제하는 모습을 볼 수 있었다.","exp":"틀리다. 동시전은 신라 지증왕 때 수도 경주에 설치된 시장 감독 기구다. 조선 후기의 상업은 상평통보 유통, 공인·사상의 활동으로 특징지어지므로 동시전과는 시대가 전혀 다르다."}],"tb":[],"wi":[]},{"p":"PART 2. 영조·정조의 탕평 정치","q":[{"answer":"O","text":"영조는 한성의 홍수를 예방하기 위하여 도성 안을 흐르는 청계천의 바닥을 파내는 준설 공사를 대대적으로 시행하였다.","exp":"맞다. 영조는 도성 내 청계천의 토사를 걷어내는 준설 공사를 벌여 홍수 피해를 줄였다. 탕평비·균역법·속대전과 함께 영조 대의 대표 업적으로 묶어 기억한다.","src":"한능검 제66회"},{"answer":"X","text":"정조는 한성의 홍수를 예방하기 위하여 도성 안을 흐르는 청계천의 바닥을 파내는 준설 공사를 대대적으로 시행하였다.","exp":"틀렸다. 청계천을 준설한 왕은 정조가 아니라 영조이다. 정조의 대표 사업은 장용영 설치·수원 화성 축조·신해통공 등으로 청계천 준설과는 구별된다."}],"tb":[],"wi":[]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"강홍립을 파견하되 정세를 살펴 대처하게 하였다","l":"한능검 제66회"},{"n":"속대전을 편찬하고 문물제도를 정리한 동국문헌비고를 간행","l":"한능검 제66회"},{"n":"지구가 스스로 돈다는 지전설과 우주가 무한하다는 무한우주론을 주장","l":"한능검 제66회"},{"n":"청에 당한 치욕을 씻고자 군대를 양성하며 북벌 운동을 추진","l":"한능검 제66회"},{"n":"신라와 발해가 병존한 시기를 남북국 시대라 부를 것을 처음으로 제안","l":"한능검 제66회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표·연표·핵심 암기 박스 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     function insAfterLead(pi, blocks) {

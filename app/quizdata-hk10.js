@@ -1459,6 +1459,17 @@
     var TAGS = [{"n":"여운형은 일제의 패망에 대비하여 광복 이전에 국내에서 조선 건국 동맹을 비밀리에 결성","l":"한능검 제67회"},{"n":"사사오입 논리를 내세워 초대 대통령에 한하여 중임 제한을 철폐","l":"한능검 제67회"},{"n":"여성 노동자들의 생존권 투쟁이 이어지던 박정희 정부 유신 체제기에, 긴급 조치 철폐 등을 요구하는 3·1 민주 구국 선언","l":"한능검 제67회"},{"n":"6·15 공동 선언 계승을 담은 10·4 남북 정상 선언을 채택","l":"한능검 제67회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 66회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 4. 민주주의 발전·경제 성장·통일 정책","q":[{"answer":"O","text":"김영삼 정부는 임기 말 금융·외환 시장의 어려움을 극복하기 위해 국제 통화 기금(IMF)에 유동성 조절 자금 지원을 요청하기로 결정하였다.","exp":"1997년 외환 위기로 김영삼 정부는 IMF에 구제 금융을 요청하였으며 이는 임기 말의 일이다. 위기 자체는 김영삼 정부 때 발생했고 극복은 뒤이은 김대중 정부가 금 모으기 운동 등으로 이루었다.","src":"한능검 제66회"},{"answer":"X","text":"외환 보유고 부족으로 국제 통화 기금(IMF)에 유동성 지원을 요청한 외환 위기가 처음 발생한 것은 서울 올림픽을 성공적으로 치른 노태우 정부 때의 일이다.","exp":"정부가 틀렸다. IMF에 구제 금융을 요청한 외환 위기(1997)는 김영삼 정부 임기 말에 발생하였다. 노태우 정부는 서울 올림픽과 북방 외교로 기억하는 것이 옳다."},{"answer":"O","text":"남북 조절 위원회가 발족한 이후 분단 이후 처음으로 남북 이산가족 고향 방문단의 교환 방문이 성사되었다.","exp":"분단 후 최초의 이산가족 고향 방문(1985)은 전두환 정부 때 성사되어 예술 공연단 교환도 함께 이루어졌다. 7·4 남북 공동 성명 후 설치된 남북 조절 위원회(1972)와 남북 기본 합의서(1991) 사이의 사실이다.","src":"한능검 제66회"},{"answer":"X","text":"분단 이후 처음으로 남북 이산가족 고향 방문단의 교환 방문이 성사된 것은 남북 기본 합의서가 채택된 직후의 일이다.","exp":"시기가 틀렸다. 최초의 이산가족 고향 방문은 1985년 전두환 정부 때로 남북 기본 합의서 채택(1991년 노태우 정부)보다 앞선 일이다. 두 사건의 선후를 뒤바꾼 함정이다."}],"tb":[],"wi":[]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"여운형과 김규식 등 중도 세력은 좌우 합작 위원회를 구성","l":"한능검 제66회"},{"n":"인천 상륙 작전에 성공하여 전세를 역전시키고 서울을 수복","l":"한능검 제66회"},{"n":"경부 고속 도로가 개통되던 무렵 정부는 포항 제철소 1기 설비 공사를 시작","l":"한능검 제66회"},{"n":"발췌 개헌안이 통과되어 이승만 정부가 정권을 이어 갔다","l":"한능검 제66회"},{"n":"이승만 대통령이 하야하고 허정 과도 정부가 출범하는 계기가 되었다","l":"한능검 제66회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     // 각 파트 맨 앞의 lead(핵심 요약) 바로 뒤에 '한눈에 보기' 압축 블록을 끼워 넣는다.

@@ -1738,6 +1738,17 @@
     var TAGS = [{"n":"국호를 남부여로 고쳤으며, 중앙 관청을 22부로","l":"한능검 제67회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 66회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 5. 삼국 문화·대외 교류·종합","q":[{"answer":"O","text":"삼국사기는 본기·연표·잡지·열전 등으로 구성된 기전체 사서로, 고려 인종 때 김부식 등이 편찬하였다.","exp":"삼국사기는 고려 인종 때 김부식 등이 편찬한 현존하는 가장 오래된 역사서로, 본기·연표·잡지·열전으로 이루어진 기전체 사서이다. 사건을 연·월 순으로 적는 편년체와 서술 방식이 다르다는 점을 함께 기억한다.","src":"한능검 제66회"},{"answer":"X","text":"삼국사기는 본기·연표·잡지·열전 등으로 구성된 기전체 사서로, 고려 무신 집권기에 일연이 편찬하였다.","exp":"편찬 시기와 인물이 틀렸다. 삼국사기는 무신 집권기의 일연이 아니라 고려 인종 때 김부식 등이 편찬하였다. 일연이 지은 것은 삼국유사이며, 삼국사기가 기전체 사서라는 앞부분은 옳다."}],"tb":[{"k":"p","t":"삼국사기는 고려 인종 때 김부식 등이 편찬한 현존하는 가장 오래된 역사서로, 본기·연표·잡지·열전으로 구성된 기전체 사서이다. 사건을 연·월 순으로 서술하는 편년체와 구별한다."}],"wi":["삼국사기 = 김부식·고려 인종 때 편찬·기전체 ⭕ / 일연이 지은 삼국유사, 편년체로 서술하면 ❌"]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"도굴이 어려워 금관 등 많은 껴묻거리가 온전히 보존","l":"한능검 제66회"},{"n":"영락'이라는 독자적인 연호를 사용하며 만주 일대로","l":"한능검 제66회"},{"n":"신라 내물왕의 요청을 받아 군대를 보내 신라에 침입한 왜를 격퇴","l":"한능검 제66회"},{"n":"익산 지역에 미륵사를 창건","l":"한능검 제66회"},{"n":"살수에서 수 양제가 보낸 대군을 크게 무찔러","l":"한능검 제66회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표·연표·핵심 암기 박스 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     function insAfterLead(pi, blocks) {
