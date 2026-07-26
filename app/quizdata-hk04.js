@@ -1160,6 +1160,17 @@
     var TAGS = [{"n":"귀국 후 진성여왕에게 시무 10여 조를 올렸다","l":"한능검 제64회"},{"n":"지방을 9주 5소경으로 정비하고 중앙군을 9서당","l":"한능검 제64회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 63회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 2. 통일신라 경제·사회·문화","q":[{"answer":"O","text":"통일신라 시기에는 대외 무역이 발달하여 울산항과 당항성이 국제 무역이 이루어지는 항구로 크게 번성하였다.","exp":"울산항과 당항성은 통일신라의 대표적 국제 무역항이다. 특히 울산항에는 당·일본은 물론 멀리 아라비아 상인까지 드나들었다. 고려의 국제 무역항 벽란도, 발해의 교역로(신라도·거란도)와 시대를 혼동하지 않는다.","src":"한능검 제63회"},{"answer":"X","text":"통일신라 시기에는 대외 무역이 발달하여 울산항과 벽란도가 국제 무역이 이루어지는 항구로 크게 번성하였다.","exp":"벽란도가 틀렸다. 벽란도는 고려의 국제 무역항이다. 울산항과 함께 통일신라의 무역항으로 번성한 곳은 벽란도가 아니라 당항성(남양만)이다."}],"tb":[{"k":"p","t":"통일신라는 대외 무역이 발달하여 국제 무역항인 울산항(울산만)과 남양만의 당항성이 크게 번성하였다. 특히 울산항에는 당·일본은 물론 멀리 아라비아 상인까지 드나들었다."}],"wi":["울산항·당항성 = 통일신라의 국제 무역항 → 벽란도(고려)·솔빈부의 말(발해)이라 하면 ❌"]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"토지의 종류와 면적, 인구, 소와 말의 수 등을 조사하여 3년마다","l":"한능검 제63회"},{"n":"귀국 후 진성여왕에게 시무 10여 조를 올렸다","l":"한능검 제63회"},{"n":"수도를 상경 용천부로 옮겼으며","l":"한능검 제63회"},{"n":"현존하는 세계에서 가장 오래된 목판 인쇄물로 평가되는 「무구정광대다라니경」이 발견","l":"한능검 제63회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     function insAfterLead(pi, blocks) {

@@ -1738,6 +1738,17 @@
     var TAGS = [{"n":"가락바퀴와 뼈바늘을 이용해 실을 뽑고 옷을 지어 입었다","l":"한능검 제64회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 63회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [{"p":"PART 1. 구석기 시대","q":[{"answer":"O","text":"경기 연천 전곡리에서 출토된 아슐리안형 주먹도끼는 동아시아에는 찍개 문화만 있고 주먹도끼 문화는 없다는 모비우스(H. Movius)의 학설을 뒤집는 증거가 되었다.","exp":"전곡리의 아슐리안형 주먹도끼는 동아시아에 주먹도끼 문화가 없었다는 모비우스 학설을 반박하는 대표 근거다. 아슐리안형은 유럽·아프리카에서 주로 나오던 형태로, 이것이 한반도에서 출토되어 학설을 뒤집었다.","src":"한능검 제63회"},{"answer":"X","text":"경기 연천 전곡리에서 출토된 아슐리안형 주먹도끼는 동아시아에는 찍개 문화만 있고 주먹도끼 문화는 없다는 모비우스(H. Movius)의 학설을 뒷받침하는 증거가 되었다.","exp":"마지막이 틀렸다. 전곡리의 아슐리안형 주먹도끼는 동아시아에 주먹도끼 문화가 없다는 모비우스 학설을 오히려 뒤집는(반박하는) 증거다. 학설을 '뒷받침'한 것이 아니라 '반박'한 것이 핵심이다."}],"tb":[{"k":"p","t":"연천 전곡리에서 나온 아슐리안형 주먹도끼는 동아시아에는 찍개 문화만 있고 주먹도끼 문화는 없다는 모비우스의 학설을 뒤집는 증거로 평가된다."}],"wi":["📝 \"전곡리 아슐리안형 주먹도끼가 모비우스 학설을 뒷받침한다\" → ❌ 뒤집는(반박하는) 증거다"]}];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"이동생활을 하면서 동굴이나 바위 그늘, 강가에 지은 막집에서 살았다","l":"한능검 제63회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     // 각 파트 맨 앞의 lead(핵심 요약) 바로 뒤에 '한눈에 보기' 압축 블록을 끼워 넣는다.

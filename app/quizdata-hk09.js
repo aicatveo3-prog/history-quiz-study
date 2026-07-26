@@ -1962,6 +1962,17 @@
     var TAGS = [{"n":"정우회 선언을 계기로 비타협적 민족주의 세력과 사회주의 세력이 연합하여 창립한 민족 유일당 단체로, 이상재를 초대 회장","l":"한능검 제64회"}];
     for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
   })();
+  // ==== 한능검 63회 기출 보강 (선지 분산 자동 삽입) ====
+  (function () {
+    var partSeq = []; for (var i = 0; i < DATA.length; i++) if (partSeq.indexOf(DATA[i].part) < 0) partSeq.push(DATA[i].part);
+    function insQ(p, items) { var last = -1; for (var i = 0; i < DATA.length; i++) if (DATA[i].part === p) last = i; for (var k = 0; k < items.length; k++) items[k].part = p; if (last < 0) { Array.prototype.push.apply(DATA, items); return; } DATA.splice.apply(DATA, [last + 1, 0].concat(items)); }
+    function insT(p, blocks, warnItems) { var ti = partSeq.indexOf(p); if (ti < 0 || !THEORY[ti] || !THEORY[ti].blocks) return; var bl = THEORY[ti].blocks; if (blocks && blocks.length) { var wi = -1; for (var i = 0; i < bl.length; i++) if (bl[i].k === "note" && bl[i].v === "warn") wi = i; bl.splice.apply(bl, [(wi < 0 ? bl.length : wi), 0].concat(blocks)); } if (warnItems && warnItems.length) { var w = null; for (var j2 = 0; j2 < bl.length; j2++) if (bl[j2].k === "note" && bl[j2].v === "warn") w = bl[j2]; if (w && w.list) Array.prototype.push.apply(w.list, warnItems); } }
+    function tagSrc(needle, label) { for (var i = 0; i < DATA.length; i++) { var it = DATA[i]; if (!it.text || it.text.indexOf(needle) < 0) continue; var s = it.src; if (!s) it.src = label; else if (Array.isArray(s)) { if (s.indexOf(label) < 0) s.push(label); } else if (s !== label) it.src = [s, label]; } }
+    var ADDS = [];
+    for (var ai = 0; ai < ADDS.length; ai++) { insQ(ADDS[ai].p, ADDS[ai].q); insT(ADDS[ai].p, ADDS[ai].tb, ADDS[ai].wi); }
+    var TAGS = [{"n":"경기도 화성 제암리에서 주민들을 교회에 모아 놓고 학살하는 만행","l":"한능검 제63회"},{"n":"임병찬이 고종의 밀명을 받아 조직한 비밀 결사","l":"한능검 제63회"},{"n":"1923년 진주에서 조선 형평사가 창립되어 백정에 대한 사회적 차별 철폐를 목표로 전개한 신분 해방 운동","l":"한능검 제63회"},{"n":"조선인에게만 태형을 적용하는 조선 태형령을 시행","l":"한능검 제63회"},{"n":"한글 맞춤법 통일안과 표준어를 제정하고 우리말 큰사전 편찬 사업을 추진","l":"한능검 제63회"},{"n":"1931년 상하이에서 한인 애국단을 조직하였다","l":"한능검 제63회"},{"n":"양세봉의 지휘 아래 중국 의용군과 연합하여 흥경성 전투에서 일본군을 격퇴","l":"한능검 제63회"}];
+    for (var ti2 = 0; ti2 < TAGS.length; ti2++) tagSrc(TAGS[ti2].n, TAGS[ti2].l);
+  })();
   // ==== 이론 가독성 보강: 파트별 압축 표 추가 (기존 이론 문단은 그대로 유지) ====
   (function () {
     // 각 파트 맨 앞의 lead(핵심 요약) 바로 뒤에 '한눈에 보기' 압축 블록을 끼워 넣는다.
