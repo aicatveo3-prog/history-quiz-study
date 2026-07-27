@@ -15,8 +15,13 @@
 
   var CFG = window.FIREBASE_CONFIG || null;
   var CONFIGURED = !!(CFG && CFG.apiKey && CFG.projectId);
-  var WRONG_KEY = "jibangse_wrong_v1";
-  var SAVED_KEY = "jibangse_saved_v1";
+  // 저장소 네임스페이스 — app.js 와 동일 규칙(app-id.js 의 APP_ID 기준)
+  var APP_ID = window.APP_ID || "app";
+  var NS = "q:" + APP_ID + ":";
+  var WRONG_KEY = NS + "wrong";
+  var SAVED_KEY = NS + "saved";
+  var SESSION_PRE = NS + "session:";
+  var CHECK_PRE = NS + "checklist:";
   var SDK = "https://www.gstatic.com/firebasejs/10.12.5/";
 
   var fb = null;      // { app, auth, db, a: authMod, f: firestoreMod }
@@ -44,8 +49,8 @@
   // ---- 진도·체크리스트 등 KV 동기화 --------------------------------------
   // 챕터 진행(session)·체크리스트·이론토글·마지막챕터를 kv 로 함께 동기화한다.
   function isKvKey(k) {
-    return !!k && (k.indexOf("jibangse_session_") === 0 || k.indexOf("jibangse_checklist_") === 0 ||
-                   k === "jibangse_theoryOn" || k === "jibangse_last_chapter");
+    return !!k && (k.indexOf(SESSION_PRE) === 0 || k.indexOf(CHECK_PRE) === 0 ||
+                   k === NS + "theoryOn" || k === NS + "lastChapter");
   }
   function kvSnapshot() {
     var kv = {};
@@ -82,9 +87,9 @@
       var lv = localStorage.getItem(k), cv = cloudKv[k];
       if (cv == null) { result[k] = lv; return; }
       if (lv == null) { result[k] = cv; return; }
-      if (k.indexOf("jibangse_session_") === 0) {
+      if (k.indexOf(SESSION_PRE) === 0) {
         result[k] = answeredCount(cv) > answeredCount(lv) ? cv : lv;
-      } else if (k.indexOf("jibangse_checklist_") === 0) {
+      } else if (k.indexOf(CHECK_PRE) === 0) {
         var m = orMergeChecks(lv, cv);
         result[k] = m != null ? m : (checkedCount(cv) > checkedCount(lv) ? cv : lv);
       } else {
@@ -138,7 +143,9 @@
     return initPromise;
   }
 
-  function userDoc() { return fb.f.doc(fb.db, "users", user.uid); }
+  // 앱별 문서: users/{uid}/apps/{APP_ID}
+  // 계정(uid)은 같은 Firebase 프로젝트를 쓰는 모든 퀴즈 앱이 공유하고, 학습 기록만 앱별로 분리한다.
+  function userDoc() { return fb.f.doc(fb.db, "users", user.uid, "apps", APP_ID); }
 
   // 클라우드 ↔ 로컬 병합(합집합) 후 양쪽 반영
   function doSync() {

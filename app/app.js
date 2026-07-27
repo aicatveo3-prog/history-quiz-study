@@ -4,13 +4,82 @@
 (function () {
   "use strict";
 
-  var STORAGE_KEY = "jibangse_theoryOn";      // 이론 토글 (전역 공통)
-  var EXAM_KEY = "jibangse_examOnly";         // 한능검 기출만 보기 토글 (전역 공통)
-  var LAST_CH_KEY = "jibangse_last_chapter";  // 마지막으로 학습한 챕터 id
-  var WRONG_KEY = "jibangse_wrong_v1";        // 오답노트 (전 챕터 공통, 스냅샷 저장)
-  var SAVED_KEY = "jibangse_saved_v1";        // 저장함/북마크 (전 챕터 공통, 스냅샷 저장)
-  function sessionKey() { return "jibangse_session_" + state.chapterId; }   // 챕터별 진행 상태
-  function checkKey() { return "jibangse_checklist_" + state.chapterId; }   // 챕터별 체크리스트
+  // ---- 저장소 네임스페이스 -------------------------------------------------
+  // 같은 도메인에 여러 퀴즈 앱이 배포돼 localStorage 를 공유하므로,
+  // app-id.js 의 APP_ID 로 모든 키를 격리한다 (q:<APP_ID>:*).
+  var APP_ID = window.APP_ID || "app";
+  var NS = "q:" + APP_ID + ":";
+  var STORAGE_KEY = NS + "theoryOn";      // 이론 토글 (앱 전역)
+  var EXAM_KEY = NS + "examOnly";         // 한능검 기출만 보기 토글 (앱 전역)
+  var LAST_CH_KEY = NS + "lastChapter";   // 마지막으로 학습한 챕터 id
+  var WRONG_KEY = NS + "wrong";           // 오답노트 (전 챕터 공통, 스냅샷 저장)
+  var SAVED_KEY = NS + "saved";           // 저장함/북마크 (전 챕터 공통, 스냅샷 저장)
+  var SESSION_PRE = NS + "session:";      // 챕터별 진행 상태 접두사
+  var CHECK_PRE = NS + "checklist:";      // 챕터별 체크리스트 접두사
+  function sessionKey() { return SESSION_PRE + state.chapterId; }
+  function checkKey() { return CHECK_PRE + state.chapterId; }
+
+  // ---- 네임스페이스 이관 (2026-07, 1회 실행) --------------------------------
+  // 예전에는 앱을 가리지 않는 공용 키(jibangse_*)를 써서 같은 도메인의 다른 퀴즈 앱과
+  // 진도·오답노트가 섞였다. CHAPTER_LIST 에 있는 챕터(= 이 앱 것)의 기록만 새 키로
+  // 옮기고, 옮긴 것은 구 키에서 제거해 다른 앱 쪽 목록도 함께 정리한다.
+  function ownChapter(chId) {
+    var list = window.CHAPTER_LIST || [];
+    for (var i = 0; i < list.length; i++) if (list[i].id === chId) return true;
+    return false;
+  }
+  // 구 키 → 새 키 복사(새 키가 비어 있을 때만). drop=true 면 복사 후 구 키를 지운다.
+  function moveKey(from, to, drop) {
+    try {
+      var v = localStorage.getItem(from);
+      if (v == null) return;
+      if (localStorage.getItem(to) == null) localStorage.setItem(to, v);
+      if (drop) localStorage.removeItem(from);
+    } catch (e) {}
+  }
+  // 공용 노트 배열에서 이 앱 챕터 레코드만 새 키로 합치고, 구 키엔 나머지만 남긴다.
+  function splitNotes(from, to) {
+    try {
+      var all = JSON.parse(localStorage.getItem(from) || "[]");
+      if (!Array.isArray(all)) return;
+      var mine = all.filter(function (r) { return r && ownChapter(r.chId); });
+      if (!mine.length) return;
+      var cur = JSON.parse(localStorage.getItem(to) || "[]");
+      if (!Array.isArray(cur)) cur = [];
+      var seen = {};
+      cur.forEach(function (r) { if (r && r.id) seen[r.id] = 1; });
+      mine.forEach(function (r) { if (r.id && !seen[r.id]) { seen[r.id] = 1; cur.push(r); } });
+      localStorage.setItem(to, JSON.stringify(cur));
+      localStorage.setItem(from, JSON.stringify(all.filter(function (r) {
+        return !(r && ownChapter(r.chId));
+      })));
+    } catch (e) {}
+  }
+  function migrateNamespace() {
+    var DONE = NS + "migrated";
+    try {
+      if (localStorage.getItem(DONE) === "1") return;
+      // 이론 토글은 다른 앱도 쓰던 값이라 복사만 하고 구 키는 남긴다.
+      moveKey("jibangse_theoryOn", STORAGE_KEY, false);
+      moveKey("jibangse_examOnly", EXAM_KEY, true);
+      var last = localStorage.getItem("jibangse_last_chapter");
+      if (ownChapter(last)) moveKey("jibangse_last_chapter", LAST_CH_KEY, true);
+
+      [["jibangse_session_", SESSION_PRE], ["jibangse_checklist_", CHECK_PRE]].forEach(function (pair) {
+        var pre = pair[0], hits = [];
+        for (var i = 0; i < localStorage.length; i++) {
+          var k = localStorage.key(i);
+          if (k && k.indexOf(pre) === 0 && ownChapter(k.slice(pre.length))) hits.push(k);
+        }
+        hits.forEach(function (k) { moveKey(k, pair[1] + k.slice(pre.length), true); });
+      });
+
+      splitNotes("jibangse_wrong_v1", WRONG_KEY);
+      splitNotes("jibangse_saved_v1", SAVED_KEY);
+      localStorage.setItem(DONE, "1");
+    } catch (e) {}
+  }
+  migrateNamespace();   // state 초기화(토글 읽기)보다 먼저 실행해야 한다
 
   // ---- state ---------------------------------------------------------------
   var state = {
@@ -215,19 +284,6 @@
       var ans = s.answers.map(function (a) { return a === "O" || a === "X" ? a : null; });
       return { screen: s.screen, partIndex: pIdx, answers: ans };
     } catch (e) { return null; }
-  }
-
-  // 단일 챕터 시절(v1) 저장본을 ch01 키로 1회 이관한다.
-  function migrateV1() {
-    try {
-      if (!localStorage.getItem("jibangse_session_ch01") && localStorage.getItem("jibangse_session_v1")) {
-        localStorage.setItem("jibangse_session_ch01", localStorage.getItem("jibangse_session_v1"));
-        if (!localStorage.getItem(LAST_CH_KEY)) localStorage.setItem(LAST_CH_KEY, "ch01");
-      }
-      if (!localStorage.getItem("jibangse_checklist_ch01") && localStorage.getItem("jibangse_checklist_v1")) {
-        localStorage.setItem("jibangse_checklist_ch01", localStorage.getItem("jibangse_checklist_v1"));
-      }
-    } catch (e) {}
   }
 
   // ---- 오답노트 / 저장함 (스냅샷 저장소) -----------------------------------
@@ -467,7 +523,7 @@
   // 챕터별 저장 진행 상태를 (챕터 데이터를 로드하지 않고도) localStorage 에서 읽는다.
   function savedProgress(chId) {
     try {
-      var raw = localStorage.getItem("jibangse_session_" + chId);
+      var raw = localStorage.getItem(SESSION_PRE + chId);
       if (!raw) return 0;
       var s = JSON.parse(raw);
       if (!s || !Array.isArray(s.answers)) return 0;
@@ -1498,7 +1554,6 @@
   // ---- boot ----------------------------------------------------------------
   // 마지막 학습 챕터가 있으면 지연 로딩 후 저장된 화면·진행 상태를 복원한다.
   function boot() {
-    migrateV1();
     var last = null;
     try { last = localStorage.getItem(LAST_CH_KEY); } catch (e) {}
     if (last && chapterMeta(last)) {
