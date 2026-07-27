@@ -1254,5 +1254,35 @@
     ];
     TAIL.forEach(function (o) { insBeforeWarn(o.p, o.blocks); });
   })();
+  // ==== 문항 가지치기 (중복·지엽·저변별 자체생성 문항 정리) ====
+  // src(기출) 문항은 조건상 절대 삭제되지 않는다. 삭제 후 같은 정답 4연속만 파트 내 교환으로 해소.
+  (function () {
+    var DROP = "z73ttr 13hdmy0 j1ya6a 13bfd4 1yhvj1y awmg9b 5yyn5e u9nm8r un0wi3".split(" ");
+    var drop = {}; for (var i = 0; i < DROP.length; i++) drop[DROP[i]] = 1;
+    function hs(s) { var x = 0; for (var i = 0; i < s.length; i++) x = (x * 31 + s.charCodeAt(i)) | 0; return (x >>> 0).toString(36); }
+    for (var k = DATA.length - 1; k >= 0; k--) if (!DATA[k].src && drop[hs(DATA[k].text)]) DATA.splice(k, 1);
+    for (var pass = 0; pass < 30; pass++) {
+      var fixed = false;
+      for (var a = 0; a + 3 < DATA.length; a++) {
+        var p = DATA[a].part, v = DATA[a].answer;
+        if (DATA[a + 1].part !== p || DATA[a + 2].part !== p || DATA[a + 3].part !== p) continue;
+        if (DATA[a + 1].answer !== v || DATA[a + 2].answer !== v || DATA[a + 3].answer !== v) continue;
+        for (var b = a + 4; b < DATA.length && DATA[b].part === p; b++) {
+          if (DATA[b].answer !== v) { var t = DATA[a + 3]; DATA[a + 3] = DATA[b]; DATA[b] = t; fixed = true; break; }
+        }
+      }
+      if (!fixed) break;
+    }
+  })();
+  // ==== 출제 순서 섞기 (정답이 OXOXOX 로 규칙적이던 문제 해소) ====
+  // 파트 안에서만 재배열한다. 파트 경계·구성·⭕❌ 개수는 그대로이고 순서만 바뀐다.
+  // 순열을 고정값으로 박아 두어 새로고침해도 순서가 변하지 않는다(저장된 진도 보호).
+  (function () {
+    var ORD = [29,19,23,32,9,10,5,7,8,30,21,0,15,18,14,34,1,16,28,20,22,33,24,4,3,13,25,31,2,12,35,11,17,27,6,26,46,60,63,48,38,49,57,43,51,67,47,61,53,45,42,50,37,56,55,62,41,44,65,59,66,36,52,64,54,39,40,58,88,70,78,93,77,83,85,79,73,74,68,69,87,72,80,76,82,75,71,89,92,86,90,91,84,81];
+    if (ORD.length !== DATA.length) return;   // 문항 수가 바뀌면 적용하지 않는다
+    var out = new Array(ORD.length);
+    for (var i = 0; i < ORD.length; i++) out[i] = DATA[ORD[i]];
+    for (var j = 0; j < out.length; j++) DATA[j] = out[j];
+  })();
   window.QUIZ_CHAPTERS["hk04"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();

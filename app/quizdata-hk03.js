@@ -1910,5 +1910,35 @@
     ];
     TAIL.forEach(function (o) { insBeforeWarn(o.p, o.blocks); });
   })();
+  // ==== 문항 가지치기 (중복·지엽·저변별 자체생성 문항 정리) ====
+  // src(기출) 문항은 조건상 절대 삭제되지 않는다. 삭제 후 같은 정답 4연속만 파트 내 교환으로 해소.
+  (function () {
+    var DROP = "1bfyx6e 2adqj5 17th1an a6s6e2 jhtblw 1jx9694 150di2j pgksk0 ljw4gg 789798 eodhmq 1pk49d 1uc350j 1gydpyp 3dd6u5 1gp34l3 10w81ro".split(" ");
+    var drop = {}; for (var i = 0; i < DROP.length; i++) drop[DROP[i]] = 1;
+    function hs(s) { var x = 0; for (var i = 0; i < s.length; i++) x = (x * 31 + s.charCodeAt(i)) | 0; return (x >>> 0).toString(36); }
+    for (var k = DATA.length - 1; k >= 0; k--) if (!DATA[k].src && drop[hs(DATA[k].text)]) DATA.splice(k, 1);
+    for (var pass = 0; pass < 30; pass++) {
+      var fixed = false;
+      for (var a = 0; a + 3 < DATA.length; a++) {
+        var p = DATA[a].part, v = DATA[a].answer;
+        if (DATA[a + 1].part !== p || DATA[a + 2].part !== p || DATA[a + 3].part !== p) continue;
+        if (DATA[a + 1].answer !== v || DATA[a + 2].answer !== v || DATA[a + 3].answer !== v) continue;
+        for (var b = a + 4; b < DATA.length && DATA[b].part === p; b++) {
+          if (DATA[b].answer !== v) { var t = DATA[a + 3]; DATA[a + 3] = DATA[b]; DATA[b] = t; fixed = true; break; }
+        }
+      }
+      if (!fixed) break;
+    }
+  })();
+  // ==== 출제 순서 섞기 (정답이 OXOXOX 로 규칙적이던 문제 해소) ====
+  // 파트 안에서만 재배열한다. 파트 경계·구성·⭕❌ 개수는 그대로이고 순서만 바뀐다.
+  // 순열을 고정값으로 박아 두어 새로고침해도 순서가 변하지 않는다(저장된 진도 보호).
+  (function () {
+    var ORD = [28,2,35,0,33,21,27,25,34,3,30,6,1,5,10,22,17,8,11,14,16,12,32,26,23,20,24,29,15,18,4,13,31,9,19,7,42,61,46,48,40,41,45,36,38,50,65,59,70,55,51,58,37,53,43,54,39,66,56,62,49,52,67,69,60,57,64,47,44,63,68,80,99,87,96,76,90,98,92,97,75,78,91,84,73,82,94,95,89,93,72,100,88,74,77,81,101,79,86,71,85,83,108,105,112,104,102,116,114,107,109,110,111,113,115,106,103,143,119,134,118,128,130,121,131,141,137,142,139,140,120,123,125,144,135,124,145,138,133,122,126,136,117,127,129,132];
+    if (ORD.length !== DATA.length) return;   // 문항 수가 바뀌면 적용하지 않는다
+    var out = new Array(ORD.length);
+    for (var i = 0; i < ORD.length; i++) out[i] = DATA[ORD[i]];
+    for (var j = 0; j < out.length; j++) DATA[j] = out[j];
+  })();
   window.QUIZ_CHAPTERS["hk03"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();

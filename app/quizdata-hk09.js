@@ -2099,5 +2099,35 @@
     ];
     TAIL.forEach(function (o) { insBeforeWarn(o.p, o.blocks); });
   })();
+  // ==== 문항 가지치기 (중복·지엽·저변별 자체생성 문항 정리) ====
+  // src(기출) 문항은 조건상 절대 삭제되지 않는다. 삭제 후 같은 정답 4연속만 파트 내 교환으로 해소.
+  (function () {
+    var DROP = "1tucddl 19jb28s 1es30vv 1kv137h 1j4u92k am4n53 152w4gc 1cnf4sr ow75pn 1kku0f7 1257bvl k85ax3 1sqj20x w3ufll 3dvxe8 h37ksa 1e5vy9p 8mq3fk 1dmr97d 15a0lly ghfyql 3xzyun cmczmz 1c8tt6 1yz1gi7 1axere0 1km4f8z 1ek8i5h".split(" ");
+    var drop = {}; for (var i = 0; i < DROP.length; i++) drop[DROP[i]] = 1;
+    function hs(s) { var x = 0; for (var i = 0; i < s.length; i++) x = (x * 31 + s.charCodeAt(i)) | 0; return (x >>> 0).toString(36); }
+    for (var k = DATA.length - 1; k >= 0; k--) if (!DATA[k].src && drop[hs(DATA[k].text)]) DATA.splice(k, 1);
+    for (var pass = 0; pass < 30; pass++) {
+      var fixed = false;
+      for (var a = 0; a + 3 < DATA.length; a++) {
+        var p = DATA[a].part, v = DATA[a].answer;
+        if (DATA[a + 1].part !== p || DATA[a + 2].part !== p || DATA[a + 3].part !== p) continue;
+        if (DATA[a + 1].answer !== v || DATA[a + 2].answer !== v || DATA[a + 3].answer !== v) continue;
+        for (var b = a + 4; b < DATA.length && DATA[b].part === p; b++) {
+          if (DATA[b].answer !== v) { var t = DATA[a + 3]; DATA[a + 3] = DATA[b]; DATA[b] = t; fixed = true; break; }
+        }
+      }
+      if (!fixed) break;
+    }
+  })();
+  // ==== 출제 순서 섞기 (정답이 OXOXOX 로 규칙적이던 문제 해소) ====
+  // 파트 안에서만 재배열한다. 파트 경계·구성·⭕❌ 개수는 그대로이고 순서만 바뀐다.
+  // 순열을 고정값으로 박아 두어 새로고침해도 순서가 변하지 않는다(저장된 진도 보호).
+  (function () {
+    var ORD = [26,14,3,17,29,12,11,13,30,23,15,4,7,22,19,16,25,20,9,27,24,5,8,34,31,28,33,32,0,6,18,2,10,1,21,48,66,71,39,57,51,41,72,50,49,77,43,70,47,42,53,52,76,79,37,65,60,38,73,59,35,78,61,54,46,44,63,68,36,62,69,55,67,74,58,64,56,40,75,45,85,92,108,88,106,97,104,98,89,90,102,83,86,84,82,107,81,101,95,93,96,91,99,100,105,87,94,80,103,120,138,142,133,122,125,115,134,135,111,140,118,121,132,124,113,116,130,123,126,141,129,114,137,119,112,131,127,117,139,109,110,136,128,160,145,167,174,159,171,153,175,162,176,157,154,163,169,144,155,170,146,151,165,161,156,149,173,179,152,178,166,164,148,172,143,150,158,177,147,168];
+    if (ORD.length !== DATA.length) return;   // 문항 수가 바뀌면 적용하지 않는다
+    var out = new Array(ORD.length);
+    for (var i = 0; i < ORD.length; i++) out[i] = DATA[ORD[i]];
+    for (var j = 0; j < out.length; j++) DATA[j] = out[j];
+  })();
   window.QUIZ_CHAPTERS["hk09"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();
