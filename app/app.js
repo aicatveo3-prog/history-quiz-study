@@ -408,8 +408,28 @@
       if (b.t) {
         html += '<div style="font-size:12.5px;font-weight:600;color:' + m.tc + ';line-height:1.6;word-break:keep-all;text-wrap:pretty;white-space:pre-line;">' + esc(fmtTrap(brkPara(b.t))) + '</div>';
       }
+      // 대비표(compare) — 헷갈리는 개념을 "맞는 내용"만 나란히 놓는다.
+      // [[["조사 시찰단","일본 파견"],["영선사","청 톈진·무기 기술"]], …] 형태로,
+      // 안쪽 배열 하나가 서로 헷갈리는 한 묶음이다. ⭕/❌ 나 "~이면 틀림" 같은
+      // 부정형을 쓰지 않아, 읽고 다시 뒤집어 생각할 필요가 없다.
+      if (b.compare && b.compare.length) {
+        html += '<div style="display:flex;flex-direction:column;gap:7px;' + (b.title || b.t ? "margin-top:7px;" : "") + '">';
+        b.compare.forEach(function (grp) {
+          html += '<div style="background:rgba(255,255,255,.72);border:1px solid ' + m.bd + ';border-radius:9px;overflow:hidden;">';
+          (grp || []).forEach(function (row, i) {
+            html += '<div style="display:flex;gap:6px;padding:7px 10px;font-size:12.5px;line-height:1.55;' +
+              (i ? "border-top:1px solid " + m.bd + ";" : "") + '">' +
+              '<span style="flex:0 0 auto;max-width:44%;font-weight:800;color:' + m.ttc + ';word-break:keep-all;">' + esc(row[0]) + '</span>' +
+              '<span style="flex:0 0 auto;font-weight:800;color:' + m.ttc + ';opacity:.55;">=</span>' +
+              '<span style="flex:1;min-width:0;font-weight:600;color:' + m.tc + ';word-break:keep-all;text-align:left;">' + esc(row[1]) + '</span>' +
+              '</div>';
+          });
+          html += '</div>';
+        });
+        html += '</div>';
+      }
       if (b.list && b.list.length) {
-        var listStyle = "display:flex;flex-direction:column;gap:6px;" + (b.title || b.t ? " margin-top:6px;" : "");
+        var listStyle = "display:flex;flex-direction:column;gap:6px;" + (b.title || b.t || b.compare ? " margin-top:6px;" : "");
         html += '<div style="' + listStyle + '">';
         b.list.forEach(function (li) {
           html += '<div style="display:flex;gap:7px;font-size:12.5px;font-weight:600;color:' + m.tc + ';line-height:1.55;word-break:keep-all;text-wrap:pretty;">' +
