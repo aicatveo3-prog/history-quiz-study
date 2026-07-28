@@ -1919,5 +1919,26 @@
     }
   })();
 
+  // ==== 🏅 기출 정답 균형 전환 ====
+  // 기출 뱃지가 ⭕ 문항에만 붙어 "기출만 보기" 모드에서 전부 ⭕ 이던 문제를 바로잡는다.
+  // moveBadge: 짝 ❌ 변형으로 뱃지 이동 / rewrite: 오답 선지의 원 맥락 ❌ 지문으로 복원.
+  // 문항을 추가·삭제하지 않으므로 총 문항 수와 사용자 진도는 그대로다.
+  (function () {
+    var E = [{"kind":"moveBadge","needle":"모비우스(H. Movius)의 학설을 뒤집는 증거가 되었다","toNeedle":"모비우스(H. Movius)의 학설을 뒷받침하는 증거가 되었다","reason":"한능검 제63회 1번(구석기·연천 전곡리·아슐리안·모비우스) 논점. 같은 PART 1에 '뒤집는'을 '뒷받침하는' 한 단어만 바꾼 non-src ❌ 변형이 있어, 이 논점의 최고 함정 포인트를 그대로 기출 문항으로 삼을 수 있다. 뱃지만 이동하므로 내용 변화 없음."},{"kind":"moveBadge","needle":"구석기 시대 사람들이 여러 가지 기법으로 다양한 뗀석기를","toNeedle":"신석기 시대 사람들이 여러 가지 기법으로 다양한 간석기를","reason":"한능검 제71회 단양 수양개 논점. 같은 PART 1에 구석기/뗀석기 → 신석기/간석기로만 바꾼 non-src ❌ 변형이 있다. 뗀석기↔간석기 판별이 이 논점의 실제 변별 포인트이므로 뱃지를 ❌ 쪽으로 옮긴다."},{"kind":"moveBadge","needle":"신석기 시대 사람들은 농경과 목축을 시작하여 식량을 생산하였으며","toNeedle":"구석기 시대 사람들은 농경과 목축을 시작하여 식량을 생산하였으며","reason":"한능검 제74회 서울 암사동·신석기 논점. 같은 PART 2에 주어만 신석기→구석기로 바꾼 non-src ❌ 변형이 있어 뱃지를 이동한다. 암사동·농경목축이 신석기라는 ⭕ 근거는 원 문항과 PART 2 다른 문항에 그대로 남는다."},{"kind":"moveBadge","needle":"환호와 함께 고인돌, 민무늬 토기가 발굴되어","toNeedle":"이곳에서 나온 빗살무늬 토기는 검단리가 신석기 시대 유적임을","reason":"한능검 제67회 울주 검단리 논점. 같은 PART 3에 앞부분(환호·고인돌)은 동일하고 민무늬→빗살무늬·청동기→신석기로 끝만 바꾼 non-src ❌ 변형이 있다. 표준 1의 '앞 70%는 옳고 끝에서만 틀리게' 구성에도 부합한다."},{"kind":"moveBadge","needle":"그 가치를 인정받아 유네스코 세계유산으로 등재되었다","toNeedle":"그 가치를 인정받지 못해 유네스코 세계유산에서 제외되었다","reason":"한능검 제68회 고창 고인돌 논점. 같은 PART 3에 '등재'→'제외'만 뒤집은 non-src ❌ 변형이 있어 뱃지를 이동한다. 등재 사실은 원 ⭕ 문항과 해설에 그대로 남아 근거가 사라지지 않는다."}];
+    function one(n) { var h = DATA.filter(function (q) { return q.text.indexOf(n) >= 0; }); return h.length === 1 ? h[0] : null; }
+    for (var i = 0; i < E.length; i++) {
+      var e = E[i], t = one(e.needle);
+      if (!t) continue;
+      if (e.kind === "moveBadge") {
+        var d = one(e.toNeedle);
+        if (!d) continue;
+        d.src = t.src; delete t.src;
+      } else {
+        t.text = e.newText; t.exp = e.newExp; t.answer = "X";
+        if (e.newPart) t.part = e.newPart;
+      }
+    }
+  })();
+
   window.QUIZ_CHAPTERS["hk01"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();

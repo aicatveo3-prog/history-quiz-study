@@ -1864,5 +1864,26 @@
     }
   })();
 
+  // ==== 🏅 기출 정답 균형 전환 ====
+  // 기출 뱃지가 ⭕ 문항에만 붙어 "기출만 보기" 모드에서 전부 ⭕ 이던 문제를 바로잡는다.
+  // moveBadge: 짝 ❌ 변형으로 뱃지 이동 / rewrite: 오답 선지의 원 맥락 ❌ 지문으로 복원.
+  // 문항을 추가·삭제하지 않으므로 총 문항 수와 사용자 진도는 그대로다.
+  (function () {
+    var E = [{"kind":"moveBadge","needle":"왕 아래에 상·대부·장군 등의 관직을 두어","toNeedle":"마가·우가·저가·구가 등의 가(加)들을 두어 사출도를 각각 나누어 다스렸으며","reason":"PART 1. 뒷부분 \"단군왕검이 세운 우리 역사상 최초의 국가이다\"까지 동일한 완전 변형 짝. 실제로 제77회 문2(고조선)의 오답 선지 ③이 \"여러 가(加)들이 별도로 사출도를 주관하였다\"였으므로, 부여의 사출도를 고조선에 붙인 이 ❌ 문항이 시험지에 인쇄된 맥락과 그대로 대응한다."},{"kind":"moveBadge","needle":"삼한에서는 5월과 10월에 계절제를 열어 하늘에 제사를 지냈다","toNeedle":"삼한에서는 매년 12월에 영고라는 제천 행사를","reason":"PART 5. \"삼한에서는 … 하늘에 제사를 지냈다\" 구조를 유지한 채 시기·명칭만 부여 영고로 바꾼 완전 변형 짝. 제67회 문2가 나라별 제천 행사를 한 문제로 대비시킨 만큼 삼한↔부여 교차가 그 회차의 실제 함정이다. 삼한=5월·10월 계절제 ⭕ 근거는 원 문항 본문과 PART 2·3 해설에 남는다."}];
+    function one(n) { var h = DATA.filter(function (q) { return q.text.indexOf(n) >= 0; }); return h.length === 1 ? h[0] : null; }
+    for (var i = 0; i < E.length; i++) {
+      var e = E[i], t = one(e.needle);
+      if (!t) continue;
+      if (e.kind === "moveBadge") {
+        var d = one(e.toNeedle);
+        if (!d) continue;
+        d.src = t.src; delete t.src;
+      } else {
+        t.text = e.newText; t.exp = e.newExp; t.answer = "X";
+        if (e.newPart) t.part = e.newPart;
+      }
+    }
+  })();
+
   window.QUIZ_CHAPTERS["hk02"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();

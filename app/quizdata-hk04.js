@@ -1301,5 +1301,26 @@
     }
   })();
 
+  // ==== 🏅 기출 정답 균형 전환 ====
+  // 기출 뱃지가 ⭕ 문항에만 붙어 "기출만 보기" 모드에서 전부 ⭕ 이던 문제를 바로잡는다.
+  // moveBadge: 짝 ❌ 변형으로 뱃지 이동 / rewrite: 오답 선지의 원 맥락 ❌ 지문으로 복원.
+  // 문항을 추가·삭제하지 않으므로 총 문항 수와 사용자 진도는 그대로다.
+  (function () {
+    var E = [{"kind":"moveBadge","needle":"장보고가 진골 귀족의 왕위 쟁탈전에 가담","toNeedle":"장보고가 웅천주를 거점으로 반란을 일으켰다","reason":"PART1. 제67회 뱃지를 같은 파트의 짝 변형 ❌(장보고↔김헌창 거점 교차)로 이동. 앞 70%가 기출 원문과 동일한 정직한 ❌ 기출 문항이 된다. 내용 변화 없음."},{"kind":"moveBadge","needle":"복신과 도침은 왕자 부여풍을 왕으로 추대하여","toNeedle":"검모잠과 고연무는 왕자 부여풍을 왕으로 추대하여","reason":"PART1. 제77회 뱃지를 백제 부흥 운동 짝 변형 ❌(복신·도침↔검모잠·고연무 교차)로 이동."},{"kind":"moveBadge","needle":"원한을 품고 반란을 일으켰으나, 자객 염장에게 죽임을 당하였다","toNeedle":"결국 반란에 성공하여 새로운 왕을 세웠다","reason":"PART1. 제64회 뱃지를 장보고의 난 결말을 뒤집은 짝 변형 ❌으로 이동."},{"kind":"moveBadge","needle":"편성하는 등 중앙군인 9서당을 갖추어 통치 체제를 정비하였다","toNeedle":"편성하는 등 지방군인 10정을 9주에 나누어 배치하였다","reason":"PART1. 제69회 뱃지를 9서당↔10정 교차 짝 변형 ❌으로 이동."},{"kind":"moveBadge","needle":"그가 곧 독서삼품과를 시행한 원성왕이다","toNeedle":"그가 곧 처음으로 국학을 설립한 원성왕이다","reason":"PART1. 제70회 뱃지를 원성왕(독서삼품과)↔신문왕(국학) 교차 짝 변형 ❌으로 이동."},{"kind":"moveBadge","needle":"크게 무찔러 676년 삼국 통일을 완성하였다","toNeedle":"크게 무찔러 668년 삼국 통일을 완성하였다","reason":"PART1. 제69회 뱃지를 기벌포 연도 변형 ❌(676→668)으로 이동. 앞부분이 기출 원문과 완전히 동일하다."},{"kind":"moveBadge","needle":"통일신라 헌강왕 때의 처용 설화를 바탕으로 한 것으로","toNeedle":"고구려 건국 설화를 바탕으로 만들어진 것으로","reason":"PART2. 제71회 뱃지를 처용무 유래를 바꾼 짝 변형 ❌으로 이동."},{"kind":"moveBadge","needle":"국왕에게 조언하는 내용을 담은 「화왕계」를 지어 올렸다","toNeedle":"진성여왕의 명을 받아 향가 모음집인 「삼대목」을 편찬하였다","reason":"PART2. 제65회 뱃지를 설총 짝 변형 ❌(화왕계→삼대목)으로 이동."},{"kind":"moveBadge","needle":"울산항과 당항성이 국제 무역이 이루어지는 항구로","toNeedle":"울산항과 벽란도가 국제 무역이 이루어지는 항구로","reason":"PART2. 제63회 뱃지를 당항성↔벽란도(고려) 교차 짝 변형 ❌으로 이동. 한 단어만 다른 완전 대응 짝이다."},{"kind":"moveBadge","needle":"청방인문표를 지었으며, 불교를 세상 밖의 가르침이라 하여","toNeedle":"청방인문표를 지었으며, 이두를 체계적으로 정리하여","reason":"PART2. 제64회 뱃지를 강수↔설총(이두) 교차 짝 변형 ❌으로 이동."},{"kind":"moveBadge","needle":"어려운 불교 교리를 쉬운 노래로 담은 무애가를 지어","toNeedle":"화엄 사상을 정리한 「화엄일승법계도」를 지어 불교 대중화에","reason":"PART2. 제70회 뱃지를 원효 짝 변형 ❌(무애가→화엄일승법계도=의상)으로 이동."},{"kind":"moveBadge","needle":"누각식 전탑으로, 발해의 문화유산으로 평가된다","toNeedle":"누각식 전탑으로, 고구려의 문화유산으로 평가된다","reason":"PART3. 제68회 뱃지를 영광탑 귀속 변형 ❌(발해→고구려)으로 이동. 마지막 한 단어만 다른 완전 대응 짝이다."},{"kind":"moveBadge","needle":"솔빈부의 말은 당에 수출될 정도로","toNeedle":"솔빈부의 말은 송에 수출될 정도로","reason":"PART3. 제64회 뱃지를 솔빈부 말 수출국 변형 ❌(당→송, 시대 어긋남)으로 이동."},{"kind":"moveBadge","needle":"중정대를 설치하였으며, 인안·대흥 등 독자적인 연호를","toNeedle":"중정대를 설치하였으며, 내신좌평을 비롯한 6좌평을","reason":"PART3. 제73회 뱃지를 발해 3성 6부↔백제 6좌평 교차 짝 변형 ❌으로 이동."}];
+    function one(n) { var h = DATA.filter(function (q) { return q.text.indexOf(n) >= 0; }); return h.length === 1 ? h[0] : null; }
+    for (var i = 0; i < E.length; i++) {
+      var e = E[i], t = one(e.needle);
+      if (!t) continue;
+      if (e.kind === "moveBadge") {
+        var d = one(e.toNeedle);
+        if (!d) continue;
+        d.src = t.src; delete t.src;
+      } else {
+        t.text = e.newText; t.exp = e.newExp; t.answer = "X";
+        if (e.newPart) t.part = e.newPart;
+      }
+    }
+  })();
+
   window.QUIZ_CHAPTERS["hk04"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();
