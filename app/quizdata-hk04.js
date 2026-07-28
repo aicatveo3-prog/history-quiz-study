@@ -1370,5 +1370,46 @@
     for (var a = 0; a < ADDS.length; a++) insert(ADDS[a]);
   })();
 
+  // ==== 🏅 기출 정답 균형 — ❌ 변형 추가 ====
+  // 짝 없이 혼자 있던 기출 ⭕ 마다 대응 ❌ 변형을 만들어 뱃지를 넘긴다.
+  // 원래 ⭕ 문항은 그대로 남고 src 만 내려놓으므로 ⭕ 진술은 잃지 않는다.
+  (function () {
+    var V = [{"srcNeedle":"9주 5소경으로 정비하고 중앙군을 9서당","text":"신문왕은 지방을 9주 5소경으로 정비하고 중앙군을 9서당, 지방군을 10정으로 편성하였는데, 5소경은 수도 경주 주변에 집중적으로 설치되었다.","exp":"5소경을 둔 위치가 틀렸다. 5소경은 수도가 한쪽에 치우친 약점을 보완하려고 지방 곳곳에 나누어 설치한 것이지 수도 주변에 몰아 둔 것이 아니다. 9주 5소경과 9서당 10정을 정비한 것이 신문왕 대의 업적이라는 앞부분은 옳다."},{"srcNeedle":"진골 귀족 세력을 대대적으로 숙청하여","text":"신문왕은 즉위 초 장인 김흠돌이 일으킨 반란을 진압하였으며, 이를 계기로 전제 왕권을 확립하면서 6두품 세력을 대대적으로 숙청하였다.","exp":"숙청 대상이 틀렸다. 신문왕이 김흠돌의 난을 빌미로 대대적으로 숙청한 것은 진골 귀족 세력이며, 6두품은 오히려 이 시기 왕의 정치적 조언자로 활약하였다. 김흠돌의 난 진압이 중대 초 왕권 강화의 계기였다는 앞부분은 옳다."},{"srcNeedle":"소와 말의 수 등을 조사하여 3년마다 다시 작성","text":"신라 촌락 문서(민정문서)에는 토지의 종류와 면적, 인구, 소와 말의 수가 적혀 있는데, 인구는 남녀와 연령에 따라 9등급으로 나누었다.","exp":"등급 수가 틀렸다. 민정문서에서 인구는 남녀·연령에 따라 6등급으로 나누었고, 9등급은 사람 수의 많고 적음에 따라 나눈 호(戶)의 등급이다. 인구와 호의 등급 기준을 서로 맞바꾼 서술이다."},{"srcNeedle":"건흥이라는 연호를 사용하고 지방 제도를","text":"선왕은 건흥이라는 연호를 사용하고 지방 제도를 5경 15부 62주로 정비하였으며, '해동성국'이라 불리던 이 무렵 수도를 상경 용천부로 옮겼다.","exp":"천도의 주체가 틀렸다. 수도를 상경 용천부로 옮긴 왕은 선왕이 아니라 대흥 연호를 쓴 문왕이다. 선왕은 건흥 연호와 5경 15부 62주 정비로 최대 영토를 이루어 '해동성국'이라 불린 왕이다."},{"srcNeedle":"서적의 관리와 문서의 작성 등을 담당하는 기구로 문적원","text":"발해는 서적의 관리와 문서의 작성 등을 담당하는 기구로 문적원을 두었으며, 이 기구는 관리의 비위를 감찰하는 일까지 함께 맡았다.","exp":"기구의 담당 업무가 틀렸다. 문적원은 서적 관리와 문서 작성을 맡은 기구이고, 관리의 비위를 감찰한 기구는 따로 설치한 중정대다. 문적원을 두어 서적과 문서를 관리하였다는 앞부분은 옳다."}];
+    function insert(q) {
+      var lo = -1, hi = -1;
+      for (var i = 0; i < DATA.length; i++) {
+        if (DATA[i].part !== q.part) continue;
+        if (lo < 0) lo = i;
+        hi = i;
+      }
+      if (lo < 0) { DATA.push(q); return; }
+      function runAt(pos) {
+        var t = DATA.slice(0, pos).concat([q], DATA.slice(pos));
+        var run = 1, worst = 1;
+        for (var k = 1; k < t.length; k++) {
+          if (t[k].part === t[k - 1].part && t[k].answer === t[k - 1].answer) { run++; if (run > worst) worst = run; }
+          else run = 1;
+        }
+        return worst;
+      }
+      var best = hi + 1, bestRun = runAt(hi + 1);
+      for (var p = lo; p <= hi + 1; p++) {
+        var r = runAt(p);
+        if (r < bestRun) { bestRun = r; best = p; }
+        if (bestRun <= 3) break;
+      }
+      DATA.splice(best, 0, q);
+    }
+    for (var i = 0; i < V.length; i++) {
+      var v = V[i], t = null;
+      for (var j = 0; j < DATA.length; j++) {
+        if (DATA[j].text.indexOf(v.srcNeedle) >= 0) { if (t) { t = null; break; } t = DATA[j]; }
+      }
+      if (!t || !t.src) continue;
+      insert({ part: t.part, answer: "X", text: v.text, exp: v.exp, src: t.src });
+      delete t.src;
+    }
+  })();
+
   window.QUIZ_CHAPTERS["hk04"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();
