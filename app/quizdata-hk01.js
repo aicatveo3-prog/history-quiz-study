@@ -1940,5 +1940,53 @@
     }
   })();
 
+  // ==== 🏅 한능검 제62회 기출 반영 ====
+  // 정답 선지는 ⭕ 문항, 오답 선지는 원 문제 주어를 유지한 ❌ 문항에 회차를 단다.
+  // 뱃지는 "이 논점이 그 회차에 출제됨"을 뜻한다(5지선다를 OX로 변형한 자료).
+  // 등록부 바로 앞에 두어 앞선 블록들의 결과 위에 얹힌다.
+  (function () {
+    var ADDS = [{"part":"PART 3. 청동기 시대","answer":"X","text":"청동기 시대에는 배산임수의 구릉 지대에 마을을 이루고 정착 생활을 하였으며, 사람들은 주로 동굴이나 바위 그늘, 막집에서 거주하였다.","exp":"앞부분은 옳으나 주거 형태가 틀렸다. 동굴·바위 그늘·막집은 먹을거리를 찾아 옮겨 다니던 구석기 시대의 주거이다. 청동기 시대에는 배산임수의 구릉에 환호·목책을 두른 마을을 이루고 살았다.","src":"한능검 제62회"},{"part":"PART 3. 청동기 시대","answer":"X","text":"청동기 시대에는 저습지에서 벼농사가 시작되고 조·보리 등 밭농사도 확대되면서, 소를 이용한 깊이갈이가 일반화되었다.","exp":"앞부분은 옳으나 마지막이 틀렸다. 소를 이용한 깊이갈이(우경)는 철제 농기구가 널리 보급된 뒤에야 일반화되었다. 청동기 시대의 농기구는 반달 돌칼·바퀴날 도끼 같은 간석기와 나무 도구였다.","src":"한능검 제62회"},{"part":"PART 3. 청동기 시대","answer":"X","text":"청동기 시대에는 반달 돌칼로 이삭을 거두고 바퀴날 도끼를 사용하였으며, 호미와 쇠스랑 등의 철제 농기구도 함께 제작하였다.","exp":"앞부분은 옳으나 마지막이 틀렸다. 호미·쇠스랑 같은 철제 농기구는 뒤이은 철기 시대에 등장한다. 청동기 시대에는 귀한 청동을 무기와 의기에만 썼고 농기구는 돌과 나무로 만들었다.","src":"한능검 제62회"}];
+    var TAGS = ["반달 돌칼을 사용하여 곡식의 이삭을 거두어들였다","청동기 시대에는 많은 인력을 동원하여 지배층의 무덤인 고인돌","민무늬 토기와 함께 미송리식 토기·붉은 간 토기가 사용"];
+    var L = "한능검 제62회";
+    // 기존 문항 src 에 회차를 누적한다 (덮어쓰지 않는다)
+    for (var t = 0; t < TAGS.length; t++) {
+      for (var i = 0; i < DATA.length; i++) {
+        var it = DATA[i];
+        if (!it.text || it.text.indexOf(TAGS[t]) < 0) continue;
+        var s = it.src;
+        if (!s) it.src = L;
+        else if (Array.isArray(s)) { if (s.indexOf(L) < 0) s.push(L); }
+        else if (s !== L) it.src = [s, L];
+      }
+    }
+    // 같은 정답이 4연속되지 않는 자리를 골라 파트 안에 끼워 넣는다
+    function insert(q) {
+      var lo = -1, hi = -1;
+      for (var i = 0; i < DATA.length; i++) {
+        if (DATA[i].part !== q.part) continue;
+        if (lo < 0) lo = i;
+        hi = i;
+      }
+      if (lo < 0) { DATA.push(q); return; }
+      function runAt(pos) {
+        var t = DATA.slice(0, pos).concat([q], DATA.slice(pos));
+        var run = 1, worst = 1;
+        for (var k = 1; k < t.length; k++) {
+          if (t[k].part === t[k - 1].part && t[k].answer === t[k - 1].answer) { run++; if (run > worst) worst = run; }
+          else run = 1;
+        }
+        return worst;
+      }
+      var best = hi + 1, bestRun = runAt(hi + 1);
+      for (var p = lo; p <= hi + 1; p++) {
+        var r = runAt(p);
+        if (r < bestRun) { bestRun = r; best = p; }
+        if (bestRun <= 3) break;
+      }
+      DATA.splice(best, 0, q);
+    }
+    for (var a = 0; a < ADDS.length; a++) insert(ADDS[a]);
+  })();
+
   window.QUIZ_CHAPTERS["hk01"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();

@@ -1978,5 +1978,53 @@
     }
   })();
 
+  // ==== 🏅 한능검 제62회 기출 반영 ====
+  // 정답 선지는 ⭕ 문항, 오답 선지는 원 문제 주어를 유지한 ❌ 문항에 회차를 단다.
+  // 뱃지는 "이 논점이 그 회차에 출제됨"을 뜻한다(5지선다를 OX로 변형한 자료).
+  // 등록부 바로 앞에 두어 앞선 블록들의 결과 위에 얹힌다.
+  (function () {
+    var ADDS = [{"part":"PART 1. 고구려","answer":"X","text":"평양성 전투에서 전사한 고국원왕의 뒤를 이어 즉위한 소수림왕은 도읍을 국내성에서 평양으로 옮겼다.","exp":"마지막이 틀렸다. 평양 천도는 소수림왕이 아니라 5세기 장수왕(427)의 업적이다. 소수림왕은 고국원왕의 전사로 흔들린 나라를 태학 설립과 율령 반포로 수습하였다.","src":"한능검 제62회"},{"part":"PART 1. 고구려","answer":"X","text":"전진에서 온 순도를 통해 불교를 받아들인 소수림왕은 병부와 상대등을 설치하여 통치 체제를 정비하였다.","exp":"마지막이 틀렸다. 병부와 상대등을 설치한 것은 신라 법흥왕이다. 소수림왕이 정비한 것은 태학과 율령이며, 전진의 순도를 통해 불교를 수용하였다는 앞부분은 옳다.","src":"한능검 제62회"},{"part":"PART 2. 백제","answer":"O","text":"익산 미륵사지 석탑을 해체 수리하는 과정에서 금제 사리봉영기가 나와, 좌평 사택적덕의 딸인 백제 왕후가 가람을 세웠음이 밝혀졌다.","exp":"2009년 미륵사지 석탑에서 사리장엄구와 금제 사리봉영기가 발견되었고, 명문에 왕후가 좌평 사택적덕의 딸이라 적혀 있었다. 이 때문에 삼국유사가 전하는 선화 공주 설화의 진위를 두고 논란이 일었다.","src":"한능검 제62회"},{"part":"PART 2. 백제","answer":"X","text":"계백이 황산벌에서 전사한 뒤부터 검모잠이 안승을 왕으로 세우기까지의 사이에, 신라군이 기벌포에서 당의 군대를 격파하였다.","exp":"시기가 틀렸다. 기벌포 전투는 676년으로 검모잠이 안승을 추대한 670년보다 뒤의 일이다. 황산벌 전투(660)와 검모잠의 부흥 운동(670) 사이에 들어갈 사실은 복신과 도침이 부여풍을 왕으로 추대한 백제 부흥 운동이다.","src":"한능검 제62회"},{"part":"PART 4. 가야","answer":"X","text":"해반천 가의 봉황동 유적과 대성동 고분군, 수로왕릉이 남아 있는 금관가야는 빈민을 구제하기 위해 진대법을 시행하였다.","exp":"마지막이 틀렸다. 진대법은 고구려 고국천왕이 을파소의 건의로 시행한 빈민 구제 제도이다. 김해의 금관가야는 철이 풍부하여 덩이쇠를 화폐처럼 사용한 나라였다.","src":"한능검 제62회"},{"part":"PART 4. 가야","answer":"X","text":"구지봉과 파사석탑이 있는 김해에서 성장한 금관가야에서는 골품에 따라 관등 승진에 제한이 있었다.","exp":"마지막이 틀렸다. 골품에 따라 관등 승진을 제한한 것은 신라의 골품제이다. 금관가야는 연맹 왕국 단계에 머물러 이러한 신분제를 갖추지 못하였다.","src":"한능검 제62회"}];
+    var TAGS = ["덩이쇠를 만들어 교역에 사용하고","소수림왕은 유학 교육 기관인 태학을 설립하고 율령","전진에서 온 순도를 통해 불교를 받아들여 사상적","복신과 도침, 흑치상지 등이 주류성과"];
+    var L = "한능검 제62회";
+    // 기존 문항 src 에 회차를 누적한다 (덮어쓰지 않는다)
+    for (var t = 0; t < TAGS.length; t++) {
+      for (var i = 0; i < DATA.length; i++) {
+        var it = DATA[i];
+        if (!it.text || it.text.indexOf(TAGS[t]) < 0) continue;
+        var s = it.src;
+        if (!s) it.src = L;
+        else if (Array.isArray(s)) { if (s.indexOf(L) < 0) s.push(L); }
+        else if (s !== L) it.src = [s, L];
+      }
+    }
+    // 같은 정답이 4연속되지 않는 자리를 골라 파트 안에 끼워 넣는다
+    function insert(q) {
+      var lo = -1, hi = -1;
+      for (var i = 0; i < DATA.length; i++) {
+        if (DATA[i].part !== q.part) continue;
+        if (lo < 0) lo = i;
+        hi = i;
+      }
+      if (lo < 0) { DATA.push(q); return; }
+      function runAt(pos) {
+        var t = DATA.slice(0, pos).concat([q], DATA.slice(pos));
+        var run = 1, worst = 1;
+        for (var k = 1; k < t.length; k++) {
+          if (t[k].part === t[k - 1].part && t[k].answer === t[k - 1].answer) { run++; if (run > worst) worst = run; }
+          else run = 1;
+        }
+        return worst;
+      }
+      var best = hi + 1, bestRun = runAt(hi + 1);
+      for (var p = lo; p <= hi + 1; p++) {
+        var r = runAt(p);
+        if (r < bestRun) { bestRun = r; best = p; }
+        if (bestRun <= 3) break;
+      }
+      DATA.splice(best, 0, q);
+    }
+    for (var a = 0; a < ADDS.length; a++) insert(ADDS[a]);
+  })();
+
   window.QUIZ_CHAPTERS["hk03"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();

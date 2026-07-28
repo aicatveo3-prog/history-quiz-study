@@ -1676,5 +1676,53 @@
     }
   })();
 
+  // ==== 🏅 한능검 제62회 기출 반영 ====
+  // 정답 선지는 ⭕ 문항, 오답 선지는 원 문제 주어를 유지한 ❌ 문항에 회차를 단다.
+  // 뱃지는 "이 논점이 그 회차에 출제됨"을 뜻한다(5지선다를 OX로 변형한 자료).
+  // 등록부 바로 앞에 두어 앞선 블록들의 결과 위에 얹힌다.
+  (function () {
+    var ADDS = [{"part":"PART 1. 광복과 대한민국 정부 수립","answer":"X","text":"제주 4·3 사건은 남한만의 단독 선거에 반대하는 무장대와 이를 진압하는 토벌대의 무력 충돌 과정에서 수많은 주민이 희생된 사건으로, 귀속 재산 처리를 위한 신한 공사 설립의 계기가 되었다.","exp":"마지막 부분이 틀렸다. 신한 공사는 미 군정이 일본인이 남긴 귀속 재산을 관리하려고 세운 기구로 제주 4·3 사건보다 앞선 일이다. 4·3 사건 뒤에는 진상 규명과 희생자 명예 회복을 위한 특별법이 제정되었다.","src":"한능검 제62회"},{"part":"PART 2. 6·25 전쟁과 이승만 정부·4·19 혁명","answer":"X","text":"여야 합의로 내각 책임제 개헌안이 통과되어 허정 과도 정부가 총선을 준비하던 시기에, 평화 통일론을 주장한 진보당의 조봉암이 구속되었다.","exp":"시기가 뒤바뀌었다. 진보당 사건으로 조봉암이 구속된 것은 1958년 이승만 정부 때의 일로 1960년 내각 책임제 개헌보다 앞선다. 개헌 이후에는 민의원과 참의원의 양원제 국회가 구성되고 장면 내각이 출범하였다.","src":"한능검 제62회"},{"part":"PART 3. 박정희 정부·유신·5·18·6월 민주 항쟁","answer":"X","text":"5·18 민주화 운동은 신군부의 비상계엄 확대와 무력 진압에 저항하여 광주에서 전개되었으며, 이 시위 도중 대학생 이한열이 희생되었다.","exp":"마지막 부분이 틀렸다. 대학생 이한열이 희생된 것은 1987년 6월 민주 항쟁 때의 일이다. 5·18 민주화 운동에서는 계엄군의 무력 진압에 맞서 광주 시민들이 시민군을 조직해 저항하였다.","src":"한능검 제62회"},{"part":"PART 4. 민주주의 발전·경제 성장·통일 정책","answer":"X","text":"최초의 남북 정상 회담에서 6·15 남북 공동 선언이 발표된 뒤 10·4 남북 정상 선언이 채택되기까지의 시기에 남북한 비핵화 공동 선언이 채택되었다.","exp":"시기가 틀렸다. 한반도 비핵화 공동 선언은 1991년 노태우 정부 때 채택된 것으로 6·15 남북 공동 선언(2000)보다 앞선다. 두 선언 사이의 시기에 이루어진 일은 개성 공업 지구 건설 착공이다.","src":"한능검 제62회"}];
+    var TAGS = ["이후 진상 규명과 희생자 명예 회복을 위한 특별법이 제정되었다","인천 상륙 작전에 성공하여 전세를 역전시키고","애치슨 선언은 6·25 전쟁이 발발한 직후에 발표되었다","민의원에서 통과된 법안을 심의하는 참의원","열악한 정착 여건에 반발하여 광주 대단지에서","개발 제한 구역이 설정되었으며, 대통령 긴급 명령으로 금융 실명제","관련 기록물은 유네스코 세계 기록 유산으로 등재되었다","평화 번영 정책을 펴 남북 경제 교류를 위한 개성 공단 착공식"];
+    var L = "한능검 제62회";
+    // 기존 문항 src 에 회차를 누적한다 (덮어쓰지 않는다)
+    for (var t = 0; t < TAGS.length; t++) {
+      for (var i = 0; i < DATA.length; i++) {
+        var it = DATA[i];
+        if (!it.text || it.text.indexOf(TAGS[t]) < 0) continue;
+        var s = it.src;
+        if (!s) it.src = L;
+        else if (Array.isArray(s)) { if (s.indexOf(L) < 0) s.push(L); }
+        else if (s !== L) it.src = [s, L];
+      }
+    }
+    // 같은 정답이 4연속되지 않는 자리를 골라 파트 안에 끼워 넣는다
+    function insert(q) {
+      var lo = -1, hi = -1;
+      for (var i = 0; i < DATA.length; i++) {
+        if (DATA[i].part !== q.part) continue;
+        if (lo < 0) lo = i;
+        hi = i;
+      }
+      if (lo < 0) { DATA.push(q); return; }
+      function runAt(pos) {
+        var t = DATA.slice(0, pos).concat([q], DATA.slice(pos));
+        var run = 1, worst = 1;
+        for (var k = 1; k < t.length; k++) {
+          if (t[k].part === t[k - 1].part && t[k].answer === t[k - 1].answer) { run++; if (run > worst) worst = run; }
+          else run = 1;
+        }
+        return worst;
+      }
+      var best = hi + 1, bestRun = runAt(hi + 1);
+      for (var p = lo; p <= hi + 1; p++) {
+        var r = runAt(p);
+        if (r < bestRun) { bestRun = r; best = p; }
+        if (bestRun <= 3) break;
+      }
+      DATA.splice(best, 0, q);
+    }
+    for (var a = 0; a < ADDS.length; a++) insert(ADDS[a]);
+  })();
+
   window.QUIZ_CHAPTERS["hk10"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();
