@@ -1933,5 +1933,46 @@
     for (var a = 0; a < ADDS.length; a++) insert(ADDS[a]);
   })();
 
+  // ==== 🏅 기출 정답 균형 — ❌ 변형 추가 ====
+  // 짝 없이 혼자 있던 기출 ⭕ 마다 대응 ❌ 변형을 만들어 뱃지를 넘긴다.
+  // 원래 ⭕ 문항은 그대로 남고 src 만 내려놓으므로 ⭕ 진술은 잃지 않는다.
+  (function () {
+    var V = [{"srcNeedle":"중국 연과의 활발한 교류","text":"명도전은 철기 시대에 중국과의 활발한 교류 관계를 보여 주는 유물로, 한반도와 만주 일대에서 출토되는 중국 진·한의 청동 화폐이다.","exp":"틀림. 명도전은 중국 연·제에서 만들어져 들어온 청동 화폐이다. 철기 시대 중국과의 교류를 보여 준다는 앞부분은 옳으나, 진·한의 화폐는 반량전·오수전이므로 발행국이 바뀌었다."},{"srcNeedle":"형사취수제의 혼인 풍습이 있었다","text":"부여에는 형사취수제라는 혼인 풍습이 있었는데, 죽은 형제의 아내를 맞이한 사람은 그 형이었다.","exp":"틀림. 형사취수제(兄死娶嫂)는 형이 죽으면 동생이 형수를 아내로 삼는 풍습이므로 형과 동생이 뒤바뀌었다. 가족의 노동력과 재산을 지키기 위한 것으로 부여와 고구려에서 함께 확인된다."},{"srcNeedle":"반농반목의 경제 생활을 하였다","text":"부여는 쑹화강 유역 평야를 바탕으로 반농반목의 경제 생활을 하였으며, 나랏일은 5부의 제가회의에서 결정하였다.","exp":"틀림. 5부의 대가들이 모여 국사를 논의한 제가회의는 고구려의 귀족회의이다. 쑹화강 평야의 반농반목이라는 앞부분은 옳으나, 부여는 왕 아래 마가·우가·저가·구가의 4가가 사출도를 나누어 다스렸다."},{"srcNeedle":"바다표범 가죽인 반어피","text":"동예의 특산물로는 작은 활인 단궁과 키가 작은 말인 과하마가 유명하였고, 반어피는 담비 가죽을 가리키는 말이었다.","exp":"틀림. 반어피는 바다표범 가죽을 가리킨다. 단궁·과하마가 동예의 특산물이라는 앞부분은 옳으나, 담비 가죽은 명마·적옥과 함께 부여의 특산물로 꼽히는 것이다."},{"srcNeedle":"호랑이를 산신으로 여겨 제사를 지내는 풍습","text":"동예에서는 산신으로 섬긴 호랑이에게 제사를 올리는 풍습이 있었으며, 소의 굽을 보고 그해 농사의 풍흉을 점치기도 하였다.","exp":"틀림. 동예는 별자리를 관찰하여 그해 농사의 풍흉을 점쳤다. 호랑이를 산신으로 섬겨 제사한 앞부분은 옳으나, 소의 굽으로 길흉을 보는 우제점법은 부여의 점복 풍습이다."},{"srcNeedle":"민며느리제라는 혼인 풍습이 있었다","text":"옥저에는 여자가 어렸을 때 남자 집에서 살다가 성장한 뒤 혼인하는 민며느리제가 있었는데, 예물은 여자 집에서 남자 집에 치렀다.","exp":"틀림. 민며느리제에서 예물은 여자가 성장한 뒤 남자 집에서 여자 집에 치르는 것이므로 오가는 방향이 반대로 되어 있다. 어린 여자를 미리 데려와 기르다 성장한 뒤 혼인한다는 앞부분은 옳다."},{"srcNeedle":"삼한의 여러 소국에는 신지·읍차","text":"삼한의 소국에는 신지·읍차라 불린 정치적 지배자가 있었고, 읍차의 세력이 더 컸다.","exp":"틀림. 삼한의 군장 가운데 세력이 큰 쪽이 신지, 작은 쪽이 읍차이므로 대소 관계가 뒤바뀌었다. 신지·읍차가 소국의 정치적 지배자였다는 앞부분은 옳다."}];
+    function insert(q) {
+      var lo = -1, hi = -1;
+      for (var i = 0; i < DATA.length; i++) {
+        if (DATA[i].part !== q.part) continue;
+        if (lo < 0) lo = i;
+        hi = i;
+      }
+      if (lo < 0) { DATA.push(q); return; }
+      function runAt(pos) {
+        var t = DATA.slice(0, pos).concat([q], DATA.slice(pos));
+        var run = 1, worst = 1;
+        for (var k = 1; k < t.length; k++) {
+          if (t[k].part === t[k - 1].part && t[k].answer === t[k - 1].answer) { run++; if (run > worst) worst = run; }
+          else run = 1;
+        }
+        return worst;
+      }
+      var best = hi + 1, bestRun = runAt(hi + 1);
+      for (var p = lo; p <= hi + 1; p++) {
+        var r = runAt(p);
+        if (r < bestRun) { bestRun = r; best = p; }
+        if (bestRun <= 3) break;
+      }
+      DATA.splice(best, 0, q);
+    }
+    for (var i = 0; i < V.length; i++) {
+      var v = V[i], t = null;
+      for (var j = 0; j < DATA.length; j++) {
+        if (DATA[j].text.indexOf(v.srcNeedle) >= 0) { if (t) { t = null; break; } t = DATA[j]; }
+      }
+      if (!t || !t.src) continue;
+      insert({ part: t.part, answer: "X", text: v.text, exp: v.exp, src: t.src });
+      delete t.src;
+    }
+  })();
+
   window.QUIZ_CHAPTERS["hk02"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();
