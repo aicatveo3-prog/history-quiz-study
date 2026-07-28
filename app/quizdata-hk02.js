@@ -1864,5 +1864,74 @@
     }
   })();
 
+  // ==== 🏅 기출 정답 균형 전환 ====
+  // 기출 뱃지가 ⭕ 문항에만 붙어 "기출만 보기" 모드에서 전부 ⭕ 이던 문제를 바로잡는다.
+  // moveBadge: 짝 ❌ 변형으로 뱃지 이동 / rewrite: 오답 선지의 원 맥락 ❌ 지문으로 복원.
+  // 문항을 추가·삭제하지 않으므로 총 문항 수와 사용자 진도는 그대로다.
+  (function () {
+    var E = [{"kind":"moveBadge","needle":"왕 아래에 상·대부·장군 등의 관직을 두어","toNeedle":"마가·우가·저가·구가 등의 가(加)들을 두어 사출도를 각각 나누어 다스렸으며","reason":"PART 1. 뒷부분 \"단군왕검이 세운 우리 역사상 최초의 국가이다\"까지 동일한 완전 변형 짝. 실제로 제77회 문2(고조선)의 오답 선지 ③이 \"여러 가(加)들이 별도로 사출도를 주관하였다\"였으므로, 부여의 사출도를 고조선에 붙인 이 ❌ 문항이 시험지에 인쇄된 맥락과 그대로 대응한다."},{"kind":"moveBadge","needle":"삼한에서는 5월과 10월에 계절제를 열어 하늘에 제사를 지냈다","toNeedle":"삼한에서는 매년 12월에 영고라는 제천 행사를","reason":"PART 5. \"삼한에서는 … 하늘에 제사를 지냈다\" 구조를 유지한 채 시기·명칭만 부여 영고로 바꾼 완전 변형 짝. 제67회 문2가 나라별 제천 행사를 한 문제로 대비시킨 만큼 삼한↔부여 교차가 그 회차의 실제 함정이다. 삼한=5월·10월 계절제 ⭕ 근거는 원 문항 본문과 PART 2·3 해설에 남는다."}];
+    function one(n) { var h = DATA.filter(function (q) { return q.text.indexOf(n) >= 0; }); return h.length === 1 ? h[0] : null; }
+    for (var i = 0; i < E.length; i++) {
+      var e = E[i], t = one(e.needle);
+      if (!t) continue;
+      if (e.kind === "moveBadge") {
+        var d = one(e.toNeedle);
+        if (!d) continue;
+        d.src = t.src; delete t.src;
+      } else {
+        t.text = e.newText; t.exp = e.newExp; t.answer = "X";
+        if (e.newPart) t.part = e.newPart;
+      }
+    }
+  })();
+
+  // ==== 🏅 한능검 제62회 기출 반영 ====
+  // 정답 선지는 ⭕ 문항, 오답 선지는 원 문제 주어를 유지한 ❌ 문항에 회차를 단다.
+  // 뱃지는 "이 논점이 그 회차에 출제됨"을 뜻한다(5지선다를 OX로 변형한 자료).
+  // 등록부 바로 앞에 두어 앞선 블록들의 결과 위에 얹힌다.
+  (function () {
+    var ADDS = [{"part":"PART 2. 부여","answer":"X","text":"부여에서는 명마와 적옥, 담비 가죽 등이 특산물로 생산되었고, 제사장인 천군과 신성 지역인 소도가 존재하였다.","exp":"틀림. 천군과 소도는 삼한의 제사장과 신성 지역으로, 국법이 미치지 못해 죄인이 도망쳐 들어가도 잡지 못했다. 명마·적옥·담비 가죽이 부여의 특산물이라는 앞부분은 옳으나, 제정 분리를 보여 주는 천군·소도는 부여의 풍습이 아니다.","src":"한능검 제62회"},{"part":"PART 2. 부여","answer":"X","text":"부여에서는 여러 가(加)가 별도로 사출도를 다스렸으며, 사회 질서를 유지하기 위해 범금 8조를 두어 살인·상해·절도를 처벌하였다.","exp":"틀림. 범금 8조를 두어 사회 질서를 유지한 나라는 고조선이다. 여러 가가 사출도를 다스렸다는 앞부분은 옳으나, 부여의 법은 살인자를 사형에 처하고 그 가족을 노비로 삼으며 도둑질에 12배를 물리는 1책 12법이다.","src":"한능검 제62회"}];
+    var TAGS = ["가(加)들이 있어 각기 사출도를 다스렸다","영고라는 제천 행사를 열어 하늘에 제사를 지내고","쑹화강 유역의 평야를 바탕으로 농사와 목축을 함께","동생이 형수를 아내로 삼는 형사취수제의 혼인 풍습","부여에는 다른 부족의 경계를 함부로 침범하면 노비나 소·말로 배상하게 하는 책화"];
+    var L = "한능검 제62회";
+    // 기존 문항 src 에 회차를 누적한다 (덮어쓰지 않는다)
+    for (var t = 0; t < TAGS.length; t++) {
+      for (var i = 0; i < DATA.length; i++) {
+        var it = DATA[i];
+        if (!it.text || it.text.indexOf(TAGS[t]) < 0) continue;
+        var s = it.src;
+        if (!s) it.src = L;
+        else if (Array.isArray(s)) { if (s.indexOf(L) < 0) s.push(L); }
+        else if (s !== L) it.src = [s, L];
+      }
+    }
+    // 같은 정답이 4연속되지 않는 자리를 골라 파트 안에 끼워 넣는다
+    function insert(q) {
+      var lo = -1, hi = -1;
+      for (var i = 0; i < DATA.length; i++) {
+        if (DATA[i].part !== q.part) continue;
+        if (lo < 0) lo = i;
+        hi = i;
+      }
+      if (lo < 0) { DATA.push(q); return; }
+      function runAt(pos) {
+        var t = DATA.slice(0, pos).concat([q], DATA.slice(pos));
+        var run = 1, worst = 1;
+        for (var k = 1; k < t.length; k++) {
+          if (t[k].part === t[k - 1].part && t[k].answer === t[k - 1].answer) { run++; if (run > worst) worst = run; }
+          else run = 1;
+        }
+        return worst;
+      }
+      var best = hi + 1, bestRun = runAt(hi + 1);
+      for (var p = lo; p <= hi + 1; p++) {
+        var r = runAt(p);
+        if (r < bestRun) { bestRun = r; best = p; }
+        if (bestRun <= 3) break;
+      }
+      DATA.splice(best, 0, q);
+    }
+    for (var a = 0; a < ADDS.length; a++) insert(ADDS[a]);
+  })();
+
   window.QUIZ_CHAPTERS["hk02"] = { data: DATA, theory: THEORY, checklist: CHECKLIST };
 })();
