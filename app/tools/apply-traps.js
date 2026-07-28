@@ -28,6 +28,9 @@ function load(id, file) {
 
 var MARK = "함정 체크 대비표 전환";
 var report = [];
+// 한 편에서 실패했는데 앞 편은 이미 써 버리는 부분 적용을 막는다.
+// 1단계에서 전 편을 검증하고 쓸 내용을 모아 둔 뒤, 2단계에서 한꺼번에 쓴다.
+var pending = [];
 
 LIST.forEach(function (c) {
   var conv = DATA[c.id];
@@ -38,8 +41,10 @@ LIST.forEach(function (c) {
   Object.keys(conv).forEach(function (pi) {
     var p = before.theory[+pi];
     if (!p) throw new Error(c.id + ": 파트 " + pi + " 없음");
-    if (!p.blocks.some(function (b) { return b.k === "note" && b.v === "warn"; }))
-      throw new Error(c.id + " P" + pi + ": warn 노트 없음");
+    var w = p.blocks.filter(function (b) { return b.k === "note" && b.v === "warn"; })[0];
+    if (!w) throw new Error(c.id + " P" + pi + ": warn 노트 없음");
+    // 이미 대비표인 파트를 다시 덮어쓰면 앞선 작업이 지워진다 (파일 단위가 아니라 파트 단위로 검사)
+    if (w.compare) throw new Error(c.id + " P" + pi + ": 이미 대비표로 전환된 파트");
     (conv[pi] || []).forEach(function (grp, gi) {
       if (!Array.isArray(grp) || !grp.length) throw new Error(c.id + " P" + pi + " 묶음 " + gi + ": 비어 있음");
       grp.forEach(function (row) {
@@ -51,7 +56,6 @@ LIST.forEach(function (c) {
 
   var file = path.join(dir, c.file);
   var s = fs.readFileSync(file, "utf8");
-  if (s.indexOf(MARK) >= 0) throw new Error(c.id + ": 이미 전환 블록이 있음");
   var marker = '  window.QUIZ_CHAPTERS["' + c.id + '"]';
   var at = s.indexOf(marker);
   if (at < 0) throw new Error(c.id + ": 등록부를 찾지 못함");
@@ -73,15 +77,20 @@ LIST.forEach(function (c) {
     '    }\n' +
     '  })();\n\n';
 
-  if (!dry) fs.writeFileSync(file, s.slice(0, at) + blk + s.slice(at));
+  // 여기서는 쓰지 않고 모아 두기만 한다 — 전 편 검증을 통과해야 쓴다
+  pending.push({ c: c, file: file, out: s.slice(0, at) + blk + s.slice(at), before: before, asked: Object.keys(conv).length });
+});
 
-  var after = dry ? null : load(c.id, c.file);
+// 2단계: 전 편 검증을 통과했으므로 이제 한꺼번에 쓴다
+pending.forEach(function (p) {
+  if (!dry) fs.writeFileSync(p.file, p.out);
+  var after = dry ? p.before : load(p.c.id, p.c.file);
   var done = 0, rows = 0;
-  (after || before).theory.forEach(function (p) {
-    var w = p.blocks.filter(function (b) { return b.k === "note" && b.v === "warn"; })[0];
+  after.theory.forEach(function (t) {
+    var w = t.blocks.filter(function (b) { return b.k === "note" && b.v === "warn"; })[0];
     if (w && w.compare) { done++; w.compare.forEach(function (g) { rows += g.length; }); }
   });
-  report.push({ id: c.id, parts: before.theory.length, converted: done, rows: rows, asked: Object.keys(conv).length });
+  report.push({ id: p.c.id, parts: p.before.theory.length, converted: done, rows: rows, asked: p.asked });
 });
 
 console.log(dry ? "=== DRY RUN ===" : "=== 적용 완료 ===");
